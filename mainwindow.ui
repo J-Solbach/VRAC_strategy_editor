@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1508</width>
+    <height>950</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>1000</width>
+      <height>901</height>
+     </rect>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustIgnored</enum>
+    </property>
+    <property name="dragMode">
+     <enum>QGraphicsView::NoDrag</enum>
+    </property>
+    <property name="resizeAnchor">
+     <enum>QGraphicsView::AnchorUnderMouse</enum>
+    </property>
+    <property name="viewportUpdateMode">
+     <enum>QGraphicsView::BoundingRectViewportUpdate</enum>
+    </property>
+   </widget>
+   <widget class="QToolBox" name="toolBox">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>650</y>
+      <width>401</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="lineWidth">
+     <number>3</number>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <property name="tabSpacing">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="Actions">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>401</width>
+       <height>186</height>
+      </rect>
+     </property>
+     <attribute name="label">
+      <string>Common</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="ActionsRobot">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>401</width>
+       <height>186</height>
+      </rect>
+     </property>
+     <attribute name="label">
+      <string>Robot Actions</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="MetaActions">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>401</width>
+       <height>186</height>
+      </rect>
+     </property>
+     <attribute name="label">
+      <string>Meta Actions</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QGraphicsView" name="playgroundScene">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>10</y>
+      <width>400</width>
+      <height>600</height>
+     </rect>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="coordinates">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>620</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>X : 0  Y : 0</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="thetaRobot">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>620</y>
+      <width>111</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>-3600</number>
+    </property>
+    <property name="maximum">
+     <number>3600</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="coordinates_3">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>620</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Theta :</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>620</y>
+      <width>86</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PotiBot</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1508</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFiles">
+    <property name="title">
+     <string>Files</string>
+    </property>
+    <addaction name="actionNew_MetaAction"/>
+    <addaction name="actionLoad_MetaAction"/>
+    <addaction name="actionOrganize"/>
+   </widget>
+   <widget class="QMenu" name="menuexport">
+    <property name="title">
+     <string>export</string>
+    </property>
+    <addaction name="actionsave"/>
+   </widget>
+   <addaction name="menuFiles"/>
+   <addaction name="menuexport"/>
+  </widget>
+  <action name="actionNew_MetaAction">
+   <property name="text">
+    <string>New File</string>
+   </property>
+  </action>
+  <action name="actionLoad_MetaAction">
+   <property name="text">
+    <string>Load File</string>
+   </property>
+  </action>
+  <action name="actionsave">
+   <property name="text">
+    <string>save</string>
+   </property>
+  </action>
+  <action name="actionOrganize">
+   <property name="text">
+    <string>Organize</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,341 @@
+{
+    "Line": {
+        "tag": "Line",
+        "action": "Line",
+        "displayed": true,
+        "parameters": {
+            "forward": true,
+            "distance": 0,
+            "speed": {
+                "type": "NORMAL",
+                "values": [
+                    "FUCKING_SLOW",
+                    "VERY_SLOW",
+                    "SLOW",
+                    "NORMAL",
+                    "FAST",
+                    "VERY_FAST",
+                    "FASTER_THAN_RCVA",
+                    "I_AM_SPEED"
+                ]
+            }
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "Rotate": {
+        "tag": "Rotate",
+        "action": "Rotate",
+        "displayed": true,
+        "parameters": {
+            "relative": true,
+            "theta": 0,
+            "speed": {
+                "type": "NORMAL",
+                "values": [
+                    "FUCKING_SLOW",
+                    "VERY_SLOW",
+                    "SLOW",
+                    "NORMAL",
+                    "FAST",
+                    "VERY_FAST",
+                    "FASTER_THAN_RCVA",
+                    "I_AM_SPEED"
+                ]
+            }
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "XYT": {
+        "tag": "XYT",
+        "action": "XYT",
+        "displayed": true,
+        "parameters": {
+            "x": 0,
+            "y": 0,
+            "theta": 0,
+            "forward": true,
+            "speed": {
+                "type": "NORMAL",
+                "values": [
+                    "FUCKING_SLOW",
+                    "VERY_SLOW",
+                    "SLOW",
+                    "NORMAL",
+                    "FAST",
+                    "VERY_FAST",
+                    "FASTER_THAN_RCVA",
+                    "I_AM_SPEED"
+                ]
+            }
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "Homing": {
+        "tag": "Homing",
+        "action": "Homing",
+        "displayed": true,
+        "parameters": {
+            "axis": false,
+            "forward": false,
+            "offset": 125,
+            "speed": {
+                "type": "NORMAL",
+                "values": [
+                    "FUCKING_SLOW",
+                    "VERY_SLOW",
+                    "SLOW",
+                    "NORMAL",
+                    "FAST",
+                    "VERY_FAST",
+                    "FASTER_THAN_RCVA",
+                    "I_AM_SPEED"
+                ]
+            }
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "Bezier": {
+        "tag": "Bezier",
+        "action": "Bezier",
+        "displayed": true,
+        "parameters": {
+            "x": 0,
+            "y": 0,
+            "radius": 0,
+            "forward": true,
+            "chained": false,
+            "speed": {
+                "type": "NORMAL",
+                "values": [
+                    "FUCKING_SLOW",
+                    "VERY_SLOW",
+                    "SLOW",
+                    "NORMAL",
+                    "FAST",
+                    "VERY_FAST",
+                    "FASTER_THAN_RCVA",
+                    "I_AM_SPEED"
+                ]
+            }
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "Wait": {
+        "tag": "Wait",
+        "action": "Wait",
+        "parameters": {
+            "ms": 1000
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "AddPoints": {
+        "tag": "AddPoints",
+        "action": "AddPoints",
+        "parameters": {
+            "index": 0,
+            "points": 0
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "RegisterPoints": {
+        "tag": "RegisterPoints",
+        "action": "RegisterPoints",
+        "parameters": {
+            "index": 0,
+            "points": 0
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "CollectPoints": {
+        "tag": "CollectPoints",
+        "action": "CollectPoints",
+        "parameters": {
+            "index": 0
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "HandShake": {
+        "tag": "HandShake",
+        "action": "HandShake",
+        "parameters": {
+            "count": 2
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "SetOdometry": {
+        "tag": "SetOdometry",
+        "action": "SetOdometry",
+        "displayed": true,
+        "parameters": {
+            "x": 0,
+            "y": 0,
+            "theta": 0
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "StopAvoidance": {
+        "tag": "StopAvoidance",
+        "action": "StopAvoidance",
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "removePathFinding": {
+        "tag": "removePathFinding",
+        "action": "removePathFinding",
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "RemoveStaticObstacles": {
+        "tag": "RemoveStaticObstacles",
+        "action": "RemoveStaticObstacles",
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "AddStaticObstacles": {
+        "tag": "AddStaticObstacles",
+        "action": "AddStaticObstacles",
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "ResumeAvoidance": {
+        "tag": "ResumeAvoidance",
+        "action": "ResumeAvoidance",
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "CalculateGain": {
+        "tag": "CalculateGain",
+        "action": "CalculateGain",
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "CalculateWheelSpacing": {
+        "tag": "CalculateWheelSpacing",
+        "action": "CalculateWheelSpacing",
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "End": {
+        "tag": "End",
+        "action": "End",
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+    "EndMatch": {
+        "tag": "EndMatch",
+        "action": "EndMatch",
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
+
+    "SendUdpEvent": {
+        "tag": "SendUdpEvent",
+        "action": "SendUdpEvent",
+        "parameters": {
+            "Event": {
+                "type": "BackHome",
+                "values": [
+                    "IsAtHome",
+                    "YouCanGo"
+                ]
+            }
+        },
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    }
+}

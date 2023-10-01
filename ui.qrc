@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/potibot.png</file>
+        <file>Images/vinyle_table_2023.png</file>
+        <file>Images/robot_top.png</file>
+    </qresource>
+</RCC>

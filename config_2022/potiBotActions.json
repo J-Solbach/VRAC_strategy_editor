@@ -1,0 +1,194 @@
+{
+    "GrabTrophee" : {
+        "tag": "GrabTrophee",
+        "action": "GrabTrophee",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "DropTrophee" : {
+        "tag": "DropTrophee",
+        "action": "DropTrophee",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "DropFakeTrophee" : {
+        "tag": "DropFakeTrophee",
+        "action": "DropFakeTrophee",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "MeasureResistance" : {
+        "tag": "MeasureResistance",
+        "action": "MeasureResistance",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "FlipSquare" : {
+        "tag": "FlipSquare",
+        "action": "FlipSquare",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "FrontArmIdle" : {
+        "tag": "FrontArmIdle",
+        "action": "FrontArmIdle",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "GrabSamples" : {
+        "tag": "GrabSamples",
+        "action": "GrabSamples",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "DropSamples" : {
+        "tag": "DropSamples",
+        "action": "DropSamples",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "OpenBulldozer" : {
+        "tag": "OpenBulldozer",
+        "action": "OpenBulldozer",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "CloseBulldozer" : {
+        "tag": "CloseBulldozer",
+        "action": "CloseBulldozer",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "PushBulldozer" : {
+        "tag": "PushBulldozer",
+        "action": "PushBulldozer",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "ToggleBulldozer" : {
+        "tag": "ToggleBulldozer",
+        "action": "ToggleBulldozer",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "GrabSamplesLeft" : {
+        "tag": "GrabSamplesLeft",
+        "action": "GrabSamplesLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "GrabSamplesRight" : {
+        "tag": "GrabSamplesRight",
+        "action": "GrabSamplesRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "DropSamplesLeft" : {
+        "tag": "DropSamplesLeft",
+        "action": "DropSamplesLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "DropSamplesRight" : {
+        "tag": "DropSamplesRight",
+        "action": "DropSamplesRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    }
+}
