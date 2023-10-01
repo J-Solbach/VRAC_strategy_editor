@@ -79,7 +79,7 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     }
     else if (currentNode->getAction()["action"].toString() == "Line")
     {
-        radians rad = (m_previous.theta * M_PI) / 180.0;
+        double rad = (m_previous.theta * M_PI) / 180.0;
 
         auto distance = parameters["distance"].toInt()/PLAYGROUND_FACTOR * ((parameters["forward"].toBool()) ? 1 : -1);
         auto x = m_previous.coord.x() + (distance * qSin(rad));
@@ -164,8 +164,8 @@ void Playground::newPosBezier(QPointF goal, double theta, int16_t radius1, int16
 
     clearItems();
 
-    radians rad1 = (m_previous.theta * M_PI) / 180.0;
-    radians rad2 = (theta * M_PI) / 180.0;
+    double rad1 = (m_previous.theta * M_PI) / 180.0;
+    double rad2 = (theta * M_PI) / 180.0;
 
     QPointF checkPoint1;
     checkPoint1.setX(m_previous.coord.x() + (radius1 * qSin(rad1)));
