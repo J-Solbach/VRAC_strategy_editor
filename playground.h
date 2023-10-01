@@ -2,9 +2,13 @@
 #define PLAYGROUND_H
 
 #include <QGraphicsScene>
-#include "shared_types.hpp"
 #include "robot.h"
 #include "node.h"
+
+#define PLAYGROUND_X 2000
+#define PLAYGROUND_Y 3000
+
+#define PLAYGROUND_FACTOR 5
 
 class Robot;
 

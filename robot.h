@@ -2,7 +2,6 @@
 #define ROBOT_H
 
 #include <QGraphicsPixmapItem>
-#include "shared_types.hpp"
 
 struct position
 {
