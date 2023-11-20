@@ -4,16 +4,20 @@
 #include <QSvgRenderer>
 #include <QPainter>
 #include <QGraphicsPathItem>
+#include <QIcon>
 
 Playground::Playground()
 {
-    setSceneRect(QRectF(0, 0, (PLAYGROUND_X/PLAYGROUND_FACTOR), PLAYGROUND_Y/PLAYGROUND_FACTOR));
+    setSceneRect(QRectF(0, 0, (PLAYGROUND_X), PLAYGROUND_Y));
 
-    QImage image(":/Images/vinyle_table_2023.png");
+    QPixmap map=QIcon(":/Images/vinyle_table_2024_FINAL_V1.svg").pixmap(3000,2000);
 
-    setBackgroundBrush(image);
+    setBackgroundBrush(map);
 
+    m_robot.setZValue(3);
     addItem(&m_robot);
+    addPotFer();
+    addPot();
 }
 
 Playground::~Playground()
@@ -23,6 +27,65 @@ Playground::~Playground()
 Robot &Playground::getRobot()
 {
     return m_robot;
+}
+
+void Playground::addPotFer()
+{
+    int y_init[6]={508,1282,508,1282,1930,1930};
+    int x_init[6]={0,0,2930,2930,895,1895};
+
+    int inv[6]={1,1,-1,-1,-1,-1};
+
+    for(int j=0;j<6;j++)
+    {
+        for (int i=0;i<5;i++)
+        {
+            m_pot_fer[i+j*6]=new Pot(0,QPointF(inv[j]*(i&0x1)*70+x_init[j],(140*i/4)+y_init[j]));
+            if(j>3)m_pot_fer[i+j*6]=new Pot(0,QPointF((140*i/4)+x_init[j],inv[j]*(i&0x1)*70+y_init[j]));
+        }
+        m_pot_fer[5+j*6]=new Pot(0,QPointF(x_init[j],70+y_init[j]));
+        if(j>3)m_pot_fer[5+j*6]=new Pot(0,QPointF(70+x_init[j],y_init[j]));
+    }
+
+    for (int i=0;i<36;i++)
+    {
+        m_pot_fer[i]->setZValue(1);
+        addItem(m_pot_fer[i]);
+    }
+}
+
+void Playground::addPot()
+{
+    srand(time(0));
+    int x_init[6]={888,888,1888,1888,1388,1388};
+    int y_init[6]={675,1275,675,1275,475,1475};
+
+    int posx_init[6]={0,50,125,175,125,50};
+    int posy_init[6]={0,-75,-75,0,75,75};
+
+    for(int j=0;j<6;j++)
+    {
+        int n=0,k=0,type;
+        for(int i=0;i<6;i++)
+        {
+            type=(rand()%2)+1;
+            if(n>=2)type=1;
+            else if(i>3)type=2;
+            if(rand()%2&&k==0&&j>3)
+            {
+                m_pot[i+j*6]=new Pot(type,QPointF(87+x_init[j],0+y_init[j]));
+                k=1;
+            }
+            else m_pot[i+j*6]=new Pot(type,QPointF(posx_init[i]+x_init[j],posy_init[i]+y_init[j]));
+            if(type==2)n++;
+        }
+    }
+
+    for (int i=0;i<36;i++)
+    {
+        m_pot[i]->setZValue(2);
+        addItem(m_pot[i]);
+    }
 }
 
 void Playground::clearItems()

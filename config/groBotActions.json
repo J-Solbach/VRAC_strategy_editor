@@ -1,0 +1,688 @@
+{
+    "BottomArmsInDouble" : {
+        "tag": "BottomArmsInDouble",
+        "action": "BottomArmsInDouble",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "BottomArmInLeft" : {
+        "tag": "BottomArmInLeft",
+        "action": "BottomArmInLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "BottomArmInRight" : {
+        "tag": "BottomArmInRight",
+        "action": "BottomArmInRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "BottomArmsOutDouble" : {
+        "tag": "BottomArmsOutDouble",
+        "action": "BottomArmsOutDouble",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "BottomArmOutLeft" : {
+        "tag": "BottomArmOutLeft",
+        "action": "BottomArmOutLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "BottomArmOutRight" : {
+        "tag": "BottomArmOutRight",
+        "action": "BottomArmOutRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "BottomArmRetrieveDouble" : {
+        "tag": "BottomArmRetrieveDouble",
+        "action": "BottomArmRetrieveDouble",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "CheckStockage" : {
+        "tag": "CheckStockage",
+        "action": "CheckStockage",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "CheckStockageLeft" : {
+        "tag": "CheckStockageLeft",
+        "action": "CheckStockageLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "CheckStockageRight" : {
+        "tag": "CheckStockageRight",
+        "action": "CheckStockageRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmIdle" : {
+        "tag": "TopArmIdle",
+        "action": "TopArmIdle",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockageTopGallery" : {
+        "tag": "TopArmPreStockageTopGallery",
+        "action": "TopArmPreStockageTopGallery",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockageTopGalleryLeft" : {
+        "tag": "TopArmPreStockageTopGalleryLeft",
+        "action": "TopArmPreStockageTopGalleryLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockageTopGalleryRight" : {
+        "tag": "TopArmPreStockageTopGalleryRight",
+        "action": "TopArmPreStockageTopGalleryRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockage2TopGallery" : {
+        "tag": "TopArmPreStockage2TopGallery",
+        "action": "TopArmPreStockage2TopGallery",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockage2TopGalleryLeft" : {
+        "tag": "TopArmPreStockage2TopGalleryLeft",
+        "action": "TopArmPreStockage2TopGalleryLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockage2TopGalleryRight" : {
+        "tag": "TopArmPreStockage2TopGalleryRight",
+        "action": "TopArmPreStockage2TopGalleryRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockage" : {
+        "tag": "TopArmPreStockage",
+        "action": "TopArmPreStockage",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockageLeft" : {
+        "tag": "TopArmPreStockageLeft",
+        "action": "TopArmPreStockageLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockageRight" : {
+        "tag": "TopArmPreStockageRight",
+        "action": "TopArmPreStockageRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockage2" : {
+        "tag": "TopArmPreStockage2",
+        "action": "TopArmPreStockage2",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockage2Left" : {
+        "tag": "TopArmPreStockage2Left",
+        "action": "TopArmPreStockage2Left",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmPreStockage2Right" : {
+        "tag": "TopArmPreStockage2Right",
+        "action": "TopArmPreStockage2Right",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmStockage" : {
+        "tag": "TopArmStockage",
+        "action": "TopArmStockage",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmStockageLeft" : {
+        "tag": "TopArmStockageLeft",
+        "action": "TopArmStockageLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmStockageRight" : {
+        "tag": "TopArmStockageRight",
+        "action": "TopArmStockageRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmStockage2" : {
+        "tag": "TopArmStockage2",
+        "action": "TopArmStockage2",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmStockage2Left" : {
+        "tag": "TopArmStockage2Left",
+        "action": "TopArmStockage2Left",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmStockage2Right" : {
+        "tag": "TopArmStockage2Right",
+        "action": "TopArmStockage2Right",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetFromStockage" : {
+        "tag": "TopArmGetFromStockage",
+        "action": "TopArmGetFromStockage",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetFromStockageLeft" : {
+        "tag": "TopArmGetFromStockageLeft",
+        "action": "TopArmGetFromStockageLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetFromStockageRight" : {
+        "tag": "TopArmGetFromStockageRight",
+        "action": "TopArmGetFromStockageRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetStockageTopGallery" : {
+        "tag": "TopArmGetStockageTopGallery",
+        "action": "TopArmGetStockageTopGallery",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetStockageTopGalleryLeft" : {
+        "tag": "TopArmGetStockageTopGalleryLeft",
+        "action": "TopArmGetStockageTopGalleryLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetStockageTopGalleryRight" : {
+        "tag": "TopArmGetStockageTopGalleryRight",
+        "action": "TopArmGetStockageTopGalleryRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetStockage2TopGallery" : {
+        "tag": "TopArmGetStockage2TopGallery",
+        "action": "TopArmGetStockage2TopGallery",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetStockage2TopGalleryLeft" : {
+        "tag": "TopArmGetStockage2TopGalleryLeft",
+        "action": "TopArmGetStockage2TopGalleryLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetStockage2TopGalleryRight" : {
+        "tag": "TopArmGetStockage2TopGalleryRight",
+        "action": "TopArmGetStockage2TopGalleryRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetFromStockage2" : {
+        "tag": "TopArmGetFromStockage2",
+        "action": "TopArmGetFromStockage2",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetFromStockage2Left" : {
+        "tag": "TopArmGetFromStockage2Left",
+        "action": "TopArmGetFromStockage2Left",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetFromStockage2Right" : {
+        "tag": "TopArmGetFromStockage2Right",
+        "action": "TopArmGetFromStockage2Right",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmDrop" : {
+        "tag": "TopArmDrop",
+        "action": "TopArmDrop",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmDropLeft" : {
+        "tag": "TopArmDropLeft",
+        "action": "TopArmDropLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmDropRight" : {
+        "tag": "TopArmDropRight",
+        "action": "TopArmDropRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGalleryBottom" : {
+        "tag": "TopArmGalleryBottom",
+        "action": "TopArmGalleryBottom",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGalleryBottomLeft" : {
+        "tag": "TopArmGalleryBottomLeft",
+        "action": "TopArmGalleryBottomLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGalleryBottomRight" : {
+        "tag": "TopArmGalleryBottomRight",
+        "action": "TopArmGalleryBottomRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGalleryBottomBlue" : {
+        "tag": "TopArmGalleryBottomBlue",
+        "action": "TopArmGalleryBottomBlue",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGalleryTop" : {
+        "tag": "TopArmGalleryTop",
+        "action": "TopArmGalleryTop",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGalleryTopLeft" : {
+        "tag": "TopArmGalleryTopLeft",
+        "action": "TopArmGalleryTopLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGalleryTopRight" : {
+        "tag": "TopArmGalleryTopRight",
+        "action": "TopArmGalleryTopRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGalleryTopBlue" : {
+        "tag": "TopArmGalleryTopBlue",
+        "action": "TopArmGalleryTopBlue",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetSamples" : {
+        "tag": "TopArmGetSamples",
+        "action": "TopArmGetSamples",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    
+    "TopArmGetSampleRight" : {
+        "tag": "TopArmGetSampleRight",
+        "action": "TopArmGetSampleRight",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TopArmGetSampleLeft" : {
+        "tag": "TopArmGetSampleLeft",
+        "action": "TopArmGetSampleLeft",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "ActivateBackGripperAutoGrab" : {
+        "tag": "ActivateBackGripperAutoGrab",
+        "action": "ActivateBackGripperAutoGrab",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "BackGripperDrop" : {
+        "tag": "BackGripperDrop",
+        "action": "BackGripperDrop",
+        "parameters": {
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    }
+
+}

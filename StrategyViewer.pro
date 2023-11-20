@@ -15,6 +15,7 @@ SOURCES += \
     mainwindow.cpp \
     node.cpp \
     playground.cpp \
+    pot.cpp \
     robot.cpp \
     toolboxscene.cpp
 
@@ -25,6 +26,7 @@ HEADERS += \
     mainwindow.h \
     node.h \
     playground.h \
+    pot.h \
     robot.h \
     toolboxscene.h
 

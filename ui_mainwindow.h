@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 6.5.0
+** Created by: Qt User Interface Compiler version 6.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -51,7 +51,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1508, 950);
+        MainWindow->resize(1280, 950);
         actionNew_MetaAction = new QAction(MainWindow);
         actionNew_MetaAction->setObjectName("actionNew_MetaAction");
         actionLoad_MetaAction = new QAction(MainWindow);
@@ -64,54 +64,54 @@ public:
         centralwidget->setObjectName("centralwidget");
         graphicsView = new QGraphicsView(centralwidget);
         graphicsView->setObjectName("graphicsView");
-        graphicsView->setGeometry(QRect(480, 10, 1000, 901));
+        graphicsView->setGeometry(QRect(620, 10, 660, 900));
         graphicsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
         graphicsView->setDragMode(QGraphicsView::NoDrag);
         graphicsView->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
         graphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
         toolBox = new QToolBox(centralwidget);
         toolBox->setObjectName("toolBox");
-        toolBox->setGeometry(QRect(40, 650, 401, 261));
+        toolBox->setGeometry(QRect(10, 450, 600, 450));
         toolBox->setLineWidth(3);
         Actions = new QWidget();
         Actions->setObjectName("Actions");
-        Actions->setGeometry(QRect(0, 0, 401, 186));
+        Actions->setGeometry(QRect(0, 0, 600, 375));
         toolBox->addItem(Actions, QString::fromUtf8("Common"));
         ActionsRobot = new QWidget();
         ActionsRobot->setObjectName("ActionsRobot");
-        ActionsRobot->setGeometry(QRect(0, 0, 401, 186));
+        ActionsRobot->setGeometry(QRect(0, 0, 600, 375));
         toolBox->addItem(ActionsRobot, QString::fromUtf8("Robot Actions"));
         MetaActions = new QWidget();
         MetaActions->setObjectName("MetaActions");
-        MetaActions->setGeometry(QRect(0, 0, 401, 186));
+        MetaActions->setGeometry(QRect(0, 0, 600, 375));
         toolBox->addItem(MetaActions, QString::fromUtf8("Meta Actions"));
         playgroundScene = new QGraphicsView(centralwidget);
         playgroundScene->setObjectName("playgroundScene");
-        playgroundScene->setGeometry(QRect(40, 10, 400, 600));
+        playgroundScene->setGeometry(QRect(10, 10, 600, 400));
         playgroundScene->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         playgroundScene->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         coordinates = new QLabel(centralwidget);
         coordinates->setObjectName("coordinates");
-        coordinates->setGeometry(QRect(40, 620, 291, 20));
+        coordinates->setGeometry(QRect(10, 420, 291, 20));
         QFont font;
         font.setPointSize(14);
         coordinates->setFont(font);
         thetaRobot = new QSpinBox(centralwidget);
         thetaRobot->setObjectName("thetaRobot");
-        thetaRobot->setGeometry(QRect(220, 620, 111, 24));
+        thetaRobot->setGeometry(QRect(190, 420, 111, 24));
         thetaRobot->setMinimum(-3600);
         thetaRobot->setMaximum(3600);
         coordinates_3 = new QLabel(centralwidget);
         coordinates_3->setObjectName("coordinates_3");
-        coordinates_3->setGeometry(QRect(160, 620, 51, 20));
+        coordinates_3->setGeometry(QRect(130, 420, 51, 20));
         coordinates_3->setFont(font);
         checkBox = new QCheckBox(centralwidget);
         checkBox->setObjectName("checkBox");
-        checkBox->setGeometry(QRect(350, 620, 86, 21));
+        checkBox->setGeometry(QRect(320, 420, 86, 21));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1508, 21));
+        menubar->setGeometry(QRect(0, 0, 1280, 22));
         menuFiles = new QMenu(menubar);
         menuFiles->setObjectName("menuFiles");
         menuexport = new QMenu(menubar);
@@ -127,7 +127,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        toolBox->setCurrentIndex(1);
+        toolBox->setCurrentIndex(0);
         toolBox->layout()->setSpacing(1);
 
 
