@@ -1,0 +1,32 @@
+[33mcommit 6977084d857812c04f6055bfe27ad0ab504b6aac[m[33m ([m[1;36mHEAD -> [m[1;32mfeat/affichage-pots[m[33m, [m[1;32mfeat/robot-actions[m[33m, [m[1;32mfeat/plants_and_pots[m[33m)[m
+Author: kxuge1 <kevin.xu@universite-paris-saclay.fr>
+Date:   Mon Nov 20 13:51:19 2023 +0100
+
+    feat: Added plants and pots on playground
+
+[33mcommit 13a73d4df5b0ce8cfb8546646338d13efbc5a258[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: a3346fe 368c8ae
+Author: Stainss <43949183+J-Solbach@users.noreply.github.com>
+Date:   Mon Oct 2 00:11:55 2023 +0200
+
+    Merge pull request #1 from J-Solbach/develop
+    
+    Remove dependency to VRAC internal LIB
+
+[33mcommit 368c8aef5471e2093028ad076e16a1c267336f7d[m[33m ([m[1;31morigin/develop[m[33m)[m
+Author: J-Solbach <juliensolbach@gmail.com>
+Date:   Mon Oct 2 00:05:37 2023 +0200
+
+    Remove dependency to VRAC internal LIB
+
+[33mcommit a3346fe391a092df54a2d922bcdaf16352dc8afe[m
+Author: J-Solbach <juliensolbach@gmail.com>
+Date:   Sun Oct 1 23:55:57 2023 +0200
+
+    VRAC strategy editor initial commit (from 2023 eurobot)
+
+[33mcommit 761517df5e510fd1d49187334d3248e98eb54bab[m
+Author: Stainss <43949183+J-Solbach@users.noreply.github.com>
+Date:   Sun Oct 1 23:45:00 2023 +0200
+
+    Initial commit
