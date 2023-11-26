@@ -171,13 +171,13 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
         auto axis = parameters["axis"].toBool();
 
         auto x = (axis == true) ? parameters["offset"].toInt()/PLAYGROUND_FACTOR : m_previous.coord.x();
-        auto y = (axis == false) ? parameters["offset"].toInt()/PLAYGROUND_FACTOR : m_previous.coord.y();
+        auto y = (axis == false) ? - parameters["offset"].toInt()/PLAYGROUND_FACTOR + PLAYGROUND_Y : m_previous.coord.y();
 
         double theta;
         if (axis)
         { // HOMING de X
 
-            if (parameters["offset"].toInt() > 1000)
+            if (parameters["offset"].toInt() > 1500)
             {
                 theta = (parameters["forward"].toBool()) ? 90.0 : -90.0;
             }
@@ -188,7 +188,7 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
         }
         else
         {
-            if (parameters["offset"].toInt() > 1500)
+            if (parameters["offset"].toInt() > 1000)
             {
                 theta = (parameters["forward"].toBool()) ? 0 : 180.0;
             }

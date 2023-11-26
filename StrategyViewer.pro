@@ -42,7 +42,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     ui.qrc
-
-DISTFILES += \
-    Images/vinyle_table_2023.png \
-    config/commonActions.json

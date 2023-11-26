@@ -163,7 +163,7 @@ void MainWindow::setupMetaActions()
     grid->setVerticalSpacing(10);
 
     QDir directory;
-    directory = QDir(QDir::homePath() + "/Documents/Workspace/VRAC/eurobotsoftware2023/Strats/MetaActions/");
+    directory = QDir(QDir::homePath() + "/Documents/");
 
     QStringList metaActions = directory.entryList(QStringList() << "*.json" << "*.JSON",QDir::Files);
 
