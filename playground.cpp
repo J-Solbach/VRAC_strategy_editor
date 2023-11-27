@@ -95,7 +95,7 @@ void Playground::clearItems()
     {
         QGraphicsItem *gi = all[i];
 
-        if (gi != &m_robot)
+        if (gi->zValue()==0)
             removeItem(gi);
     }
 
