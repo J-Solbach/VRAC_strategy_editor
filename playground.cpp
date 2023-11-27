@@ -131,9 +131,9 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
         {
             QLineF trajectoryLine(m_previous.coord, pos);
 
-            theta = trajectoryLine.angle() - 90;
+            theta = trajectoryLine.angle()-90;
 
-            if (forward) theta -= 180;
+            if (!forward) theta -= 180;
 
             qDebug() << m_previous.coord << pos << "calculated theta : " << theta;
         }
