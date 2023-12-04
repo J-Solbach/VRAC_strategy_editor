@@ -34,8 +34,7 @@ void Playground::addPots()
     int y_init[N_STOCK]={508,1282,648,1422,1930,1930};
     int x_init[N_STOCK]={0,0,2930,2930,895,1895};
 
-    int costheta[N_STOCK]={1,1,-1,-1,0,0};
-    int sintheta[N_STOCK]={0,0,0,0,-1,-1};
+    float rad[N_STOCK]={0,0,M_PI,M_PI,-M_PI_2,-M_PI_2};
 
     int posx_init[N_POTS_PAR_STOCK]={0,70,0,0,70,0};
     int posy_init[N_POTS_PAR_STOCK]={0,35,70,70,105,140};
@@ -46,8 +45,8 @@ void Playground::addPots()
     {
         for (int i=0;i<N_POTS_PAR_STOCK;i++)
         {
-            posx=posx_init[i]*costheta[j]-posy_init[i]*sintheta[j];
-            posy=posx_init[i]*sintheta[j]+posy_init[i]*costheta[j];
+            posx=posx_init[i]*qCos(rad[j])-posy_init[i]*qSin(rad[j]);
+            posy=posx_init[i]*qSin(rad[j])+posy_init[i]*qCos(rad[j]);
             m_pots[i+j*6]=new Pot(0,QPointF(posx+x_init[j],posy+y_init[j]));
         }
     }
