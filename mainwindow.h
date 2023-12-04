@@ -7,6 +7,9 @@
 #include <QJsonDocument>
 #include "playground.h"
 
+#define SCALING 0.2
+#define COLONNE 3
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE

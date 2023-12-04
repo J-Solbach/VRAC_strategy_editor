@@ -10,14 +10,14 @@ Playground::Playground()
 {
     setSceneRect(QRectF(0, 0, (PLAYGROUND_X), PLAYGROUND_Y));
 
-    QPixmap map=QIcon(":/Images/vinyle_table_2024_FINAL_V1.svg").pixmap(3000,2000);
+    QPixmap map=QIcon(":/Images/vinyle_table_2024_FINAL_V1.svg").pixmap(PLAYGROUND_X,PLAYGROUND_Y);
 
     setBackgroundBrush(map);
 
     m_robot.setZValue(3);
     addItem(&m_robot);
-    addPotFer();
-    addPot();
+    addPots();
+    addPlantes();
 }
 
 Playground::~Playground()
@@ -29,62 +29,70 @@ Robot &Playground::getRobot()
     return m_robot;
 }
 
-void Playground::addPotFer()
+void Playground::addPots()
 {
-    int y_init[6]={508,1282,508,1282,1930,1930};
-    int x_init[6]={0,0,2930,2930,895,1895};
+    int y_init[N_STOCK]={508,1282,648,1422,1930,1930};
+    int x_init[N_STOCK]={0,0,2930,2930,895,1895};
 
-    int inv[6]={1,1,-1,-1,-1,-1};
+    int costheta[N_STOCK]={1,1,-1,-1,0,0};
+    int sintheta[N_STOCK]={0,0,0,0,-1,-1};
 
-    for(int j=0;j<6;j++)
+    int posx_init[N_POTS_PAR_STOCK]={0,70,0,0,70,0};
+    int posy_init[N_POTS_PAR_STOCK]={0,35,70,70,105,140};
+
+    int posx,posy;
+
+    for(int j=0;j<N_STOCK;j++)
     {
-        for (int i=0;i<5;i++)
+        for (int i=0;i<N_POTS_PAR_STOCK;i++)
         {
-            m_pot_fer[i+j*6]=new Pot(0,QPointF(inv[j]*(i&0x1)*70+x_init[j],(140*i/4)+y_init[j]));
-            if(j>3)m_pot_fer[i+j*6]=new Pot(0,QPointF((140*i/4)+x_init[j],inv[j]*(i&0x1)*70+y_init[j]));
+            posx=posx_init[i]*costheta[j]-posy_init[i]*sintheta[j];
+            posy=posx_init[i]*sintheta[j]+posy_init[i]*costheta[j];
+            m_pots[i+j*6]=new Pot(0,QPointF(posx+x_init[j],posy+y_init[j]));
         }
-        m_pot_fer[5+j*6]=new Pot(0,QPointF(x_init[j],70+y_init[j]));
-        if(j>3)m_pot_fer[5+j*6]=new Pot(0,QPointF(70+x_init[j],y_init[j]));
     }
 
-    for (int i=0;i<36;i++)
+    for (int i=0;i<N_POTS;i++)
     {
-        m_pot_fer[i]->setZValue(1);
-        addItem(m_pot_fer[i]);
+        m_pots[i]->setZValue(1);
+        addItem(m_pots[i]);
     }
 }
 
-void Playground::addPot()
+void Playground::addPlantes()
 {
     srand(time(0));
-    int x_init[6]={888,888,1888,1888,1388,1388};
-    int y_init[6]={675,1275,675,1275,475,1475};
+    int x_init[N_STOCK]={888,888,1888,1888,1388,1388};
+    int y_init[N_STOCK]={675,1275,675,1275,475,1475};
 
-    int posx_init[6]={0,50,125,175,125,50};
-    int posy_init[6]={0,-75,-75,0,75,75};
+    int posx_init[N_POTS_PAR_STOCK]={0,50,50,125,175,125};
+    int posy_init[N_POTS_PAR_STOCK]={0,-75,75,-75,0,75};
 
-    for(int j=0;j<6;j++)
+    for(int j=0;j<N_STOCK;j++)
     {
-        int n=0,k=0,type;
-        for(int i=0;i<6;i++)
+        int plantes_milieu=0,type;
+
+        int plante_res1=(rand()%3);
+        int plante_res2=(rand()%3)+3;
+
+        for(int i=0;i<N_POTS_PAR_STOCK;i++)
         {
-            type=(rand()%2)+1;
-            if(n>=2)type=1;
-            else if(i>3)type=2;
-            if(rand()%2&&k==0&&j>3)
+
+            if(i==plante_res1||i==plante_res2)type=2;
+            else type=1;
+            if(rand()%2&&plantes_milieu==0&&j>3)
             {
-                m_pot[i+j*6]=new Pot(type,QPointF(87+x_init[j],0+y_init[j]));
-                k=1;
+                m_plantes[i+j*6]=new Pot(type,QPointF(87+x_init[j],0+y_init[j]));
+                plantes_milieu=1;
             }
-            else m_pot[i+j*6]=new Pot(type,QPointF(posx_init[i]+x_init[j],posy_init[i]+y_init[j]));
-            if(type==2)n++;
+            else m_plantes[i+j*6]=new Pot(type,QPointF(posx_init[i]+x_init[j],posy_init[i]+y_init[j]));
         }
     }
 
-    for (int i=0;i<36;i++)
+    for (int i=0;i<N_PLANTES;i++)
     {
-        m_pot[i]->setZValue(2);
-        addItem(m_pot[i]);
+        m_plantes[i]->setZValue(2);
+        addItem(m_plantes[i]);
     }
 }
 
@@ -177,7 +185,7 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
         if (axis)
         { // HOMING de X
 
-            if (parameters["offset"].toInt() > 1500)
+            if (parameters["offset"].toInt() > PLAYGROUND_X/2)
             {
                 theta = (parameters["forward"].toBool()) ? 90.0 : -90.0;
             }
@@ -188,7 +196,7 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
         }
         else
         {
-            if (parameters["offset"].toInt() > 1000)
+            if (parameters["offset"].toInt() > PLAYGROUND_Y/2)
             {
                 theta = (parameters["forward"].toBool()) ? 0 : 180.0;
             }
