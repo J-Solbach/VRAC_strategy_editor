@@ -1,0 +1,120 @@
+{
+    "DetecterPot" : {
+        "tag": "DetecterPot",
+        "action": "DetecterPot",
+        "parameters": {
+            "side": {
+                "type": "FRONT_CENTER",
+                "values": [
+                    "FRONT_LEFT",
+                    "FRONT_CENTER",
+                    "FRONT_RIGHT",
+                    "BACK_LEFT",
+                    "BACK_CENTER",
+                    "BACK_RIGHT"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "PincerPot" : {
+        "tag": "PincerPot",
+        "action": "PincerPot",
+        "act_on_pot":"on",
+        "parameters": {
+            "side": {
+                "type": "FRONT_CENTER",
+                "values": [
+                    "FRONT_LEFT",
+                    "FRONT_CENTER",
+                    "FRONT_RIGHT",
+                    "BACK_LEFT",
+                    "BACK_CENTER",
+                    "BACK_RIGHT"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "LacherPot" : {
+        "tag": "LacherPot",
+        "action": "LacherPot",
+        "act_on_pot":"off",
+        "parameters": {
+            "side": {
+                "type": "FRONT_CENTER",
+                "values": [
+                    "FRONT_LEFT",
+                    "FRONT_CENTER",
+                    "FRONT_RIGHT",
+                    "BACK_LEFT",
+                    "BACK_CENTER",
+                    "BACK_RIGHT"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "BaisserPince" : {
+        "tag": "BaisserPince",
+        "action": "BaisserPince",
+        "parameters": {
+            "side": {
+                "type": "FRONT_CENTER",
+                "values": [
+                    "FRONT_LEFT",
+                    "FRONT_CENTER",
+                    "FRONT_RIGHT",
+                    "BACK_LEFT",
+                    "BACK_CENTER",
+                    "BACK_RIGHT"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    }
+    ,
+        "MonterPince" : {
+            "tag": "MonterPince",
+            "action": "MonterPince",
+            "parameters": {
+                "side": {
+                    "type": "FRONT_CENTER",
+                    "values": [
+                        "FRONT_LEFT",
+                        "FRONT_CENTER",
+                        "FRONT_RIGHT",
+                        "BACK_LEFT",
+                        "BACK_CENTER",
+                        "BACK_RIGHT"
+                    ]
+                }
+            },
+            "transitions": [
+             {
+              "type": "NoEvent",
+              "destination": ""
+             }
+            ]
+        }
+}

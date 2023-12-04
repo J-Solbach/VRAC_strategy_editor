@@ -97,7 +97,7 @@ void Node::setupName()
         {
             if (action["parameters"].toObject()[k].isObject())
             {
-                name += "_" + action["parameters"].toObject()[k].toObject()["selected"].toString();
+                name += "_" + action["parameters"].toObject()[k].toObject()["type"].toString();
             }
         }
          nameChanged(name);
@@ -184,14 +184,14 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
                 list.append(str.toString());
             }
             comboBox->addItems(list);
-            comboBox->setCurrentIndex(comboBox->findText(action["parameters"].toObject()[comboBox->objectName()].toObject()["selected"].toString()));
+            comboBox->setCurrentIndex(comboBox->findText(action["parameters"].toObject()[comboBox->objectName()].toObject()["type"].toString()));
 
             hLayout->addWidget(comboBox);
 
             connect(comboBox, &QComboBox::currentTextChanged, this, [&](QString newText)
             {
                 QComboBox *comboBox = static_cast<QComboBox*>(sender());
-                modifyJsonValue(action, "parameters."+comboBox->objectName()+".selected", newText);
+                modifyJsonValue(action, "parameters."+comboBox->objectName()+".type", newText);
                 emit selected();
             });
         }

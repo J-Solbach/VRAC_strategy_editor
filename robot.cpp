@@ -5,10 +5,12 @@ Robot::Robot()
     m_pixmap = ":/Images/robot_top.png";
     QPixmap *robot = new QPixmap(m_pixmap);
 
-    m_pos.coord = QPointF(300/5, 300/5);
-    m_pos.theta = 0;
+    m_pos.coord = QPointF(0, 1625);
+    m_pos.theta =-90;
 
-    this->setPixmap(robot->transformed(QTransform().rotate(- m_pos.theta)));
+    // TODO : demander un png du robot à taille reelle (1 pixel = 1mm)
+    setPos(QPointF(m_pos.coord.x() - boundingRect().width()/2 ,m_pos.coord.y() - boundingRect().height()/2));
+    this->setPixmap(robot->transformed(QTransform().scale(4.9,4.9).rotate(-m_pos.theta)));
 }
 
 
@@ -28,7 +30,7 @@ void Robot::setPosition(position pos)
 
     setPos(QPointF(m_pos.coord.x() - boundingRect().width()/2 ,m_pos.coord.y() - boundingRect().height()/2));
     QPixmap *robot = new QPixmap(m_pixmap);
-    this->setPixmap(robot->transformed(QTransform().rotate(- m_pos.theta)));
+    this->setPixmap(robot->transformed(QTransform().scale(4.9,4.9).rotate(-m_pos.theta)));
 }
 
 const position &Robot::pos() const

@@ -4,16 +4,20 @@
 #include <QSvgRenderer>
 #include <QPainter>
 #include <QGraphicsPathItem>
+#include <QIcon>
 
 Playground::Playground()
 {
-    setSceneRect(QRectF(0, 0, (PLAYGROUND_X/PLAYGROUND_FACTOR), PLAYGROUND_Y/PLAYGROUND_FACTOR));
+    setSceneRect(QRectF(0, 0, (PLAYGROUND_X), PLAYGROUND_Y));
 
-    QImage image(":/Images/vinyle_table_2023.png");
+    QPixmap map=QIcon(":/Images/vinyle_table_2024_FINAL_V1.svg").pixmap(PLAYGROUND_X,PLAYGROUND_Y);
 
-    setBackgroundBrush(image);
+    setBackgroundBrush(map);
 
+    m_robot.setZValue(3);
     addItem(&m_robot);
+    addPots();
+    addPlantes();
 }
 
 Playground::~Playground()
@@ -25,6 +29,72 @@ Robot &Playground::getRobot()
     return m_robot;
 }
 
+void Playground::addPots()
+{
+    int y_init[N_STOCK]={508,1282,648,1422,1930,1930};
+    int x_init[N_STOCK]={0,0,2930,2930,895,1895};
+
+    float rad[N_STOCK]={0,0,M_PI,M_PI,-M_PI_2,-M_PI_2};
+
+    int posx_init[N_POTS_PAR_STOCK]={0,70,0,0,70,0};
+    int posy_init[N_POTS_PAR_STOCK]={0,35,70,70,105,140};
+
+    int posx,posy;
+
+    for(int j=0;j<N_STOCK;j++)
+    {
+        for (int i=0;i<N_POTS_PAR_STOCK;i++)
+        {
+            posx=posx_init[i]*qCos(rad[j])-posy_init[i]*qSin(rad[j]);
+            posy=posx_init[i]*qSin(rad[j])+posy_init[i]*qCos(rad[j]);
+            m_pots[i+j*6]=new Pot(0,QPointF(posx+x_init[j],posy+y_init[j]));
+        }
+    }
+
+    for (int i=0;i<N_POTS;i++)
+    {
+        m_pots[i]->setZValue(1);
+        addItem(m_pots[i]);
+    }
+}
+
+void Playground::addPlantes()
+{
+    srand(time(0));
+    int x_init[N_STOCK]={888,888,1888,1888,1388,1388};
+    int y_init[N_STOCK]={675,1275,675,1275,475,1475};
+
+    int posx_init[N_POTS_PAR_STOCK]={0,50,50,125,175,125};
+    int posy_init[N_POTS_PAR_STOCK]={0,-75,75,-75,0,75};
+
+    for(int j=0;j<N_STOCK;j++)
+    {
+        int plantes_milieu=0,type;
+
+        int plante_res1=(rand()%3);
+        int plante_res2=(rand()%3)+3;
+
+        for(int i=0;i<N_POTS_PAR_STOCK;i++)
+        {
+
+            if(i==plante_res1||i==plante_res2)type=2;
+            else type=1;
+            if(rand()%2&&plantes_milieu==0&&j>3)
+            {
+                m_plantes[i+j*6]=new Pot(type,QPointF(87+x_init[j],0+y_init[j]));
+                plantes_milieu=1;
+            }
+            else m_plantes[i+j*6]=new Pot(type,QPointF(posx_init[i]+x_init[j],posy_init[i]+y_init[j]));
+        }
+    }
+
+    for (int i=0;i<N_PLANTES;i++)
+    {
+        m_plantes[i]->setZValue(2);
+        addItem(m_plantes[i]);
+    }
+}
+
 void Playground::clearItems()
 {
     QList<QGraphicsItem*> all = items();
@@ -32,7 +102,7 @@ void Playground::clearItems()
     {
         QGraphicsItem *gi = all[i];
 
-        if (gi != &m_robot)
+        if (gi->zValue()==0)
             removeItem(gi);
     }
 
@@ -68,9 +138,9 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
         {
             QLineF trajectoryLine(m_previous.coord, pos);
 
-            theta = trajectoryLine.angle() - 90;
+            theta = trajectoryLine.angle()-90;
 
-            if (forward) theta -= 180;
+            if (!forward) theta -= 180;
 
             qDebug() << m_previous.coord << pos << "calculated theta : " << theta;
         }
@@ -108,13 +178,13 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
         auto axis = parameters["axis"].toBool();
 
         auto x = (axis == true) ? parameters["offset"].toInt()/PLAYGROUND_FACTOR : m_previous.coord.x();
-        auto y = (axis == false) ? parameters["offset"].toInt()/PLAYGROUND_FACTOR : m_previous.coord.y();
+        auto y = (axis == false) ? - parameters["offset"].toInt()/PLAYGROUND_FACTOR + PLAYGROUND_Y : m_previous.coord.y();
 
         double theta;
         if (axis)
         { // HOMING de X
 
-            if (parameters["offset"].toInt() > 1000)
+            if (parameters["offset"].toInt() > PLAYGROUND_X/2)
             {
                 theta = (parameters["forward"].toBool()) ? 90.0 : -90.0;
             }
@@ -125,7 +195,7 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
         }
         else
         {
-            if (parameters["offset"].toInt() > 1500)
+            if (parameters["offset"].toInt() > PLAYGROUND_Y/2)
             {
                 theta = (parameters["forward"].toBool()) ? 0 : 180.0;
             }

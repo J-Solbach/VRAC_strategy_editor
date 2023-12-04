@@ -3,12 +3,18 @@
 
 #include <QGraphicsScene>
 #include "robot.h"
+#include "pot.h"
 #include "node.h"
 
-#define PLAYGROUND_X 2000
-#define PLAYGROUND_Y 3000
+#define PLAYGROUND_X 3000
+#define PLAYGROUND_Y 2000
 
-#define PLAYGROUND_FACTOR 5
+#define PLAYGROUND_FACTOR 1
+
+#define N_POTS 36
+#define N_PLANTES 36
+#define N_STOCK 6
+#define N_POTS_PAR_STOCK 6
 
 class Robot;
 
@@ -20,6 +26,10 @@ public:
     virtual ~Playground();
 
     Robot &getRobot();
+
+    void addPots();
+
+    void addPlantes();
 
     void clearItems();
 
@@ -41,6 +51,8 @@ public slots:
 
 private:
     Robot m_robot;
+    Pot *m_pots[N_POTS];
+    Pot *m_plantes[N_PLANTES];
     position m_previous;
 };
 

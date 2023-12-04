@@ -11,6 +11,7 @@
 #include <QToolButton>
 #include <QFile>
 #include <QDir>
+#include <QDebug>
 #include "node.h"
 #include <QFileDialog>
 #include <playground.h>
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     playground = new Playground();
     ui->playgroundScene->setScene(playground);
+    ui->playgroundScene->scale(SCALING,SCALING);
 
     ui->graphicsView->setScene(&stratBuilder);
     ui->graphicsView->viewport()->setCursor(Qt::ArrowCursor);
@@ -57,7 +59,7 @@ void MainWindow::setupCommonActions()
 
     QFile File;
 
-    File.setFileName(QDir::homePath() + "/Documents/Workspace/VRAC/eurobotsoftware2023/Actions/commonActions.json");
+    File.setFileName(":/config/commonActions.json");
     File.open(QIODevice::ReadOnly | QIODevice::Text);
     commonActions = QJsonDocument::fromJson(QString(File.readAll()).toUtf8()).object();
 
@@ -73,7 +75,7 @@ void MainWindow::setupCommonActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::actionButtonClicked);
 
-        grid->addWidget(actionButton, counter/2, counter%2);
+        grid->addWidget(actionButton, counter/COLONNE, counter%COLONNE);
         counter++;
     }
 
@@ -88,7 +90,8 @@ void MainWindow::setupGrobotActions()
 
     QFile File;
 
-    File.setFileName(QDir::homePath() + "/Documents/Workspace/VRAC/eurobotsoftware2023/Actions/actions.json");
+    //File.setFileName(QDir::homePath() + ":/config/groBotActions.json");
+    File.setFileName(":/config/groBotActions.json");
     File.open(QIODevice::ReadOnly | QIODevice::Text);
     groBotActions = QJsonDocument::fromJson(QString(File.readAll()).toUtf8()).object();
 
@@ -104,7 +107,7 @@ void MainWindow::setupGrobotActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::groBotActionButtonClicked);
 
-        grid->addWidget(actionButton, counter/2, counter%2);
+        grid->addWidget(actionButton, counter/COLONNE, counter%COLONNE);
         counter++;
     }
 
@@ -135,7 +138,7 @@ void MainWindow::setupGrobotActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::potiBotActionButtonClicked);
 
-        grid->addWidget(actionButton, counter/2, counter%2);
+        grid->addWidget(actionButton, counter/3, counter%3);
         counter++;
     }
 
@@ -160,7 +163,7 @@ void MainWindow::setupMetaActions()
     grid->setVerticalSpacing(10);
 
     QDir directory;
-    directory = QDir(QDir::homePath() + "/Documents/Workspace/VRAC/eurobotsoftware2023/Strats/MetaActions/");
+    directory = QDir(QDir::homePath() + "/Documents/");
 
     QStringList metaActions = directory.entryList(QStringList() << "*.json" << "*.JSON",QDir::Files);
 
@@ -178,7 +181,7 @@ void MainWindow::setupMetaActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::metaActionButtonClicked );
 
-        grid->addWidget(actionButton, counter/2, counter%2);
+        grid->addWidget(actionButton, counter/COLONNE, counter%COLONNE);
         counter++;
     }
 
@@ -195,11 +198,11 @@ void MainWindow::actionButtonClicked()
     {
         if (k == "x")
         {
-            modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.x() * 5);
+            modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.x() );
         }
         else if (k == "y")
         {
-            modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.y() * 5);
+            modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.y() );
         }
         else if (k == "theta")
         {
@@ -254,7 +257,7 @@ void MainWindow::metaActionButtonClicked()
 void MainWindow::updatePos(position pos)
 {
     QString text;
-    text = "X : " + QString::number(pos.coord.x() * 5) + " Y : " + QString::number(pos.coord.y() * 5);
+    text = "X : " + QString::number(pos.coord.x() ) + " Y : " + QString::number(pos.coord.y() );
     ui->coordinates->setText(text);
     ui->thetaRobot->setValue(pos.theta);
 }
