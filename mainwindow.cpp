@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     playground = new Playground();
     ui->playgroundScene->setScene(playground);
-    ui->playgroundScene->scale(0.2,0.2);
+    ui->playgroundScene->scale(SCALING,SCALING);
 
     ui->graphicsView->setScene(&stratBuilder);
     ui->graphicsView->viewport()->setCursor(Qt::ArrowCursor);
@@ -75,7 +75,7 @@ void MainWindow::setupCommonActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::actionButtonClicked);
 
-        grid->addWidget(actionButton, counter/3, counter%3);
+        grid->addWidget(actionButton, counter/COLONNE, counter%COLONNE);
         counter++;
     }
 
@@ -107,7 +107,7 @@ void MainWindow::setupGrobotActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::groBotActionButtonClicked);
 
-        grid->addWidget(actionButton, counter/2, counter%2);
+        grid->addWidget(actionButton, counter/COLONNE, counter%COLONNE);
         counter++;
     }
 
@@ -181,7 +181,7 @@ void MainWindow::setupMetaActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::metaActionButtonClicked );
 
-        grid->addWidget(actionButton, counter/3, counter%3);
+        grid->addWidget(actionButton, counter/COLONNE, counter%COLONNE);
         counter++;
     }
 

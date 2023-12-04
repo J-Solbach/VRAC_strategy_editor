@@ -53,7 +53,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1280, 950);
+        MainWindow->resize(980, 598);
         actionNew_MetaAction = new QAction(MainWindow);
         actionNew_MetaAction->setObjectName("actionNew_MetaAction");
         actionLoad_MetaAction = new QAction(MainWindow);
@@ -122,15 +122,15 @@ public:
         toolBox->setLineWidth(3);
         Actions = new QWidget();
         Actions->setObjectName("Actions");
-        Actions->setGeometry(QRect(0, 0, 598, 410));
+        Actions->setGeometry(QRect(0, 0, 598, 58));
         toolBox->addItem(Actions, QString::fromUtf8("Common"));
         ActionsRobot = new QWidget();
         ActionsRobot->setObjectName("ActionsRobot");
-        ActionsRobot->setGeometry(QRect(0, 0, 598, 410));
+        ActionsRobot->setGeometry(QRect(0, 0, 598, 58));
         toolBox->addItem(ActionsRobot, QString::fromUtf8("Robot Actions"));
         MetaActions = new QWidget();
         MetaActions->setObjectName("MetaActions");
-        MetaActions->setGeometry(QRect(0, 0, 598, 410));
+        MetaActions->setGeometry(QRect(0, 0, 598, 58));
         toolBox->addItem(MetaActions, QString::fromUtf8("Meta Actions"));
 
         gridLayout->addWidget(toolBox, 1, 0, 1, 4);
@@ -141,7 +141,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1280, 20));
+        menubar->setGeometry(QRect(0, 0, 980, 20));
         menuFiles = new QMenu(menubar);
         menuFiles->setObjectName("menuFiles");
         menuexport = new QMenu(menubar);

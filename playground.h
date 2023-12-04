@@ -11,6 +11,11 @@
 
 #define PLAYGROUND_FACTOR 1
 
+#define N_POTS 36
+#define N_PLANTES 36
+#define N_STOCK 6
+#define N_POTS_PAR_STOCK 6
+
 class Robot;
 
 class Playground : public QGraphicsScene
@@ -22,9 +27,9 @@ public:
 
     Robot &getRobot();
 
-    void addPotFer();
+    void addPots();
 
-    void addPot();
+    void addPlantes();
 
     void clearItems();
 
@@ -46,8 +51,8 @@ public slots:
 
 private:
     Robot m_robot;
-    Pot *m_pot_fer[36];
-    Pot *m_pot[36];
+    Pot *m_pots[N_POTS];
+    Pot *m_plantes[N_PLANTES];
     position m_previous;
 };
 
