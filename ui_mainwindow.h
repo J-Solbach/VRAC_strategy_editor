@@ -82,7 +82,10 @@ public:
 
         graphicsView = new QGraphicsView(centralwidget);
         graphicsView->setObjectName("graphicsView");
+        graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         graphicsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
+        graphicsView->setAlignment(Qt::AlignCenter);
         graphicsView->setDragMode(QGraphicsView::NoDrag);
         graphicsView->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
         graphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
