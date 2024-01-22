@@ -21,6 +21,8 @@ public:
 
     void setNewPixmap(QString file){m_pixmap = file;}
 
+    int getType();
+
 private:
     QPointF m_pos;
 

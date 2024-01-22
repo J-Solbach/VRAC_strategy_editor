@@ -1,0 +1,75 @@
+{
+    "actions": [
+        {
+            "action": "XYT",
+            "displayed": true,
+            "parameters": {
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": 136,
+                "x": 1500,
+                "y": 1000
+            },
+            "tag": "XYT_NORMAL",
+            "transitions": [
+            ]
+        },
+        {
+            "action": "Rotate",
+            "displayed": true,
+            "parameters": {
+                "relative": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": -80
+            },
+            "tag": "Rotate_NORMAL",
+            "transitions": [
+            ]
+        },
+        {
+            "action": "Deployer",
+            "displayed": true,
+            "parameters": {
+                "forward": false
+            },
+            "tag": "Deployer",
+            "transitions": [
+            ]
+        },
+        {
+            "action": "Fermer",
+            "displayed": true,
+            "parameters": {
+                "forward": false
+            },
+            "tag": "Fermer",
+            "transitions": [
+            ]
+        }
+    ],
+    "name": "actions"
+}

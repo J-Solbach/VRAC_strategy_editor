@@ -163,7 +163,7 @@ void MainWindow::setupMetaActions()
     grid->setVerticalSpacing(10);
 
     QDir directory;
-    directory = QDir(QDir::homePath() + "/Documents/");
+    directory = QDir(":/config/metaActions/");
 
     QStringList metaActions = directory.entryList(QStringList() << "*.json" << "*.JSON",QDir::Files);
 

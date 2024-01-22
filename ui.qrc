@@ -1,15 +1,17 @@
 <RCC>
     <qresource prefix="/">
-        <file>Images/potibot.png</file>
-        <file>Images/vinyle_table_2023.png</file>
-        <file>Images/robot_top.png</file>
         <file>config/commonActions.json</file>
-        <file>Images/vinyles_accessoies_2024_BETA.svg</file>
-        <file>Images/vinyles_elements_2024_BETA.svg</file>
         <file>Images/pot-removebg-preview.png</file>
         <file>Images/pot.png</file>
         <file>Images/potRes.png</file>
         <file>Images/vinyle_table_2024_FINAL_V1.svg</file>
         <file>config/groBotActions.json</file>
+        <file>Images/robot_ouvert.png</file>
+        <file>Images/robot_ferme.png</file>
+        <file>Images/panneau_solaire.png</file>
+        <file>config/metaActions/premierAction.json</file>
+        <file>Images/ouvert_derriere.png</file>
+        <file>Images/ouvert_devant.png</file>
+        <file>config/metaActions/actions.json</file>
     </qresource>
 </RCC>

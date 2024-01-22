@@ -20,6 +20,10 @@ public:
 
     QRectF boundingRect() const override;
 
+    void setMode(int mode);
+
+    int mode();
+
     void setPosition(position pos);
 
     const position &pos() const;
@@ -30,6 +34,8 @@ private:
     position m_pos;
 
     QString m_pixmap;
+
+    int m_mode=0;
 };
 
 #endif // ROBOT_H

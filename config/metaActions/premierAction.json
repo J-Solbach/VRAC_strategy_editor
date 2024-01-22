@@ -1,0 +1,319 @@
+{
+    "actions": [
+        {
+            "action": "XYT",
+            "displayed": true,
+            "parameters": {
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": -90,
+                "x": 1000,
+                "y": 1775
+            },
+            "tag": "XYT_NORMAL",
+            "transitions": [
+                {
+                    "destination": "Deployer",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Deployer",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "Deployer",
+            "transitions": [
+                {
+                    "destination": "XYT_NORMAL_1",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Fermer",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "Fermer",
+            "transitions": [
+                {
+                    "destination": "Rotate_NORMAL",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Deployer",
+            "displayed": true,
+            "parameters": {
+                "forward": false
+            },
+            "tag": "Deployer_1",
+            "transitions": [
+                {
+                    "destination": "XYT_NORMAL_2",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Fermer",
+            "displayed": true,
+            "parameters": {
+                "forward": false
+            },
+            "tag": "Fermer_1",
+            "transitions": [
+                {
+                    "destination": "Homing_NORMAL",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "XYT",
+            "displayed": true,
+            "parameters": {
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": -90,
+                "x": 1000,
+                "y": 1000
+            },
+            "tag": "XYT_NORMAL_1",
+            "transitions": [
+                {
+                    "destination": "Fermer",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "XYT",
+            "displayed": true,
+            "parameters": {
+                "forward": false,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": 55,
+                "x": 1000,
+                "y": 225
+            },
+            "tag": "XYT_NORMAL_2",
+            "transitions": [
+                {
+                    "destination": "Fermer_1",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Rotate",
+            "displayed": true,
+            "parameters": {
+                "relative": false,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": 180
+            },
+            "tag": "Rotate_NORMAL",
+            "transitions": [
+                {
+                    "destination": "Deployer_1",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Homing",
+            "displayed": true,
+            "parameters": {
+                "axis": true,
+                "forward": true,
+                "offset": 225,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Homing_NORMAL",
+            "transitions": [
+                {
+                    "destination": "Deployer_2",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Homing",
+            "displayed": true,
+            "parameters": {
+                "axis": false,
+                "forward": false,
+                "offset": 225,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Homing_NORMAL_1",
+            "transitions": [
+                {
+                    "destination": "Fermer_2",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Deployer",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "Deployer_2",
+            "transitions": [
+                {
+                    "destination": "Homing_NORMAL_1",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Deployer",
+            "displayed": true,
+            "parameters": {
+                "forward": false
+            },
+            "tag": "Deployer_3",
+            "transitions": [
+                {
+                    "destination": "XYT_NORMAL_3",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "XYT",
+            "displayed": true,
+            "parameters": {
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": 0,
+                "x": 225,
+                "y": 1775
+            },
+            "tag": "XYT_NORMAL_3",
+            "transitions": [
+                {
+                    "destination": "Fermer_3",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Fermer",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "Fermer_2",
+            "transitions": [
+                {
+                    "destination": "Deployer_3",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Fermer",
+            "displayed": true,
+            "parameters": {
+                "forward": false
+            },
+            "tag": "Fermer_3",
+            "transitions": [
+            ]
+        }
+    ],
+    "name": "premierAction"
+}
