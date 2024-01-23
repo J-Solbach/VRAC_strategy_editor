@@ -160,6 +160,7 @@
         "action": "TournerPanneauSolaire",
         "displayed": true,
         "parameters": {
+            "yoffset": 0,
             "angle": 0,
             "side": "RIGHT",
             "values": [

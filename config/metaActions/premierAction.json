@@ -25,63 +25,7 @@
             "tag": "XYT_NORMAL",
             "transitions": [
                 {
-                    "destination": "Deployer",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "Deployer",
-            "displayed": true,
-            "parameters": {
-                "forward": true
-            },
-            "tag": "Deployer",
-            "transitions": [
-                {
-                    "destination": "XYT_NORMAL_1",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "Fermer",
-            "displayed": true,
-            "parameters": {
-                "forward": true
-            },
-            "tag": "Fermer",
-            "transitions": [
-                {
-                    "destination": "Rotate_NORMAL",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "Deployer",
-            "displayed": true,
-            "parameters": {
-                "forward": false
-            },
-            "tag": "Deployer_1",
-            "transitions": [
-                {
-                    "destination": "XYT_NORMAL_2",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "Fermer",
-            "displayed": true,
-            "parameters": {
-                "forward": false
-            },
-            "tag": "Fermer_1",
-            "transitions": [
-                {
-                    "destination": "Homing_NORMAL",
+                    "destination": "OuvrirStock",
                     "type": "NoEvent"
                 }
             ]
@@ -111,7 +55,7 @@
             "tag": "XYT_NORMAL_1",
             "transitions": [
                 {
-                    "destination": "Fermer",
+                    "destination": "FermerStock",
                     "type": "NoEvent"
                 }
             ]
@@ -141,7 +85,7 @@
             "tag": "XYT_NORMAL_2",
             "transitions": [
                 {
-                    "destination": "Fermer_1",
+                    "destination": "FermerStock_1",
                     "type": "NoEvent"
                 }
             ]
@@ -169,7 +113,7 @@
             "tag": "Rotate_NORMAL",
             "transitions": [
                 {
-                    "destination": "Deployer_1",
+                    "destination": "OuvrirStock_1",
                     "type": "NoEvent"
                 }
             ]
@@ -198,7 +142,7 @@
             "tag": "Homing_NORMAL",
             "transitions": [
                 {
-                    "destination": "Deployer_2",
+                    "destination": "OuvrirStock_2",
                     "type": "NoEvent"
                 }
             ]
@@ -227,35 +171,7 @@
             "tag": "Homing_NORMAL_1",
             "transitions": [
                 {
-                    "destination": "Fermer_2",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "Deployer",
-            "displayed": true,
-            "parameters": {
-                "forward": true
-            },
-            "tag": "Deployer_2",
-            "transitions": [
-                {
-                    "destination": "Homing_NORMAL_1",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "Deployer",
-            "displayed": true,
-            "parameters": {
-                "forward": false
-            },
-            "tag": "Deployer_3",
-            "transitions": [
-                {
-                    "destination": "XYT_NORMAL_3",
+                    "destination": "FermerStock_2",
                     "type": "NoEvent"
                 }
             ]
@@ -284,33 +200,117 @@
             },
             "tag": "XYT_NORMAL_3",
             "transitions": [
-                {
-                    "destination": "Fermer_3",
-                    "type": "NoEvent"
-                }
+            {
+                "destination": "FermerStock_3",
+                "type": "NoEvent"
+            }
             ]
         },
         {
-            "action": "Fermer",
+            "action": "OuvrirStock",
             "displayed": true,
             "parameters": {
                 "forward": true
             },
-            "tag": "Fermer_2",
+            "tag": "OuvrirStock",
             "transitions": [
                 {
-                    "destination": "Deployer_3",
+                    "destination": "XYT_NORMAL_1",
                     "type": "NoEvent"
                 }
             ]
         },
         {
-            "action": "Fermer",
+            "action": "FermerStock",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "FermerStock",
+            "transitions": [
+                {
+                    "destination": "Rotate_NORMAL",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "FermerStock",
             "displayed": true,
             "parameters": {
                 "forward": false
             },
-            "tag": "Fermer_3",
+            "tag": "FermerStock_1",
+            "transitions": [
+                {
+                    "destination": "Homing_NORMAL",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "OuvrirStock",
+            "displayed": true,
+            "parameters": {
+                "forward": false
+            },
+            "tag": "OuvrirStock_1",
+            "transitions": [
+                {
+                    "destination": "XYT_NORMAL_2",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "OuvrirStock",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "OuvrirStock_2",
+            "transitions": [
+                {
+                    "destination": "Homing_NORMAL_1",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "FermerStock",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "FermerStock_2",
+            "transitions": [
+                {
+                    "destination": "OuvrirStock_3",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "OuvrirStock",
+            "displayed": true,
+            "parameters": {
+                "forward": false
+            },
+            "tag": "OuvrirStock_3",
+            "transitions": [
+                {
+                    "destination": "XYT_NORMAL_3",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "FermerStock",
+            "displayed": true,
+            "parameters": {
+                "forward": false
+            },
+            "tag": "FermerStock_3",
             "transitions": [
             ]
         }

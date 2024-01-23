@@ -288,6 +288,27 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     {
         m_plantes_prises[parameters["number"].toInt()].vantouse=0;
     }
+    else if (currentNode->getAction()["action"].toString() == "TournerPanneauSolaire")
+    {
+        int posx_init[N_PANNEAUX]={275,500,725,1275,1500,1725,2275,2500,2725};
+        int yoffset=2000-parameters["yoffset"].toInt();
+        int angle=parameters["angle"].toInt();
+        if(m_robot.pos().coord.y()==yoffset)
+        {
+            for(int i=0;i<9;i++)
+            {
+                if(m_robot.pos().coord.x()==posx_init[i])
+                {
+                    int theta=m_panneaux[i]->theta();
+                    m_panneaux[i]->setTheta(theta+angle);
+                }
+            }
+            if(parameters["side"].toString()=="RIGHT")
+                newTheta(-90);
+            if(parameters["side"].toString()=="LEFT")
+                newTheta(90);
+        }
+    }
 }
 
 int Playground::PlantesPrises(int side)
@@ -378,7 +399,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
         addItem(RightTrajectory);
         addItem(LeftTrajectory);
 
-        int nr=PlantesPrises(0);
+        PlantesPrises(0);
         PlantesPrises(1);
 
         for (int i = 0; i < N_PLANTES; i++)
