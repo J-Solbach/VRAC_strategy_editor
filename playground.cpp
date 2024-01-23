@@ -392,6 +392,31 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
 
     qDebug()<<"rtheta = "<<rtheta<<", theta = "<<theta<<", delta = "<<(abs(rtheta-theta))%360;
 
+    int d_Plante[N_PLANTES],indice_dDecroissant[N_PLANTES];
+
+    for (int i = 0; i < N_PLANTES; i++)
+    {
+        QLineF line(m_plantes[i]->pos(),m_robot.pos().coord);
+        d_Plante[i]=line.length();
+        indice_dDecroissant[i]=i;
+    }
+
+    for(int _i=0;_i<N_PLANTES;++_i)
+    {
+        for(int i=0;i<N_PLANTES-1;i++)
+        {
+            if(d_Plante[i] < d_Plante[i+1])
+            {
+                int inter_d=d_Plante[i];
+                int inter_indice=indice_dDecroissant[i];
+                d_Plante[i]=d_Plante[i+1];
+                indice_dDecroissant[i]=indice_dDecroissant[i+1];
+                d_Plante[i+1]=inter_d;
+                indice_dDecroissant[i+1]=inter_indice;
+            }
+        }
+    }
+
     if(front)
     {
         addItem(RightZone);
@@ -402,10 +427,11 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
         PlantesPrises(0);
         PlantesPrises(1);
 
-        for (int i = 0; i < N_PLANTES; i++)
+        for (int _i = 0; _i < N_PLANTES; _i++)
         {
             if(mode&1)
             {
+                int i=indice_dDecroissant[_i];
                 if (m_plantes[i]->collidesWithItem(RightZone)||m_plantes[i]->collidesWithItem(RightTrajectory))
                 {
                     if(PlantesPrises(0)<3&&m_plantes[i]->zValue()==2)
@@ -446,10 +472,11 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
         PlantesPrises(2);
         PlantesPrises(3);
 
-        for (int i = 0; i < N_PLANTES; i++)
+        for (int _i = 0; _i < N_PLANTES; _i++)
         {
             if(mode&2)
             {
+                int i=indice_dDecroissant[_i];
                 if (m_plantes[i]->collidesWithItem(RightZone)||m_plantes[i]->collidesWithItem(RightTrajectory))
                 {
                     if(PlantesPrises(2)<3&&m_plantes[i]->zValue()==2)
