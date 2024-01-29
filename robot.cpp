@@ -5,7 +5,7 @@ Robot::Robot()
     m_pixmap = ":/Images/robot_ferme.png";
     QPixmap *robot = new QPixmap(m_pixmap);
 
-    m_pos.coord = QPointF(225, 1775);
+    m_pos.coord = QPointF(225, 225);
     m_pos.theta =-90;
 
     // TODO : demander un png du robot à taille reelle (1 pixel = 1mm)

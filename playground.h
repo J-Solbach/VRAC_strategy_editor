@@ -22,7 +22,7 @@
 
 struct plantes
 {
-    int number=-1;
+    int indice=-1;
     int type=0;
     bool vantouse=0;
 };

@@ -141,8 +141,8 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
      || currentNode->getAction()["action"].toString() == "SetOdometry"
      || currentNode->getAction()["action"].toString() == "Absolute")
     {
-        auto x = parameters["x"].toInt()/PLAYGROUND_FACTOR;
-        auto y = parameters["y"].toInt()/PLAYGROUND_FACTOR;
+        auto x = parameters["y"].toInt()/PLAYGROUND_FACTOR;
+        auto y = parameters["x"].toInt()/PLAYGROUND_FACTOR;
         auto theta = parameters["theta"].toDouble();
 
         auto withRotate = (currentNode->getAction()["action"].toString() == "XYT") ? parameters["withRotate"].toBool() : true;
@@ -181,8 +181,8 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     }
     else if (currentNode->getAction()["action"].toString() == "Bezier")
     {
-        auto x = parameters["x"].toInt()/PLAYGROUND_FACTOR;
-        auto y = parameters["y"].toInt()/PLAYGROUND_FACTOR;
+        auto x = parameters["y"].toInt()/PLAYGROUND_FACTOR;
+        auto y = parameters["x"].toInt()/PLAYGROUND_FACTOR;
         auto t = parameters["theta"].toDouble();
         auto radius1 = parameters["radius1"].toInt()/PLAYGROUND_FACTOR;
         auto radius2 = parameters["radius2"].toInt()/PLAYGROUND_FACTOR;
@@ -193,8 +193,8 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     {
         auto axis = parameters["axis"].toBool();
 
-        auto x = (axis == true) ? parameters["offset"].toInt()/PLAYGROUND_FACTOR : m_previous.coord.x();
-        auto y = (axis == false) ? - parameters["offset"].toInt()/PLAYGROUND_FACTOR + PLAYGROUND_Y : m_previous.coord.y();
+        auto x = (axis == false) ? parameters["offset"].toInt()/PLAYGROUND_FACTOR : m_previous.coord.x();
+        auto y = (axis == true) ? - parameters["offset"].toInt()/PLAYGROUND_FACTOR + PLAYGROUND_Y : m_previous.coord.y();
 
         double theta;
         if (axis)
@@ -255,24 +255,24 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     }
     else if (currentNode->getAction()["action"].toString() == "DetecterCouleur")
     {
-        if(parameters["forward"].toString()=="FRONT"&&PlantesPrises(0)==3&&PlantesPrises(1)==3)
+        if(parameters["side"].toString()=="FRONT"&&PlantesPrises(0)==3&&PlantesPrises(1)==3)
         {
-            m_plantes_prises[0].type=m_plantes[m_plantes_prises[0].number]->getType();
-            m_plantes_prises[1].type=m_plantes[m_plantes_prises[0].number]->getType();
+            m_plantes_prises[0].type=m_plantes[m_plantes_prises[0].indice]->getType();
+            m_plantes_prises[1].type=m_plantes[m_plantes_prises[0].indice]->getType();
             m_plantes_prises[2].type=-abs(m_plantes_prises[0].type-m_plantes_prises[1].type)+2;
 
-            m_plantes_prises[3].type=m_plantes[m_plantes_prises[0].number]->getType();
-            m_plantes_prises[4].type=m_plantes[m_plantes_prises[0].number]->getType();
+            m_plantes_prises[3].type=m_plantes[m_plantes_prises[0].indice]->getType();
+            m_plantes_prises[4].type=m_plantes[m_plantes_prises[0].indice]->getType();
             m_plantes_prises[5].type=-abs(m_plantes_prises[3].type-m_plantes_prises[4].type)+2;
         }
-        else if(parameters["forward"].toString()=="BACK"&&PlantesPrises(2)==3&&PlantesPrises(3)==3)
+        else if(parameters["side"].toString()=="BACK"&&PlantesPrises(2)==3&&PlantesPrises(3)==3)
         {
-            m_plantes_prises[6].type=m_plantes[m_plantes_prises[0].number]->getType();
-            m_plantes_prises[7].type=m_plantes[m_plantes_prises[0].number]->getType();
+            m_plantes_prises[6].type=m_plantes[m_plantes_prises[0].indice]->getType();
+            m_plantes_prises[7].type=m_plantes[m_plantes_prises[0].indice]->getType();
             m_plantes_prises[8].type=-abs(m_plantes_prises[6].type-m_plantes_prises[7].type)+2;
 
-            m_plantes_prises[9].type=m_plantes[m_plantes_prises[0].number]->getType();
-            m_plantes_prises[10].type=m_plantes[m_plantes_prises[0].number]->getType();
+            m_plantes_prises[9].type=m_plantes[m_plantes_prises[0].indice]->getType();
+            m_plantes_prises[10].type=m_plantes[m_plantes_prises[0].indice]->getType();
             m_plantes_prises[11].type=-abs(m_plantes_prises[9].type-m_plantes_prises[10].type)+2;
         }
     }
@@ -317,12 +317,12 @@ int Playground::PlantesPrises(int side)
     int offset=side*STOCKAGE_ROBOT/N_STOCK_ROBOT;
     for(int i=offset;i<offset+STOCKAGE_ROBOT/N_STOCK_ROBOT;i++)
     {
-        if(m_plantes_prises[i].number!=-1)
+        if(m_plantes_prises[i].indice!=-1)
             n++;
-        if(m_plantes_prises[i-1].number==-1&&i>offset)
+        if(m_plantes_prises[i-1].indice==-1&&i>offset)
         {
-            m_plantes_prises[i-1].number=m_plantes_prises[i].number;
-            m_plantes_prises[i].number=-1;
+            m_plantes_prises[i-1].indice=m_plantes_prises[i].indice;
+            m_plantes_prises[i].indice=-1;
         }
     }
     return n;
@@ -338,7 +338,7 @@ QPointF PointRotate(QPointF pos,int theta)
 
 void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
 {
-    QLineF trajectory(m_previous.coord,m_robot.pos().coord);
+    QLineF trajectory(m_previous.coord,QPointF(rposx,rposy));
 
     int theta=trajectory.angle()-90;
 
@@ -347,17 +347,17 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
     bool front=(abs(rtheta-theta))%360<45||(abs(rtheta-theta))%360>315;
     bool back=(abs(rtheta-theta))%360>135&&(abs(rtheta-theta))%360<225;
 
-    static int direction;
+    static int sens;
 
     if(front)
-        direction=0;
+        sens=0;
     if(back)
-        direction=1;
+        sens=1;
 
-    QRectF RightZoneRect = m_robot.mapToScene(m_robot.boundingRect().width()/2,m_robot.boundingRect().height()/2,130,-85).boundingRect();
-    QRectF LeftZoneRect = m_robot.mapToScene(m_robot.boundingRect().width()/2,m_robot.boundingRect().height()/2,-130,-85).boundingRect();
-    QRectF RightTrajectoryRect = m_robot.mapToScene(m_robot.boundingRect().width()/2,m_robot.boundingRect().height()/2,130,trajectory.length()).boundingRect();
-    QRectF LeftTrajectoryRect = m_robot.mapToScene(m_robot.boundingRect().width()/2,m_robot.boundingRect().height()/2,-130,trajectory.length()).boundingRect();
+    QRectF RightZoneRect = QRectF(rposx,rposy,130,-85);
+    QRectF LeftZoneRect = QRectF(rposx,rposy,-130,-85);
+    QRectF RightTrajectoryRect = QRectF(rposx,rposy,130,trajectory.length());
+    QRectF LeftTrajectoryRect = QRectF(rposx,rposy,-130,trajectory.length());
 
     QGraphicsRectItem *RightZone = new QGraphicsRectItem(RightZoneRect);
     QGraphicsRectItem *LeftZone = new QGraphicsRectItem(LeftZoneRect);
@@ -372,23 +372,23 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
 
     RightZone->setPen(zonePenR);
     RightZone->setBrush(zoneBrushR);
-    RightZone->setTransformOriginPoint(m_robot.pos().coord);
-    RightZone->setRotation(-rtheta+direction*180);
+    RightZone->setTransformOriginPoint(QPointF(rposx,rposy));
+    RightZone->setRotation(-rtheta+sens*180);
 
     LeftZone->setPen(zonePenL);
     LeftZone->setBrush(zoneBrushL);
-    LeftZone->setTransformOriginPoint(m_robot.pos().coord);
-    LeftZone->setRotation(-rtheta+direction*180);
+    LeftZone->setTransformOriginPoint(QPointF(rposx,rposy));
+    LeftZone->setRotation(-rtheta+sens*180);
 
     RightTrajectory->setPen(zonePenR);
     RightTrajectory->setBrush(zoneBrushR);
-    RightTrajectory->setTransformOriginPoint(m_robot.pos().coord);
-    RightTrajectory->setRotation(-rtheta+direction*180);
+    RightTrajectory->setTransformOriginPoint(QPointF(rposx,rposy));
+    RightTrajectory->setRotation(-rtheta+sens*180);
 
     LeftTrajectory->setPen(zonePenL);
     LeftTrajectory->setBrush(zoneBrushL);
-    LeftTrajectory->setTransformOriginPoint(m_robot.pos().coord);
-    LeftTrajectory->setRotation(-rtheta+direction*180);
+    LeftTrajectory->setTransformOriginPoint(QPointF(rposx,rposy));
+    LeftTrajectory->setRotation(-rtheta+sens*180);
 
     qDebug()<<"rtheta = "<<rtheta<<", theta = "<<theta<<", delta = "<<(abs(rtheta-theta))%360;
 
@@ -396,7 +396,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
 
     for (int i = 0; i < N_PLANTES; i++)
     {
-        QLineF line(m_plantes[i]->pos(),m_robot.pos().coord);
+        QLineF line(m_plantes[i]->pos(),QPointF(rposx,rposy));
         d_Plante[i]=line.length();
         indice_dDecroissant[i]=i;
     }
@@ -436,7 +436,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
                 {
                     if(PlantesPrises(0)<3&&m_plantes[i]->zValue()==2)
                     {
-                        m_plantes_prises[PlantesPrises(0)].number=i;
+                        m_plantes_prises[PlantesPrises(0)].indice=i;
                         m_plantes[i]->setZValue(4);
                     }
                 }
@@ -444,7 +444,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
                 {
                     if(PlantesPrises(1)<3&&m_plantes[i]->zValue()==2)
                     {
-                        m_plantes_prises[3+PlantesPrises(1)].number=i;
+                        m_plantes_prises[3+PlantesPrises(1)].indice=i;
                         m_plantes[i]->setZValue(4);
                     }
                 }
@@ -454,10 +454,10 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
         {
             for(int i=6;i<STOCKAGE_ROBOT;i++)
             {
-                if(m_plantes_prises[i].number!=-1&&m_plantes_prises[i].vantouse==0&&trajectory.length()>5)
+                if(m_plantes_prises[i].indice!=-1&&m_plantes_prises[i].vantouse==0)
                 {
-                    m_plantes[m_plantes_prises[i].number]->setZValue(2);
-                    m_plantes_prises[i].number=-1;
+                    m_plantes[m_plantes_prises[i].indice]->setZValue(2);
+                    m_plantes_prises[i].indice=-1;
                 }
             }
         }
@@ -481,7 +481,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
                 {
                     if(PlantesPrises(2)<3&&m_plantes[i]->zValue()==2)
                     {
-                        m_plantes_prises[6+PlantesPrises(2)].number=i;
+                        m_plantes_prises[6+PlantesPrises(2)].indice=i;
                         m_plantes[i]->setZValue(4);
                     }
                 }
@@ -489,7 +489,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
                 {
                     if(PlantesPrises(3)<3&&m_plantes[i]->zValue()==2)
                     {
-                        m_plantes_prises[9+PlantesPrises(3)].number=i;
+                        m_plantes_prises[9+PlantesPrises(3)].indice=i;
                         m_plantes[i]->setZValue(4);
                     }
                 }
@@ -499,10 +499,10 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
         {
             for(int i=0;i<STOCKAGE_ROBOT/2;i++)
             {
-                if(m_plantes_prises[i].number!=-1&&m_plantes_prises[i].vantouse==0&&trajectory.length()>5)
+                if(m_plantes_prises[i].indice!=-1&&m_plantes_prises[i].vantouse==0)
                 {
-                    m_plantes[m_plantes_prises[i].number]->setZValue(2);
-                    m_plantes_prises[i].number=-1;
+                    m_plantes[m_plantes_prises[i].indice]->setZValue(2);
+                    m_plantes_prises[i].indice=-1;
                 }
             }
         }
@@ -514,9 +514,9 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
     for(int i=0;i<STOCKAGE_ROBOT;i++)
     {
         QPointF pos=PointRotate(QPointF(posx[i],posy[i]),rtheta);
-        qDebug()<<m_plantes_prises[i].number;
-        if(m_plantes_prises[i].number!=-1)
-            m_plantes[m_plantes_prises[i].number]->setPosition(QPointF(rposx+pos.x(),rposy+pos.y()));
+        qDebug()<<m_plantes_prises[i].indice;
+        if(m_plantes_prises[i].indice!=-1)
+            m_plantes[m_plantes_prises[i].indice]->setPosition(QPointF(rposx+pos.x(),rposy+pos.y()));
     }
 }
 

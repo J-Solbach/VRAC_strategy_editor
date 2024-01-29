@@ -121,7 +121,9 @@
         "parameters": {
             "x": 0,
             "y": 0,
-            "radius": 0,
+            "radius1": 0,
+            "radius2": 0,
+            "theta": 0,
             "forward": true,
             "chained": false,
             "speed": {

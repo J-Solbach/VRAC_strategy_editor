@@ -32,13 +32,15 @@
         "action": "Pincer",
         "displayed": true,
         "parameters": {
-            "side": "FRONT_RIGHT",
+        "side":{
+            "type":"FRONT_RIGHT",
             "values": [
                 "FRONT_RIGHT",
                 "FRONT_LEFT",
                 "BACK_RIGHT",
                 "BACK_LEFT"
             ]
+        }
         },
         "transitions": [
          {
@@ -52,13 +54,15 @@
         "action": "Lacher",
         "displayed": true,
         "parameters": {
-            "side": "FRONT_RIGHT",
-            "values": [
-                "FRONT_RIGHT",
-                "FRONT_LEFT",
-                "BACK_RIGHT",
-                "BACK_LEFT"
-            ]
+            "side":{
+                "type":"FRONT_RIGHT",
+                "values": [
+                    "FRONT_RIGHT",
+                    "FRONT_LEFT",
+                    "BACK_RIGHT",
+                    "BACK_LEFT"
+                ]
+            }
         },
         "transitions": [
          {
@@ -72,13 +76,15 @@
         "action": "Tourner",
         "displayed": true,
         "parameters": {
-            "side": "FRONT_RIGHT",
-            "values": [
-                "FRONT_RIGHT",
-                "FRONT_LEFT",
-                "BACK_RIGHT",
-                "BACK_LEFT"
-            ]
+            "side":{
+                "type":"FRONT_RIGHT",
+                "values": [
+                    "FRONT_RIGHT",
+                    "FRONT_LEFT",
+                    "BACK_RIGHT",
+                    "BACK_LEFT"
+                ]
+            }
         },
         "transitions": [
          {
@@ -87,18 +93,20 @@
          }
         ]
     },
-    "Soulever": {
-        "tag": "Soulever",
-        "action": "Soulever",
+    "SouleverPince": {
+        "tag": "SouleverPince",
+        "action": "SouleverPince",
         "parameters": {
-            "distance": 0,
-            "side": "FRONT_RIGHT",
-            "values": [
-                "FRONT_RIGHT",
-                "FRONT_LEFT",
-                "BACK_RIGHT",
-                "BACK_LEFT"
-            ]
+            "height": 0,
+            "side":{
+                "type":"FRONT_RIGHT",
+                "values": [
+                    "FRONT_RIGHT",
+                    "FRONT_LEFT",
+                    "BACK_RIGHT",
+                    "BACK_LEFT"
+                ]
+            }
         },
         "transitions": [
          {
@@ -107,18 +115,20 @@
          }
         ]
     },
-    "Descendre": {
-        "tag": "Descendre",
-        "action": "Descendre",
+    "DescendrePince": {
+        "tag": "DescendrePince",
+        "action": "DescendrePince",
         "parameters": {
-            "distance": 0,
-            "side": "FRONT_RIGHT",
-            "values": [
-                "FRONT_RIGHT",
-                "FRONT_LEFT",
-                "BACK_RIGHT",
-                "BACK_LEFT"
-            ]
+            "height": 0,
+            "side":{
+                "type":"FRONT_RIGHT",
+                "values": [
+                    "FRONT_RIGHT",
+                    "FRONT_LEFT",
+                    "BACK_RIGHT",
+                    "BACK_LEFT"
+                ]
+            }
         },
         "transitions": [
          {
@@ -162,11 +172,13 @@
         "parameters": {
             "yoffset": 0,
             "angle": 0,
-            "side": "RIGHT",
-            "values": [
-                "RIGHT",
-                "LEFT"
-            ]
+            "side":{
+                "type":"RIGHT",
+                "values": [
+                    "RIGHT",
+                    "LEFT"
+                ]
+            }
         },
         "transitions": [
          {
@@ -179,11 +191,13 @@
         "tag": "DetecterCouleur",
         "action": "DetecterCouleur",
         "parameters": {
-            "side": "FRONT",
-            "values": [
-                "FRONT",
-                "BACK"
-            ]
+            "side":{
+                "type":"FRONT",
+                "values": [
+                    "FRONT",
+                    "BACK"
+                ]
+            }
         },
         "transitions": [
          {

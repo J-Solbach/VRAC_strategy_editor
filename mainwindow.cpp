@@ -196,11 +196,11 @@ void MainWindow::actionButtonClicked()
 
     for (auto &k : action["parameters"].toObject().keys())
     {
-        if (k == "x")
+        if (k == "y")
         {
             modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.x() );
         }
-        else if (k == "y")
+        else if (k == "x")
         {
             modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.y() );
         }
@@ -257,7 +257,7 @@ void MainWindow::metaActionButtonClicked()
 void MainWindow::updatePos(position pos)
 {
     QString text;
-    text = "X : " + QString::number(pos.coord.x() ) + " Y : " + QString::number(pos.coord.y() );
+    text = "X : " + QString::number(pos.coord.y() ) + " Y : " + QString::number(pos.coord.x() );
     ui->coordinates->setText(text);
     ui->thetaRobot->setValue(pos.theta);
 }
