@@ -16,8 +16,10 @@ Playground::Playground()
 
     m_robot.setZValue(3);
     addItem(&m_robot);
+    m_robot_init=m_robot.pos();
 
-    m_previous = m_robot.pos();
+    m_previous=m_robot.pos();
+    emit displayNewPos(m_previous);
 
     addPots();
     addPlantes();
@@ -31,6 +33,40 @@ Playground::~Playground()
 Robot &Playground::getRobot()
 {
     return m_robot;
+}
+
+void Playground::resetItems()
+{
+    clearItems();
+
+    m_robot.setPosition(m_robot_init);
+    m_previous=m_robot.pos();
+    emit displayNewPos(m_previous);
+
+    for (int i=0;i<N_POTS;i++)
+    {
+        m_pots[i]->setZValue(1);
+        m_pots[i]->setPosition(m_pots_init[i],1);
+    }
+
+    for (int i=0;i<N_PLANTES;i++)
+    {
+        m_plantes[i]->setZValue(2);
+        m_plantes[i]->setPosition(m_plantes_init[i],1);
+    }
+
+    for(int i=0;i<STOCKAGE_ROBOT;i++)
+    {
+        m_plantes_prises[i].indice=-1;
+        m_plantes_prises[i].type=-1;
+        m_plantes_prises[i].vantouse=-1;
+    }
+
+    for (int i=0;i<N_PANNEAUX;i++)
+    {
+        m_panneaux[i]->setTheta(0);
+    }
+
 }
 
 void Playground::addPots()
@@ -59,6 +95,7 @@ void Playground::addPots()
     {
         m_pots[i]->setZValue(1);
         addItem(m_pots[i]);
+        m_pots_init[i]=m_pots[i]->pos();
     }
 }
 
@@ -96,6 +133,7 @@ void Playground::addPlantes()
     {
         m_plantes[i]->setZValue(2);
         addItem(m_plantes[i]);
+        m_plantes_init[i]=m_plantes[i]->pos();
     }
 }
 
@@ -121,7 +159,6 @@ void Playground::clearItems()
         if (gi->zValue()==0)
             removeItem(gi);
     }
-
 }
 
 void Playground::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -137,7 +174,11 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
 {
     auto parameters = currentNode->getAction()["parameters"].toObject();
 
-    if (currentNode->getAction()["action"].toString() == "XYT"
+    if(currentNode->getAction()["action"].toString() =="Start")
+    {
+        resetItems();
+    }
+    else if (currentNode->getAction()["action"].toString() == "XYT"
      || currentNode->getAction()["action"].toString() == "SetOdometry"
      || currentNode->getAction()["action"].toString() == "Absolute")
     {
@@ -295,7 +336,7 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
         int angle=parameters["angle"].toInt();
         if(m_robot.pos().coord.y()==yoffset)
         {
-            for(int i=0;i<9;i++)
+            for(int i=0;i<N_PANNEAUX;i++)
             {
                 if(m_robot.pos().coord.x()==posx_init[i])
                 {
@@ -458,6 +499,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
                 {
                     m_plantes[m_plantes_prises[i].indice]->setZValue(2);
                     m_plantes_prises[i].indice=-1;
+                    m_plantes_prises[i].type=-1;
                 }
             }
         }
@@ -503,6 +545,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
                 {
                     m_plantes[m_plantes_prises[i].indice]->setZValue(2);
                     m_plantes_prises[i].indice=-1;
+                    m_plantes_prises[i].type=-1;
                 }
             }
         }

@@ -1,39 +1,26 @@
 {
     "actions": [
         {
-            "action": "XYT",
+            "action": "SetOdometry",
             "displayed": true,
             "parameters": {
-                "forward": true,
-                "speed": {
-                    "type": "NORMAL",
-                    "values": [
-                        "FUCKING_SLOW",
-                        "VERY_SLOW",
-                        "SLOW",
-                        "NORMAL",
-                        "FAST",
-                        "VERY_FAST",
-                        "FASTER_THAN_RCVA",
-                        "I_AM_SPEED"
-                    ]
-                },
                 "theta": -90,
-                "x": 1000,
-                "y": 1775
+                "x": 225,
+                "y": 225
             },
-            "tag": "XYT_NORMAL",
+            "tag": "SetOdometry",
             "transitions": [
                 {
-                    "destination": "OuvrirStock",
+                    "destination": "Line_NORMAL",
                     "type": "NoEvent"
                 }
             ]
         },
         {
-            "action": "XYT",
+            "action": "Line",
             "displayed": true,
             "parameters": {
+                "distance": 775,
                 "forward": true,
                 "speed": {
                     "type": "NORMAL",
@@ -47,163 +34,42 @@
                         "FASTER_THAN_RCVA",
                         "I_AM_SPEED"
                     ]
-                },
-                "theta": -90,
-                "x": 1000,
-                "y": 1000
+                }
             },
-            "tag": "XYT_NORMAL_1",
+            "tag": "Line_NORMAL",
+            "transitions": [
+                {
+                    "destination": "Rotate_NORMAL",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Line",
+            "displayed": true,
+            "parameters": {
+                "distance": 500,
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Line_NORMAL_1",
             "transitions": [
                 {
                     "destination": "FermerStock",
                     "type": "NoEvent"
                 }
-            ]
-        },
-        {
-            "action": "XYT",
-            "displayed": true,
-            "parameters": {
-                "forward": false,
-                "speed": {
-                    "type": "NORMAL",
-                    "values": [
-                        "FUCKING_SLOW",
-                        "VERY_SLOW",
-                        "SLOW",
-                        "NORMAL",
-                        "FAST",
-                        "VERY_FAST",
-                        "FASTER_THAN_RCVA",
-                        "I_AM_SPEED"
-                    ]
-                },
-                "theta": 55,
-                "x": 1000,
-                "y": 225
-            },
-            "tag": "XYT_NORMAL_2",
-            "transitions": [
-                {
-                    "destination": "FermerStock_1",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "Rotate",
-            "displayed": true,
-            "parameters": {
-                "relative": false,
-                "speed": {
-                    "type": "NORMAL",
-                    "values": [
-                        "FUCKING_SLOW",
-                        "VERY_SLOW",
-                        "SLOW",
-                        "NORMAL",
-                        "FAST",
-                        "VERY_FAST",
-                        "FASTER_THAN_RCVA",
-                        "I_AM_SPEED"
-                    ]
-                },
-                "theta": 180
-            },
-            "tag": "Rotate_NORMAL",
-            "transitions": [
-                {
-                    "destination": "OuvrirStock_1",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "Homing",
-            "displayed": true,
-            "parameters": {
-                "axis": true,
-                "forward": true,
-                "offset": 225,
-                "speed": {
-                    "type": "NORMAL",
-                    "values": [
-                        "FUCKING_SLOW",
-                        "VERY_SLOW",
-                        "SLOW",
-                        "NORMAL",
-                        "FAST",
-                        "VERY_FAST",
-                        "FASTER_THAN_RCVA",
-                        "I_AM_SPEED"
-                    ]
-                }
-            },
-            "tag": "Homing_NORMAL",
-            "transitions": [
-                {
-                    "destination": "OuvrirStock_2",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "Homing",
-            "displayed": true,
-            "parameters": {
-                "axis": false,
-                "forward": false,
-                "offset": 225,
-                "speed": {
-                    "type": "NORMAL",
-                    "values": [
-                        "FUCKING_SLOW",
-                        "VERY_SLOW",
-                        "SLOW",
-                        "NORMAL",
-                        "FAST",
-                        "VERY_FAST",
-                        "FASTER_THAN_RCVA",
-                        "I_AM_SPEED"
-                    ]
-                }
-            },
-            "tag": "Homing_NORMAL_1",
-            "transitions": [
-                {
-                    "destination": "FermerStock_2",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "XYT",
-            "displayed": true,
-            "parameters": {
-                "forward": true,
-                "speed": {
-                    "type": "NORMAL",
-                    "values": [
-                        "FUCKING_SLOW",
-                        "VERY_SLOW",
-                        "SLOW",
-                        "NORMAL",
-                        "FAST",
-                        "VERY_FAST",
-                        "FASTER_THAN_RCVA",
-                        "I_AM_SPEED"
-                    ]
-                },
-                "theta": 0,
-                "x": 225,
-                "y": 1775
-            },
-            "tag": "XYT_NORMAL_3",
-            "transitions": [
-            {
-                "destination": "FermerStock_3",
-                "type": "NoEvent"
-            }
             ]
         },
         {
@@ -215,7 +81,7 @@
             "tag": "OuvrirStock",
             "transitions": [
                 {
-                    "destination": "XYT_NORMAL_1",
+                    "destination": "Line_NORMAL_1",
                     "type": "NoEvent"
                 }
             ]
@@ -228,90 +94,34 @@
             },
             "tag": "FermerStock",
             "transitions": [
-                {
-                    "destination": "Rotate_NORMAL",
-                    "type": "NoEvent"
-                }
             ]
         },
         {
-            "action": "FermerStock",
+            "action": "Rotate",
             "displayed": true,
             "parameters": {
-                "forward": false
+                "relative": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": -90
             },
-            "tag": "FermerStock_1",
+            "tag": "Rotate_NORMAL",
             "transitions": [
                 {
-                    "destination": "Homing_NORMAL",
+                    "destination": "OuvrirStock",
                     "type": "NoEvent"
                 }
-            ]
-        },
-        {
-            "action": "OuvrirStock",
-            "displayed": true,
-            "parameters": {
-                "forward": false
-            },
-            "tag": "OuvrirStock_1",
-            "transitions": [
-                {
-                    "destination": "XYT_NORMAL_2",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "OuvrirStock",
-            "displayed": true,
-            "parameters": {
-                "forward": true
-            },
-            "tag": "OuvrirStock_2",
-            "transitions": [
-                {
-                    "destination": "Homing_NORMAL_1",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "FermerStock",
-            "displayed": true,
-            "parameters": {
-                "forward": true
-            },
-            "tag": "FermerStock_2",
-            "transitions": [
-                {
-                    "destination": "OuvrirStock_3",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "OuvrirStock",
-            "displayed": true,
-            "parameters": {
-                "forward": false
-            },
-            "tag": "OuvrirStock_3",
-            "transitions": [
-                {
-                    "destination": "XYT_NORMAL_3",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "FermerStock",
-            "displayed": true,
-            "parameters": {
-                "forward": false
-            },
-            "tag": "FermerStock_3",
-            "transitions": [
             ]
         }
     ],

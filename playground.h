@@ -23,7 +23,7 @@
 struct plantes
 {
     int indice=-1;
-    int type=0;
+    int type=-1;
     bool vantouse=0;
 };
 
@@ -37,6 +37,8 @@ public:
     virtual ~Playground();
 
     Robot &getRobot();
+
+    void resetItems();
 
     void addPots();
 
@@ -68,8 +70,11 @@ public slots:
 
 private:
     Robot m_robot;
+    position m_robot_init;
     Pot *m_pots[N_POTS];
     Pot *m_plantes[N_PLANTES];
+    QPointF m_pots_init[N_POTS];
+    QPointF m_plantes_init[N_PLANTES];
     Panneau *m_panneaux[N_PANNEAUX];
     plantes m_plantes_prises[STOCKAGE_ROBOT];
     position m_previous;

@@ -1,4 +1,15 @@
 {
+    "Start": {
+        "tag": "Start",
+        "action": "Start",
+        "displayed": true,
+        "transitions": [
+            {
+                "type": "NoEvent",
+                "destination": ""
+            }
+        ]
+    },
     "Line": {
         "tag": "Line",
         "action": "Line",
@@ -92,7 +103,7 @@
         "parameters": {
             "axis": false,
             "forward": false,
-            "offset": 225,
+            "offset": 125,
             "speed": {
                 "type": "NORMAL",
                 "values": [
@@ -121,9 +132,7 @@
         "parameters": {
             "x": 0,
             "y": 0,
-            "radius1": 0,
-            "radius2": 0,
-            "theta": 0,
+            "radius": 0,
             "forward": true,
             "chained": false,
             "speed": {

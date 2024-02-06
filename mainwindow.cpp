@@ -264,6 +264,8 @@ void MainWindow::updatePos(position pos)
 
 void MainWindow::displayStep(Node *selectedNode)
 {
+    playground->resetItems();
+
     Node * previousNode = nullptr;
 
     auto links = stratBuilder.getLinks();

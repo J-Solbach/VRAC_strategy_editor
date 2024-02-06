@@ -15,7 +15,7 @@ public:
 
     QRectF boundingRect() const override;
 
-    void setPosition(QPointF pos);
+    void setPosition(QPointF pos,bool reset=false);
 
     const QPointF &pos() const;
 

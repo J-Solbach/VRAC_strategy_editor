@@ -24,11 +24,13 @@ QRectF Pot::boundingRect() const
     return QRectF(pixmap().rect());
 }
 
-void Pot::setPosition(QPointF pos)
+void Pot::setPosition(QPointF pos,bool reset)
 {
     m_pos = pos;
-
-    setPos(QPointF(m_pos.x() - boundingRect().width()/2 ,m_pos.y() - boundingRect().width()/2 ));
+    if(reset)
+        setPos(m_pos);
+    else
+        setPos(QPointF(m_pos.x() - boundingRect().width()/2 ,m_pos.y() - boundingRect().width()/2 ));
     QPixmap *pot =new QPixmap(m_pixmap);
     this->setPixmap(pot->transformed(QTransform().scale(1,1)));
 }
