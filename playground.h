@@ -3,8 +3,8 @@
 
 #include <QGraphicsScene>
 #include "robot.h"
-#include "pot.h"
-#include "panneau.h"
+#include "gameElements/pot.h"
+#include "gameElements/panneau.h"
 #include "node.h"
 
 #define PLAYGROUND_X 3000

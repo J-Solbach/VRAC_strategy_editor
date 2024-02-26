@@ -9,26 +9,26 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    gameElements/panneau.cpp \
+    gameElements/pot.cpp \
     jsonhelperfunctions.cpp \
     link.cpp \
     main.cpp \
     mainwindow.cpp \
     node.cpp \
-    panneau.cpp \
     playground.cpp \
-    pot.cpp \
     robot.cpp \
     toolboxscene.cpp
 
 HEADERS += \
     ../LIBS/common/shared_types.hpp \
+    gameElements/panneau.h \
+    gameElements/pot.h \
     jsonhelperfunctions.h \
     link.h \
     mainwindow.h \
     node.h \
-    panneau.h \
     playground.h \
-    pot.h \
     robot.h \
     toolboxscene.h
 
