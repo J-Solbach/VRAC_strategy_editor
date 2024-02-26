@@ -75,7 +75,7 @@ void MainWindow::setupCommonActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::actionButtonClicked);
 
-        grid->addWidget(actionButton, counter/COLONNE, counter%COLONNE);
+        grid->addWidget(actionButton, counter/NB_COLONNES, counter%NB_COLONNES);
         counter++;
     }
 
@@ -90,7 +90,6 @@ void MainWindow::setupGrobotActions()
 
     QFile File;
 
-    //File.setFileName(QDir::homePath() + ":/config/groBotActions.json");
     File.setFileName(":/config/groBotActions.json");
     File.open(QIODevice::ReadOnly | QIODevice::Text);
     groBotActions = QJsonDocument::fromJson(QString(File.readAll()).toUtf8()).object();
@@ -107,7 +106,7 @@ void MainWindow::setupGrobotActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::groBotActionButtonClicked);
 
-        grid->addWidget(actionButton, counter/COLONNE, counter%COLONNE);
+        grid->addWidget(actionButton, counter/NB_COLONNES, counter%NB_COLONNES);
         counter++;
     }
 
@@ -138,7 +137,7 @@ void MainWindow::setupGrobotActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::potiBotActionButtonClicked);
 
-        grid->addWidget(actionButton, counter/3, counter%3);
+        grid->addWidget(actionButton, counter/NB_COLONNES, counter%NB_COLONNES);
         counter++;
     }
 
@@ -181,7 +180,7 @@ void MainWindow::setupMetaActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::metaActionButtonClicked );
 
-        grid->addWidget(actionButton, counter/COLONNE, counter%COLONNE);
+        grid->addWidget(actionButton, counter/NB_COLONNES, counter%NB_COLONNES);
         counter++;
     }
 

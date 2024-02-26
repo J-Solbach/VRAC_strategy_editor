@@ -25,36 +25,64 @@ QRectF Robot::boundingRect() const
     return QRectF(pixmap().rect());
 }
 
-void Robot::setMode(int mode)
+void Robot::setEtat(enum mode frontStock,enum mode backStock,bool reset)
 {
-    m_mode=mode;
+    enum type_etat{debut,close,frontOpen,backOpen,open,fin};
+    static enum type_etat etat=debut;
+    m_frontStock = frontStock;
+    m_backStock = backStock;
 
-    switch (m_mode) {
-    case 0:
-        m_pixmap = ":/Images/robot_ferme.png";
-        break;
+    for(int i=0;i<2;i++)
+    {
+        switch (etat) {
+        case debut:
+            m_pixmap = ":/Images/robot_ferme.png";
+            if(m_frontStock==Open)etat=frontOpen;
+            if(m_backStock==Open)etat=backOpen;
+            break;
 
-    case 1:
-        m_pixmap = ":/Images/ouvert_devant.png";
-        break;
+        case close:
+            m_pixmap = ":/Images/robot_ferme.png";
+            if(m_frontStock==Open)etat=frontOpen;
+            if(m_backStock==Open)etat=backOpen;
+            if(reset)etat=debut;
+            break;
 
-    case 2:
-        m_pixmap = ":/Images/ouvert_derriere.png";
-        break;
+        case frontOpen:
+            m_pixmap = ":/Images/ouvert_devant.png";
+            if(m_frontStock==Close)etat=close;
+            if(m_backStock==Open)etat=open;
+            break;
 
-    case 3:
-        m_pixmap = ":/Images/robot_ouvert.png";
-        break;
+        case backOpen:
+            m_pixmap = ":/Images/ouvert_derriere.png";
+            if(m_frontStock==Open)etat=open;
+            if(m_backStock==Close)etat=close;
+            if(reset)etat=debut;
+            break;
 
-    default:
-        m_pixmap = ":/Images/robot_ferme.png";
-        break;
+        case open:
+            m_pixmap = ":/Images/robot_ouvert.png";
+            if(m_frontStock==Close)etat=backOpen;
+            if(m_backStock==Close)etat=frontOpen;
+            if(reset)etat=debut;
+            break;
+
+        default:
+            m_pixmap = ":/Images/robot_ferme.png";
+            break;
+        }
     }
 }
 
-int Robot::mode()
+mode Robot::frontStock()
 {
-    return m_mode;
+    return m_frontStock;
+}
+
+mode Robot::backStock()
+{
+    return m_backStock;
 }
 
 void Robot::setPosition(position pos)

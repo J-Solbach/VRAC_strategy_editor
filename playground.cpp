@@ -39,6 +39,7 @@ void Playground::resetItems()
 {
     clearItems();
 
+    m_robot.setEtat(Close,Close,1);
     m_robot.setPosition(m_robot_init);
     m_previous=m_robot.pos();
     emit displayNewPos(m_previous);
@@ -58,8 +59,7 @@ void Playground::resetItems()
     for(int i=0;i<STOCKAGE_ROBOT;i++)
     {
         m_plantes_prises[i].indice=-1;
-        m_plantes_prises[i].type=-1;
-        m_plantes_prises[i].vantouse=-1;
+        m_plantes_prises[i].ventouse=-1;
     }
 
     for (int i=0;i<N_PANNEAUX;i++)
@@ -266,68 +266,47 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     }
     else if (currentNode->getAction()["action"].toString() == "OuvrirStock")
     {
-        int mode=m_robot.mode();
+        enum mode frontStock;
+        enum mode backStock;
 
         if(parameters["forward"].toBool()==true)
         {
-            if(!(mode&0x1))mode+=1;
+            frontStock=Open;
         }
         else
         {
-            if(!(mode&0x2))mode+=2;
+            backStock=Open;
         }
-        m_robot.setMode(mode);
+        m_robot.setEtat(frontStock,backStock);
         newPos(m_robot.pos().coord,m_robot.pos().theta);
     }
     else if (currentNode->getAction()["action"].toString() == "FermerStock")
     {
-        int mode=m_robot.mode();
+        enum mode frontStock;
+        enum mode backStock;
 
         if(parameters["forward"].toBool()==true)
         {
-            if(mode&0x1)mode-=1;
+            frontStock=Close;
         }
         else
         {
-            if(mode&0x2)mode-=2;
+            backStock=Close;
         }
-        m_robot.setMode(mode);
+        m_robot.setEtat(frontStock,backStock);
         newPos(m_robot.pos().coord,m_robot.pos().theta);
-    }
-    else if (currentNode->getAction()["action"].toString() == "DetecterCouleur")
-    {
-        if(parameters["side"].toString()=="FRONT"&&PlantesPrises(0)==3&&PlantesPrises(1)==3)
-        {
-            m_plantes_prises[0].type=m_plantes[m_plantes_prises[0].indice]->getType();
-            m_plantes_prises[1].type=m_plantes[m_plantes_prises[0].indice]->getType();
-            m_plantes_prises[2].type=-abs(m_plantes_prises[0].type-m_plantes_prises[1].type)+2;
-
-            m_plantes_prises[3].type=m_plantes[m_plantes_prises[0].indice]->getType();
-            m_plantes_prises[4].type=m_plantes[m_plantes_prises[0].indice]->getType();
-            m_plantes_prises[5].type=-abs(m_plantes_prises[3].type-m_plantes_prises[4].type)+2;
-        }
-        else if(parameters["side"].toString()=="BACK"&&PlantesPrises(2)==3&&PlantesPrises(3)==3)
-        {
-            m_plantes_prises[6].type=m_plantes[m_plantes_prises[0].indice]->getType();
-            m_plantes_prises[7].type=m_plantes[m_plantes_prises[0].indice]->getType();
-            m_plantes_prises[8].type=-abs(m_plantes_prises[6].type-m_plantes_prises[7].type)+2;
-
-            m_plantes_prises[9].type=m_plantes[m_plantes_prises[0].indice]->getType();
-            m_plantes_prises[10].type=m_plantes[m_plantes_prises[0].indice]->getType();
-            m_plantes_prises[11].type=-abs(m_plantes_prises[9].type-m_plantes_prises[10].type)+2;
-        }
     }
     else if (currentNode->getAction()["action"].toString() == "Ventouser")
     {
         int number=parameters["number"].toInt();
-        if(!(m_robot.mode()&0x1)&&number<6)
-            m_plantes_prises[number].vantouse=1;
-        if(!(m_robot.mode()&0x2)&&number>=6)
-            m_plantes_prises[number].vantouse=1;
+        if(m_robot.frontStock()==Close&&number<6)
+            m_plantes_prises[number].ventouse=1;
+        if(m_robot.backStock()==Close&&number>=6)
+            m_plantes_prises[number].ventouse=1;
     }
     else if (currentNode->getAction()["action"].toString() == "Deventouser")
     {
-        m_plantes_prises[parameters["number"].toInt()].vantouse=0;
+        m_plantes_prises[parameters["number"].toInt()].ventouse=0;
     }
     else if (currentNode->getAction()["action"].toString() == "TournerPanneauSolaire")
     {
@@ -377,7 +356,7 @@ QPointF PointRotate(QPointF pos,int theta)
     return QPointF(posx,posy);
 }
 
-void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
+void Playground::collisionPlante(int rposx,int rposy,int rtheta)
 {
     QLineF trajectory(m_previous.coord,QPointF(rposx,rposy));
 
@@ -470,7 +449,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
 
         for (int _i = 0; _i < N_PLANTES; _i++)
         {
-            if(mode&1)
+            if(m_robot.frontStock()==Open)
             {
                 int i=indice_dDecroissant[_i];
                 if (m_plantes[i]->collidesWithItem(RightZone)||m_plantes[i]->collidesWithItem(RightTrajectory))
@@ -491,15 +470,14 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
                 }
             }
         }
-        if(mode&2)
+        if(m_robot.backStock()==Open)
         {
             for(int i=6;i<STOCKAGE_ROBOT;i++)
             {
-                if(m_plantes_prises[i].indice!=-1&&m_plantes_prises[i].vantouse==0)
+                if(m_plantes_prises[i].indice!=-1&&m_plantes_prises[i].ventouse==0)
                 {
                     m_plantes[m_plantes_prises[i].indice]->setZValue(2);
                     m_plantes_prises[i].indice=-1;
-                    m_plantes_prises[i].type=-1;
                 }
             }
         }
@@ -516,7 +494,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
 
         for (int _i = 0; _i < N_PLANTES; _i++)
         {
-            if(mode&2)
+            if(m_robot.backStock()==Open)
             {
                 int i=indice_dDecroissant[_i];
                 if (m_plantes[i]->collidesWithItem(RightZone)||m_plantes[i]->collidesWithItem(RightTrajectory))
@@ -537,15 +515,14 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta,int mode)
                 }
             }
         }
-        if(mode&1)
+        if(m_robot.frontStock()==Open)
         {
             for(int i=0;i<STOCKAGE_ROBOT/2;i++)
             {
-                if(m_plantes_prises[i].indice!=-1&&m_plantes_prises[i].vantouse==0)
+                if(m_plantes_prises[i].indice!=-1&&m_plantes_prises[i].ventouse==0)
                 {
                     m_plantes[m_plantes_prises[i].indice]->setZValue(2);
                     m_plantes_prises[i].indice=-1;
-                    m_plantes_prises[i].type=-1;
                 }
             }
         }
@@ -571,7 +548,7 @@ void Playground::newPos(QPointF pos, double theta, bool first)
 
     m_robot.setPosition({pos, theta });
 
-    collisionPlante(pos.x(),pos.y(),theta,m_robot.mode());
+    collisionPlante(pos.x(),pos.y(),theta);
 
     if (!first)
     {

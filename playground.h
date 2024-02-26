@@ -23,8 +23,7 @@
 struct plantes
 {
     int indice=-1;
-    int type=-1;
-    bool vantouse=0;
+    bool ventouse=0;
 };
 
 class Robot;
@@ -48,7 +47,7 @@ public:
 
     int PlantesPrises(int side);
 
-    void collisionPlante(int rposx, int rposy, int rtheta, int mode);
+    void collisionPlante(int rposx, int rposy, int rtheta);
 
     void clearItems();
 

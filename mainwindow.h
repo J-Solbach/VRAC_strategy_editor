@@ -8,7 +8,7 @@
 #include "playground.h"
 
 #define SCALING 0.2
-#define COLONNE 3
+#define NB_COLONNES 3
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
