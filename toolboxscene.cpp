@@ -205,6 +205,7 @@ void ToolBoxScene::removeNode()
     {
         if ((link->getStartNode() == node) || (link->getEndNode() == node))
         {
+            link->getEndNode()->removeEndLink();
             link->getStartNode()->removeLink(link);
             delete link;
             link = nullptr;
@@ -221,6 +222,7 @@ void ToolBoxScene::removeLink()
 {
     Link *link = static_cast<Link*>(sender());
 
+    link->getEndNode()->removeEndLink();
     link->getStartNode()->removeLink(link);
 
     delete link;
