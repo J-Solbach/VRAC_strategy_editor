@@ -261,9 +261,36 @@ void MainWindow::updatePos(position pos)
     ui->thetaRobot->setValue(pos.theta);
 }
 
+void MainWindow::simulateStep(Node *simulateNode)
+{
+    Node * nextNode = nullptr;
+    auto links = stratBuilder.getLinks();
+
+    std::for_each(links.begin(), links.end(),[&](Link *link)
+    {
+        if(link->getStartNode() == simulateNode)
+        {
+            nextNode = link->getEndNode();
+            if(nextNode->NbEndLink()>1)
+            {
+                nextNode->setPreviousStartNode(simulateNode->toPlainText());
+                qDebug()<<nextNode->toPlainText()<<"<-"<<nextNode->getPreviousStartNode();
+            }
+            simulateStep(nextNode);
+        }
+    });
+}
+
 void MainWindow::displayStep(Node *selectedNode)
 {
     playground->resetItems();
+
+    if(first)
+    {
+        qDebug()<<selectedNode->toPlainText();
+        simulateStep(selectedNode);
+        first=false;
+    }
 
     Node * previousNode = nullptr;
 
@@ -273,7 +300,19 @@ void MainWindow::displayStep(Node *selectedNode)
     {
         if( link != nullptr)
         {
-            return (link->getEndNode() == selectedNode);
+            if(link->getEndNode() == selectedNode)
+            {
+                if(link->getStartNode()->toPlainText()==selectedNode->getPreviousStartNode())return true;
+                else if (selectedNode->getPreviousStartNode()==nullptr)
+                {
+                    if(selectedNode->NbEndLink()>1)
+                    {
+                        selectedNode->setPreviousStartNode(link->getStartNode()->toPlainText());
+                        qDebug()<<selectedNode->toPlainText()<<"<-"<<selectedNode->getPreviousStartNode();
+                    }
+                    return true;
+                }
+            }
         }
         return false;
     });
@@ -281,6 +320,7 @@ void MainWindow::displayStep(Node *selectedNode)
     if (itLink != links.end())
     {
         previousNode = (*itLink)->getStartNode();
+        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<previousNode->NbEndLink();
     }
 
     if (previousNode != nullptr)
@@ -289,9 +329,9 @@ void MainWindow::displayStep(Node *selectedNode)
         displayStep(previousNode);
 
         if (previousNode->getAction()["action"].toString() != "Bezier"
-         && previousNode->getAction()["action"].toString() != "Rotate"
-         && previousNode->getAction()["action"].toString() != "Line"
-         && previousNode->getAction()["displayed"].toBool())
+            && previousNode->getAction()["action"].toString() != "Rotate"
+            && previousNode->getAction()["action"].toString() != "Line"
+            && previousNode->getAction()["displayed"].toBool())
         {
             playground->setCurrentDisplayedNode(previousNode);
             qDebug() << "Previous :" << previousNode->toPlainText();
@@ -302,6 +342,8 @@ void MainWindow::displayStep(Node *selectedNode)
     {
         playground->setCurrentDisplayedNode(selectedNode);
     }
+
+    first=true;
 }
 
 
@@ -384,6 +426,7 @@ void MainWindow::on_actionLoad_MetaAction_triggered()
                 newLink->addStartingNode(startNode);
                 startNode->addLink(newLink);
                 newLink->addEndingNode(endNode);
+                endNode->addEndLink();
                 newLink->getTransition().setText(transition["type"].toString());
 
                 stratBuilder.addLink(newLink);

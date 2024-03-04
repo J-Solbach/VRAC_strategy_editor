@@ -21,7 +21,13 @@ public:
     QPointF getInPort(){return inPort.center();}
 
     void addLink(Link* link);
+    void addEndLink(){m_NbEndLinks++;}
+    void removeEndLink(){m_NbEndLinks--;}
+    int NbEndLink(){return m_NbEndLinks;}
     void removeLink(Link* link);
+
+    void setPreviousStartNode(QString previousStartNode);
+    QString getPreviousStartNode(){return m_previousStartNode;}
 
     void setupName();
 
@@ -52,7 +58,10 @@ private:
     QJsonValue action;
     QVector<Link*> links;
 
+    int m_NbEndLinks=0;
+
     QString m_tag;
+    QString m_previousStartNode=nullptr;
 
     QPointF startPos;
     QPointF edgeStartPos;

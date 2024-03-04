@@ -26,6 +26,7 @@ void ToolBoxScene::clearScene()
         {
             if ((link->getStartNode() == node) || (link->getEndNode() == node))
             {
+                link->getEndNode()->removeEndLink();
                 link->getStartNode()->removeLink(link);
                 delete link;
                 link = nullptr;

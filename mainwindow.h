@@ -48,6 +48,7 @@ public slots:
 
     void displayStep(Node *displayedNode);
 
+    void simulateStep(Node *simulateNode);
 
 private slots:
     void on_actionsave_triggered();
@@ -76,5 +77,7 @@ private:
     QJsonObject potiBotActions;
 
     QList<QToolButton*> metaButtons;
+
+    bool first = true;
 };
 #endif // MAINWINDOW_H

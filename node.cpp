@@ -88,6 +88,11 @@ void Node::removeLink(Link *link)
     links.erase(std::remove(links.begin(), links.end(), link), links.cend());
 }
 
+void Node::setPreviousStartNode(QString previousStartNode)
+{
+    m_previousStartNode=previousStartNode;
+}
+
 void Node::setupName()
 {
     if (action["file"].isUndefined())
