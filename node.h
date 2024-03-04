@@ -21,8 +21,8 @@ public:
     QPointF getInPort(){return inPort.center();}
 
     void addLink(Link* link);
-    void addEndLink(){m_NbEndLinks++;}
-    void removeEndLink(){m_NbEndLinks--;}
+    void addEndLink();
+    void removeEndLink();
     int NbEndLink(){return m_NbEndLinks;}
     void removeLink(Link* link);
 
