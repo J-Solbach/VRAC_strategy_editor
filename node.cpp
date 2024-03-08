@@ -83,16 +83,6 @@ void Node::addLink(Link *link)
     links.append(link);
 }
 
-void Node::addEndLink()
-{
-    m_NbEndLinks++;
-}
-void Node::removeEndLink()
-{
-    m_NbEndLinks--;
-    if(m_NbEndLinks<2)m_previousStartNode=nullptr;
-}
-
 void Node::removeLink(Link *link)
 {
     links.erase(std::remove(links.begin(), links.end(), link), links.cend());

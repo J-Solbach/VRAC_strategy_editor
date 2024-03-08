@@ -261,6 +261,18 @@ void MainWindow::updatePos(position pos)
     ui->thetaRobot->setValue(pos.theta);
 }
 
+int MainWindow::countLink(Node *selectedNode)
+{
+    int nb_link=0;
+    auto links = stratBuilder.getLinks();
+
+    std::for_each(links.begin(), links.end(),[&](Link *link)
+    {
+        if(link->getEndNode() == selectedNode)nb_link++;
+    });
+    return nb_link;
+}
+
 void MainWindow::simulateStep(Node *simulateNode)
 {
     Node * nextNode = nullptr;
@@ -271,7 +283,7 @@ void MainWindow::simulateStep(Node *simulateNode)
         if(link->getStartNode() == simulateNode)
         {
             nextNode = link->getEndNode();
-            if(nextNode!=nullptr&&nextNode->NbEndLink()>1)
+            if(nextNode!=nullptr&&countLink(nextNode)>1)
             {
                 nextNode->setPreviousStartNode(simulateNode->toPlainText());
                 qDebug()<<nextNode->toPlainText()<<"<-"<<nextNode->getPreviousStartNode();
@@ -305,7 +317,7 @@ void MainWindow::displayStep(Node *selectedNode)
                 if(link->getStartNode()->toPlainText()==selectedNode->getPreviousStartNode())return true;
                 else if (selectedNode->getPreviousStartNode()==nullptr)
                 {
-                    if(selectedNode->NbEndLink()>1)
+                    if(countLink(selectedNode)>1)
                     {
                         selectedNode->setPreviousStartNode(link->getStartNode()->toPlainText());
                         qDebug()<<selectedNode->toPlainText()<<"<-"<<selectedNode->getPreviousStartNode();
@@ -320,7 +332,7 @@ void MainWindow::displayStep(Node *selectedNode)
     if (itLink != links.end())
     {
         previousNode = (*itLink)->getStartNode();
-        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<previousNode->NbEndLink();
+        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<countLink(previousNode);
     }
 
     if (previousNode != nullptr)
@@ -426,7 +438,6 @@ void MainWindow::on_actionLoad_MetaAction_triggered()
                 newLink->addStartingNode(startNode);
                 startNode->addLink(newLink);
                 newLink->addEndingNode(endNode);
-                endNode->addEndLink();
                 newLink->getTransition().setText(transition["type"].toString());
 
                 stratBuilder.addLink(newLink);

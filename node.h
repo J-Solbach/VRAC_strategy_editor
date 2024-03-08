@@ -1,6 +1,7 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include "toolboxscene.h"
 #include <QGraphicsItem>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -21,9 +22,6 @@ public:
     QPointF getInPort(){return inPort.center();}
 
     void addLink(Link* link);
-    void addEndLink();
-    void removeEndLink();
-    int NbEndLink(){return m_NbEndLinks;}
     void removeLink(Link* link);
 
     void setPreviousStartNode(QString previousStartNode);

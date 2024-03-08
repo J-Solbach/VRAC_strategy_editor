@@ -50,6 +50,8 @@ public slots:
 
     void simulateStep(Node *simulateNode);
 
+    int countLink(Node *selectedNode);
+
 private slots:
     void on_actionsave_triggered();
 
