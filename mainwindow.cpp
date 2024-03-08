@@ -271,7 +271,7 @@ void MainWindow::simulateStep(Node *simulateNode)
         if(link->getStartNode() == simulateNode)
         {
             nextNode = link->getEndNode();
-            if(nextNode->NbEndLink()>1)
+            if(nextNode!=nullptr&&nextNode->NbEndLink()>1)
             {
                 nextNode->setPreviousStartNode(simulateNode->toPlainText());
                 qDebug()<<nextNode->toPlainText()<<"<-"<<nextNode->getPreviousStartNode();
