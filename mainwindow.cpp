@@ -288,6 +288,8 @@ void MainWindow::simulateStep(Node *simulateNode)
                 nextNode->setPreviousStartNode(simulateNode->toPlainText());
                 qDebug()<<nextNode->toPlainText()<<"<-"<<nextNode->getPreviousStartNode();
             }
+            else if(nextNode!=nullptr)
+                nextNode->setPreviousStartNode(nullptr);
             simulateStep(nextNode);
         }
     });
