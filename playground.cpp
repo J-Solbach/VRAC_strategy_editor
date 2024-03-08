@@ -59,7 +59,7 @@ void Playground::resetItems()
     for(int i=0;i<STOCKAGE_ROBOT;i++)
     {
         m_plantes_prises[i].indice=-1;
-        m_plantes_prises[i].ventouse=-1;
+        m_plantes_prises[i].ventouse=0;
     }
 
     for (int i=0;i<N_PANNEAUX;i++)
@@ -266,8 +266,8 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     }
     else if (currentNode->getAction()["action"].toString() == "OuvrirStock")
     {
-        enum mode frontStock;
-        enum mode backStock;
+        mode frontStock=m_robot.frontStock();
+        mode backStock=m_robot.backStock();
 
         if(parameters["forward"].toBool()==true)
         {
@@ -282,8 +282,8 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     }
     else if (currentNode->getAction()["action"].toString() == "FermerStock")
     {
-        enum mode frontStock;
-        enum mode backStock;
+        mode frontStock=m_robot.frontStock();
+        mode backStock=m_robot.backStock();
 
         if(parameters["forward"].toBool()==true)
         {
@@ -310,17 +310,16 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     }
     else if (currentNode->getAction()["action"].toString() == "TournerPanneauSolaire")
     {
-        int posx_init[N_PANNEAUX]={275,500,725,1275,1500,1725,2275,2500,2725};
-        int yoffset=2000-parameters["yoffset"].toInt();
+        int posy_init[N_PANNEAUX]={275,500,725,1275,1500,1725,2275,2500,2725};
+        int xoffset=2000-parameters["yoffset"].toInt();
         int angle=parameters["angle"].toInt();
-        if(m_robot.pos().coord.y()==yoffset)
+        if(m_robot.pos().coord.y()==xoffset)
         {
             for(int i=0;i<N_PANNEAUX;i++)
             {
-                if(m_robot.pos().coord.x()==posx_init[i])
+                if(m_robot.pos().coord.x()==posy_init[i])
                 {
-                    int theta=m_panneaux[i]->theta();
-                    m_panneaux[i]->setTheta(theta+angle);
+                    m_panneaux[i]->setTheta(angle);
                 }
             }
             if(parameters["side"].toString()=="RIGHT")
@@ -411,6 +410,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta)
     LeftTrajectory->setRotation(-rtheta+sens*180);
 
     qDebug()<<"rtheta = "<<rtheta<<", theta = "<<theta<<", delta = "<<(abs(rtheta-theta))%360;
+    qDebug()<<"frontStock:"<<m_robot.frontStock()<<"backStock:"<<m_robot.backStock();
 
     int d_Plante[N_PLANTES],indice_dDecroissant[N_PLANTES];
 
@@ -534,7 +534,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta)
     for(int i=0;i<STOCKAGE_ROBOT;i++)
     {
         QPointF pos=PointRotate(QPointF(posx[i],posy[i]),rtheta);
-        qDebug()<<m_plantes_prises[i].indice;
+        qDebug()<<m_plantes_prises[i].indice<<" ventouse ="<<m_plantes_prises[i].ventouse;
         if(m_plantes_prises[i].indice!=-1)
             m_plantes[m_plantes_prises[i].indice]->setPosition(QPointF(rposx+pos.x(),rposy+pos.y()));
     }

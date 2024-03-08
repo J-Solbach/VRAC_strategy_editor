@@ -12,6 +12,6 @@
         <file>config/metaActions/premierAction.json</file>
         <file>Images/ouvert_derriere.png</file>
         <file>Images/ouvert_devant.png</file>
-        <file>config/metaActions/actions.json</file>
+        <file>config/metaActions/prendrePots.json</file>
     </qresource>
 </RCC>
