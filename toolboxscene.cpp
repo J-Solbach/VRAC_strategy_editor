@@ -11,7 +11,7 @@
 
 ToolBoxScene::ToolBoxScene(QObject *parent) : QGraphicsScene(parent)
 {
-    setSceneRect(QRectF(0, 0, 900, 2000));
+    setSceneRect(QRectF(0, 0, 900, 3000));
 
     setBackgroundBrush(QColor("#666"));
 }

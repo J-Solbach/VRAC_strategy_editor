@@ -707,37 +707,7 @@
             "tag": "FermerStock_3",
             "transitions": [
                 {
-                    "destination": "XYT_NORMAL_5",
-                    "type": "NoEvent"
-                }
-            ]
-        },
-        {
-            "action": "XYT",
-            "displayed": true,
-            "parameters": {
-                "forward": true,
-                "speed": {
-                    "type": "NORMAL",
-                    "values": [
-                        "FUCKING_SLOW",
-                        "VERY_SLOW",
-                        "SLOW",
-                        "NORMAL",
-                        "FAST",
-                        "VERY_FAST",
-                        "FASTER_THAN_RCVA",
-                        "I_AM_SPEED"
-                    ]
-                },
-                "theta": 167,
-                "x": 1630,
-                "y": 1730
-            },
-            "tag": "XYT_NORMAL_5",
-            "transitions": [
-                {
-                    "destination": "FermerStock_4",
+                    "destination": "Rotate_NORMAL_8",
                     "type": "NoEvent"
                 }
             ]
@@ -751,7 +721,7 @@
             "tag": "FermerStock_4",
             "transitions": [
                 {
-                    "destination": "XYT_NORMAL_6",
+                    "destination": "XYT_NORMAL_5",
                     "type": "NoEvent"
                 }
             ]
@@ -806,6 +776,242 @@
             "transitions": [
                 {
                     "destination": "OuvrirStock_3",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Rotate",
+            "displayed": true,
+            "parameters": {
+                "relative": false,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": 237
+            },
+            "tag": "Rotate_NORMAL_8",
+            "transitions": [
+                {
+                    "destination": "Line_NORMAL_7",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Line",
+            "displayed": true,
+            "parameters": {
+                "distance": 700,
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Line_NORMAL_7",
+            "transitions": [
+                {
+                    "destination": "FermerStock_4",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "TournerPanneauSolaire",
+            "displayed": true,
+            "parameters": {
+                "angle": -90,
+                "side": {
+                    "type": "RIGHT",
+                    "values": [
+                        "RIGHT",
+                        "LEFT"
+                    ]
+                },
+                "yoffset": 200
+            },
+            "tag": "TournerPanneauSolaire_RIGHT",
+            "transitions": [
+                {
+                    "destination": "Line_NORMAL_8",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "TournerPanneauSolaire",
+            "displayed": true,
+            "parameters": {
+                "angle": -90,
+                "side": {
+                    "type": "RIGHT",
+                    "values": [
+                        "RIGHT",
+                        "LEFT"
+                    ]
+                },
+                "yoffset": 200
+            },
+            "tag": "TournerPanneauSolaire_RIGHT_1",
+            "transitions": [
+                {
+                    "destination": "Line_NORMAL_9",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "TournerPanneauSolaire",
+            "displayed": true,
+            "parameters": {
+                "angle": -90,
+                "side": {
+                    "type": "RIGHT",
+                    "values": [
+                        "RIGHT",
+                        "LEFT"
+                    ]
+                },
+                "yoffset": 200
+            },
+            "tag": "TournerPanneauSolaire_RIGHT_2",
+            "transitions": [
+                {
+                    "destination": "XYT_NORMAL_6",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Line",
+            "displayed": true,
+            "parameters": {
+                "distance": 225,
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Line_NORMAL_8",
+            "transitions": [
+                {
+                    "destination": "TournerPanneauSolaire_RIGHT_1",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Line",
+            "displayed": true,
+            "parameters": {
+                "distance": 225,
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Line_NORMAL_9",
+            "transitions": [
+                {
+                    "destination": "TournerPanneauSolaire_RIGHT_2",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "XYT",
+            "displayed": true,
+            "parameters": {
+                "forward": false,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": -90,
+                "x": 1800,
+                "y": 1275
+            },
+            "tag": "XYT_NORMAL_5",
+            "transitions": [
+                {
+                    "destination": "Rotate_NORMAL_7",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Rotate",
+            "displayed": true,
+            "parameters": {
+                "relative": false,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": -90
+            },
+            "tag": "Rotate_NORMAL_7",
+            "transitions": [
+                {
+                    "destination": "TournerPanneauSolaire_RIGHT",
                     "type": "NoEvent"
                 }
             ]

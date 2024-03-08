@@ -45,6 +45,9 @@
     </item>
     <item row="0" column="1" rowspan="2">
      <widget class="QGraphicsView" name="graphicsView">
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
