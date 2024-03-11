@@ -161,6 +161,7 @@ void Playground::setJardiniere()
     for (int i=0;i<N_JARDINIERE;i++)
     {
         m_jardiniere[i] = new QGraphicsRectItem(QRectF(y_init[i],x_init[i],150,325));
+
         QPen zonePenR(Qt::red);
         QBrush zoneBrushR(Qt::red);
 

@@ -27,7 +27,7 @@ QRectF Robot::boundingRect() const
 
 void Robot::setEtat(enum mode frontStock,enum mode backStock,bool reset)
 {
-    enum type_etat{debut,close,frontOpen,backOpen,open,fin};
+    enum type_etat{debut,close,frontOpen,backOpen,open};
     static enum type_etat etat=debut;
     m_frontStock = frontStock;
     m_backStock = backStock;

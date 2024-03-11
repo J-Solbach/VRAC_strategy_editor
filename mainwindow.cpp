@@ -283,13 +283,11 @@ void MainWindow::simulateStep(Node *simulateNode)
         if(link->getStartNode() == simulateNode)
         {
             nextNode = link->getEndNode();
-            if(nextNode!=nullptr&&countLink(nextNode)>1)
+            if(nextNode!=nullptr)
             {
                 nextNode->setPreviousStartNode(simulateNode->toPlainText());
                 qDebug()<<nextNode->toPlainText()<<"<-"<<nextNode->getPreviousStartNode();
             }
-            else if(nextNode!=nullptr)
-                nextNode->setPreviousStartNode(nullptr);
             simulateStep(nextNode);
         }
     });
@@ -316,16 +314,7 @@ void MainWindow::displayStep(Node *selectedNode)
         {
             if(link->getEndNode() == selectedNode)
             {
-                if(link->getStartNode()->toPlainText()==selectedNode->getPreviousStartNode())return true;
-                else if (selectedNode->getPreviousStartNode()==nullptr)
-                {
-                    if(countLink(selectedNode)>1)
-                    {
-                        selectedNode->setPreviousStartNode(link->getStartNode()->toPlainText());
-                        qDebug()<<selectedNode->toPlainText()<<"<-"<<selectedNode->getPreviousStartNode();
-                    }
-                    return true;
-                }
+                return(link->getStartNode()->toPlainText()==selectedNode->getPreviousStartNode());
             }
         }
         return false;
