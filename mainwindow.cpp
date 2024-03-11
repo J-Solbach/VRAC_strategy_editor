@@ -281,7 +281,6 @@ void MainWindow::simulateStep(Node *simulateNode)
     std::for_each(links.begin(), links.end(),[&](Link *link)
     {
         link->changePen(QPen(Qt::black,3));
-        qDebug()<<"setPen black";
 
         if(link->getStartNode() == simulateNode)
         {
@@ -317,6 +316,11 @@ void MainWindow::displayStep(Node *selectedNode)
         {
             if(link->getEndNode() == selectedNode)
             {
+                if(selectedNode->getPreviousStartNode()==nullptr)
+                {
+                    selectedNode->setPreviousStartNode(link->getStartNode()->toPlainText());
+                    qDebug()<<selectedNode->toPlainText()<<"<-"<<selectedNode->getPreviousStartNode();
+                }
                 return(link->getStartNode()->toPlainText()==selectedNode->getPreviousStartNode());
             }
         }
@@ -326,7 +330,6 @@ void MainWindow::displayStep(Node *selectedNode)
     if (itLink != links.end())
     {
         (*itLink)->changePen(QPen(Qt::green,4));
-        qDebug()<<"setPen green";
         previousNode = (*itLink)->getStartNode();
         qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<countLink(previousNode);
     }
