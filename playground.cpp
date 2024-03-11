@@ -24,6 +24,8 @@ Playground::Playground()
     addPots();
     addPlantes();
     addPanneau();
+
+    setJardiniere();
 }
 
 Playground::~Playground()
@@ -71,23 +73,23 @@ void Playground::resetItems()
 
 void Playground::addPots()
 {
-    int y_init[N_STOCK]={508,1282,648,1422,1930,1930};
-    int x_init[N_STOCK]={0,0,2930,2930,895,1895};
+    int y_init[N_STOCK]={0,0,2930,2930,895,1895};
+    int x_init[N_STOCK]={508,1282,648,1422,1930,1930};
 
-    int posx_init[N_POTS_PAR_STOCK]={0,70,0,0,70,0};
-    int posy_init[N_POTS_PAR_STOCK]={0,35,70,70,105,140};
+    int posy_init[N_POTS_PAR_STOCK]={0,70,0,0,70,0};
+    int posx_init[N_POTS_PAR_STOCK]={0,35,70,70,105,140};
 
     float rad[N_STOCK]={0,0,M_PI,M_PI,-M_PI_2,-M_PI_2};
 
-    int posx,posy;
+    int posy,posx;
 
     for(int j=0;j<N_STOCK;j++)
     {
         for (int i=0;i<N_POTS_PAR_STOCK;i++)
         {
-            posx=posx_init[i]*qCos(rad[j])-posy_init[i]*qSin(rad[j]);
-            posy=posx_init[i]*qSin(rad[j])+posy_init[i]*qCos(rad[j]);
-            m_pots[i+j*6]=new Pot(0,QPointF(posx+x_init[j],posy+y_init[j]));
+            posy=posy_init[i]*qCos(rad[j])-posx_init[i]*qSin(rad[j]);
+            posx=posy_init[i]*qSin(rad[j])+posx_init[i]*qCos(rad[j]);
+            m_pots[i+j*6]=new Pot(0,QPointF(posy+y_init[j],posx+x_init[j]));
         }
     }
 
@@ -102,11 +104,11 @@ void Playground::addPots()
 void Playground::addPlantes()
 {
     srand(time(0));
-    int x_init[N_STOCK]={888,888,1888,1888,1388,1388};
-    int y_init[N_STOCK]={675,1275,675,1275,475,1475};
+    int y_init[N_STOCK]={888,888,1888,1888,1388,1388};
+    int x_init[N_STOCK]={675,1275,675,1275,475,1475};
 
-    int posx_init[N_POTS_PAR_STOCK]={0,50,50,125,175,125};
-    int posy_init[N_POTS_PAR_STOCK]={0,-75,75,-75,0,75};
+    int posy_init[N_POTS_PAR_STOCK]={0,50,50,125,175,125};
+    int posx_init[N_POTS_PAR_STOCK]={0,-75,75,-75,0,75};
 
     for(int j=0;j<N_STOCK;j++)
     {
@@ -122,10 +124,10 @@ void Playground::addPlantes()
             else type=1;
             if(rand()%2&&plantes_milieu==0&&j>3)
             {
-                m_plantes[i+j*6]=new Pot(type,QPointF(87+x_init[j],0+y_init[j]));
+                m_plantes[i+j*6]=new Pot(type,QPointF(87+y_init[j],0+x_init[j]));
                 plantes_milieu=1;
             }
-            else m_plantes[i+j*6]=new Pot(type,QPointF(posx_init[i]+x_init[j],posy_init[i]+y_init[j]));
+            else m_plantes[i+j*6]=new Pot(type,QPointF(posy_init[i]+y_init[j],posx_init[i]+x_init[j]));
         }
     }
 
@@ -139,13 +141,34 @@ void Playground::addPlantes()
 
 void Playground::addPanneau()
 {
-    int posx_init[N_PANNEAUX]={275,500,725,1275,1500,1725,2275,2500,2725};
+    int posy_init[N_PANNEAUX]={275,500,725,1275,1500,1725,2275,2500,2725};
 
     for (int i=0;i<N_PANNEAUX;i++)
     {
-        m_panneaux[i]=new Panneau(QPointF(posx_init[i],2037));
+        m_panneaux[i]=new Panneau(QPointF(posy_init[i],2037));
         m_panneaux[i]->setZValue(2);
         addItem(m_panneaux[i]);
+    }
+}
+
+void Playground::setJardiniere()
+{
+    int y_init[N_JARDINIERE]={-22,-22,3022,3022,600,2075};
+    int x_init[N_JARDINIERE]={775,1550,450,1225,-22,-22};
+
+    int theta[N_JARDINIERE]={180,180,0,0,-90,-90};
+
+    for (int i=0;i<N_JARDINIERE;i++)
+    {
+        m_jardiniere[i] = new QGraphicsRectItem(QRectF(y_init[i],x_init[i],150,325));
+        QPen zonePenR(Qt::red);
+        QBrush zoneBrushR(Qt::red);
+
+        m_jardiniere[i]->setPen(zonePenR);
+        m_jardiniere[i]->setBrush(zoneBrushR);
+        m_jardiniere[i]->setTransformOriginPoint(QPointF(y_init[i],x_init[i]));
+        m_jardiniere[i]->setRotation(theta[i]);
+        addItem(m_jardiniere[i]);
     }
 }
 

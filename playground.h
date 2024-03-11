@@ -19,6 +19,7 @@
 #define STOCKAGE_ROBOT 12
 #define N_STOCK_ROBOT 4
 #define N_PANNEAUX 9
+#define N_JARDINIERE 6
 
 struct plantes
 {
@@ -45,6 +46,8 @@ public:
 
     void addPanneau();
 
+    void setJardiniere();
+
     int PlantesPrises(int side);
 
     void collisionPlante(int rposx, int rposy, int rtheta);
@@ -69,14 +72,20 @@ public slots:
 
 private:
     Robot m_robot;
+
     position m_robot_init;
+    position m_previous;
+
     Pot *m_pots[N_POTS];
     Pot *m_plantes[N_PLANTES];
+
     QPointF m_pots_init[N_POTS];
     QPointF m_plantes_init[N_PLANTES];
+
     Panneau *m_panneaux[N_PANNEAUX];
     plantes m_plantes_prises[STOCKAGE_ROBOT];
-    position m_previous;
+
+    QGraphicsRectItem *m_jardiniere[N_JARDINIERE];
 };
 
 #endif // PLAYGROUND_H
