@@ -54,13 +54,17 @@ void Link::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     }
 
     setLine(line);
-    setPen(QPen(Qt::black, 3));
+    setPen(m_pen);
     QGraphicsLineItem::paint(painter, option, widget);
 
     painter->setPen(Qt::white);
     painter->drawText(boundingRect(), Qt::AlignCenter, transition.text());
 }
 
+void Link::changePen(QPen pen)
+{
+    m_pen=pen;
+}
 
 void Link::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {

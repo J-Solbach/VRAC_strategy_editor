@@ -1,6 +1,7 @@
 #ifndef LINK_H
 #define LINK_H
 
+#include "qpen.h"
 #include <QGraphicsLineItem>
 #include <QGraphicsSimpleTextItem>
 
@@ -36,6 +37,8 @@ public:
 
     QGraphicsSimpleTextItem &getTransition() { return transition; }
 
+    void changePen(QPen pen);
+
 signals:
     void released();
     void removeMe();
@@ -44,6 +47,7 @@ private:
     Node *startNode = nullptr;
     Node *endNode = nullptr;
 
+    QPen m_pen=QPen(Qt::black,3);
     QGraphicsSimpleTextItem transition;
     QPointF mousePos;
 };
