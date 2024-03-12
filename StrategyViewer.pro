@@ -15,6 +15,7 @@ SOURCES += \
     link.cpp \
     main.cpp \
     mainwindow.cpp \
+    meta_action.cpp \
     node.cpp \
     playground.cpp \
     robot.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     jsonhelperfunctions.h \
     link.h \
     mainwindow.h \
+    meta_action.h \
     node.h \
     playground.h \
     robot.h \

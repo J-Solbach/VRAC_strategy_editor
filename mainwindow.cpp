@@ -452,7 +452,6 @@ void MainWindow::on_actionLoad_MetaAction_triggered()
    stratBuilder.update();
 }
 
-
 void MainWindow::on_thetaRobot_valueChanged(int arg1)
 {
    playground->newTheta((double)arg1);
