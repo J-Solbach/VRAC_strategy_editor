@@ -285,3 +285,26 @@ Node *ToolBoxScene::getNode(QString tag)
     }
 }
 
+Node *ToolBoxScene::lastNode()
+{
+    auto itNode = std::find_if(nodes.begin(), nodes.end(), [&](Node *node)
+    {
+        return (countLink(node)==0);
+    });
+
+    if (itNode != nodes.end())
+    {
+        return (*itNode);
+    }
+}
+
+int ToolBoxScene::countLink(Node *selectedNode)
+{
+    int nb_link=0;
+
+    std::for_each(links.begin(), links.end(),[&](Link *link)
+    {
+        if(link->getStartNode() == selectedNode)nb_link++;
+    });
+    return nb_link;
+}

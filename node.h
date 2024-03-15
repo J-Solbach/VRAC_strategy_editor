@@ -27,9 +27,14 @@ public:
     void setPreviousStartNode(QString previousStartNode);
     QString getPreviousStartNode(){return m_previousStartNode;}
 
+    bool isMetaAction();
+    QString getfileName(){return "D:/travail/CRAC/Coupe2024/metaActions/"+action["file"].toString()+".json";}
+
     void setupName();
 
     QJsonValue getAction();
+
+    ToolBoxScene *getMetaScene(){return stratBuilder;}
 
     const QVector<Link *> &getLinks() const;
 
@@ -56,6 +61,8 @@ protected:
 private:
     QJsonValue action;
     QVector<Link*> links;
+
+    ToolBoxScene *stratBuilder;
 
     int m_NbEndLinks=0;
 

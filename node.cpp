@@ -33,6 +33,15 @@ Node::Node(QString tag, QJsonObject json, QGraphicsItem *parent) : QGraphicsText
     QFont font;
     font.setPixelSize(18);
     setFont(font);
+
+    if(isMetaAction())
+    {
+        MainWindow main;
+
+        stratBuilder=new ToolBoxScene;
+
+        main.organize_MetaAction(getfileName(),stratBuilder);
+    }
 }
 
 
@@ -96,6 +105,11 @@ void Node::setPreviousStartNode(QString previousStartNode)
     m_previousStartNode=previousStartNode;
 }
 
+bool Node::isMetaAction()
+{
+    return(!action["file"].isUndefined());
+}
+
 void Node::setupName()
 {
     if (action["file"].isUndefined())
@@ -143,7 +157,7 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
     QVBoxLayout layout;
 
-    if(action["file"].isUndefined())
+    if(!isMetaAction())
     {
         if (action["parameters"].toObject().keys().isEmpty()) return;
 
@@ -210,14 +224,18 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     else
     {
         MainWindow main;
-
         QGraphicsView *graphicsview= new QGraphicsView;
-        ToolBoxScene *stratBuilder = new ToolBoxScene;
-
-        QString fileName=":/config/metaActions/"+action["file"].toString()+".json";
-
-        main.organize_MetaAction(fileName,stratBuilder);
         graphicsview->setScene(stratBuilder);
+
+        Node * currentNode = stratBuilder->getNodes().first();
+        QPointF currentPos(stratBuilder->sceneRect().center().x(), -40);
+
+        stratBuilder->organizeScene(currentNode, currentPos);
+
+        connect(stratBuilder, &ToolBoxScene::displayStep, this,[&](Node *selectedNode)
+        {
+            main.metaStep(selectedNode,stratBuilder);
+        });
 
         layout.addWidget(graphicsview);
     }
@@ -286,13 +304,15 @@ void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     QMenu menu;
-    QAction *removeAction = menu.addAction("Remove");
-    QAction *openAction;
 
-    if(!action["file"].isUndefined())
+    QAction *editAction;
+
+    if(isMetaAction())
     {
-        openAction = menu.addAction("Open");
+        editAction = menu.addAction("Edit");
     }
+
+    QAction *removeAction = menu.addAction("Remove");
 
     QAction *selectedAction = menu.exec(event->screenPos());
 
@@ -300,11 +320,9 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     {
         emit removeMe();
     }
-    else if(selectedAction == openAction)
+    else if(selectedAction == editAction)
     {
-        QString fileName = ":/config/metaActions/"+action["file"].toString()+".json";
-
-        emit MetaActionSelected(fileName);
+        emit MetaActionSelected(getfileName());
     }
     // ...
 }

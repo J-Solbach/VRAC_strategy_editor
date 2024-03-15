@@ -263,18 +263,6 @@ void MainWindow::updatePos(position pos)
     ui->thetaRobot->setValue(pos.theta);
 }
 
-int MainWindow::countLink(Node *selectedNode)
-{
-    int nb_link=0;
-    auto links = stratBuilder.getLinks();
-
-    std::for_each(links.begin(), links.end(),[&](Link *link)
-    {
-        if(link->getEndNode() == selectedNode)nb_link++;
-    });
-    return nb_link;
-}
-
 void MainWindow::simulateStep(Node *simulateNode)
 {
     Node * nextNode = nullptr;
@@ -333,13 +321,100 @@ void MainWindow::displayStep(Node *selectedNode)
     {
         (*itLink)->changePen(QPen(Qt::green,4));
         previousNode = (*itLink)->getStartNode();
-        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<countLink(previousNode);
+        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<stratBuilder.countLink(previousNode);
     }
 
     if (previousNode != nullptr)
     {
         // rewind and display all previous nodes
         displayStep(previousNode);
+
+        if (previousNode->getAction()["action"].toString() != "Bezier"
+            && previousNode->getAction()["action"].toString() != "Rotate"
+            && previousNode->getAction()["action"].toString() != "Line"
+            && previousNode->getAction()["displayed"].toBool())
+        {
+            playground->setCurrentDisplayedNode(previousNode);
+            qDebug() << "Previous :" << previousNode->toPlainText();
+        }
+    }
+
+    if (selectedNode->getAction()["displayed"].toBool())
+    {
+        playground->setCurrentDisplayedNode(selectedNode);
+    }
+    if (selectedNode->isMetaAction())
+    {
+        ToolBoxScene *scene=selectedNode->getMetaScene();
+        metaStep(scene->lastNode(),scene);
+    }
+
+    first=true;
+}
+
+void MainWindow::metaSimulateStep(Node *simulateNode,ToolBoxScene *scene)
+{
+    Node * nextNode = nullptr;
+    auto links = scene->getLinks();
+
+    std::for_each(links.begin(), links.end(),[&](Link *link)
+    {
+        link->changePen(QPen(Qt::black,3));
+
+        if(link->getStartNode() == simulateNode)
+        {
+            nextNode = link->getEndNode();
+            if(nextNode!=nullptr)
+            {
+                nextNode->setPreviousStartNode(simulateNode->toPlainText());
+                qDebug()<<nextNode->toPlainText()<<"<-"<<nextNode->getPreviousStartNode();
+            }
+            metaSimulateStep(nextNode,scene);
+        }
+    });
+}
+
+void MainWindow::metaStep(Node *selectedNode,ToolBoxScene *scene)
+{
+    if(first)
+    {
+        qDebug()<<"exec meta:"<<selectedNode->toPlainText();
+        metaSimulateStep(selectedNode,scene);
+        first=false;
+    }
+
+    Node * previousNode = nullptr;
+
+    auto links = scene->getLinks();
+
+    auto itLink = std::find_if(links.begin(), links.end(), [&](Link *link)
+    {
+        if( link != nullptr)
+        {
+            if(link->getEndNode() == selectedNode)
+            {
+                if(selectedNode->getPreviousStartNode()==nullptr)
+                {
+                    selectedNode->setPreviousStartNode(link->getStartNode()->toPlainText());
+                    qDebug()<<selectedNode->toPlainText()<<"<-"<<selectedNode->getPreviousStartNode();
+                }
+                return(link->getStartNode()->toPlainText()==selectedNode->getPreviousStartNode());
+            }
+        }
+        return false;
+    });
+
+    if (itLink != links.end())
+    {
+        (*itLink)->changePen(QPen(Qt::green,4));
+        previousNode = (*itLink)->getStartNode();
+        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<scene->countLink(previousNode);
+    }
+
+    if (previousNode != nullptr)
+    {
+        // rewind and display all previous nodes
+        metaStep(previousNode,scene);
 
         if (previousNode->getAction()["action"].toString() != "Bezier"
             && previousNode->getAction()["action"].toString() != "Rotate"

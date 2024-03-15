@@ -29,6 +29,10 @@ public:
 
     Node * getNode(QString tag);
 
+    Node *lastNode();
+
+    int countLink(Node *selectedNode);
+
     const QVector<Link *> &getLinks() const;
 
 private slots:
@@ -54,6 +58,7 @@ private:
     QVector<Link*>links;
 
     Node *copiedNode = nullptr;
+    Node *m_lastNode = nullptr;
 };
 
 #endif // TOOLBOXSCENE_H

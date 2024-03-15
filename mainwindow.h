@@ -54,6 +54,10 @@ public slots:
 
     void simulateStep(Node *simulateNode);
 
+    void metaStep(Node *selectedNode, ToolBoxScene *scene);
+
+    void metaSimulateStep(Node *selectedNode, ToolBoxScene *scene);
+
     void Load_MetaAction(QString fileName);
 
 private slots:
