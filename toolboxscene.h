@@ -42,11 +42,13 @@ private slots:
     void nodeIsCopied();
     void nodeSelected();
 
+    void MetaActionSelected(QString fileName);
+
     void checkNaming(QString);
 
 signals:
     void displayStep(Node *);
-
+    void Load_MetaAction(QString);
 private:
     QVector<Node*>nodes;
     QVector<Link*>links;

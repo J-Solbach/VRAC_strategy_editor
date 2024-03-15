@@ -15,6 +15,62 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="1" rowspan="2">
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="dragMode">
+       <enum>QGraphicsView::NoDrag</enum>
+      </property>
+      <property name="resizeAnchor">
+       <enum>QGraphicsView::AnchorUnderMouse</enum>
+      </property>
+      <property name="viewportUpdateMode">
+       <enum>QGraphicsView::BoundingRectViewportUpdate</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGraphicsView" name="playgroundScene">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>600</width>
+        <height>400</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>600</width>
+        <height>400</height>
+       </size>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="0">
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
@@ -111,62 +167,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="0" column="0">
-     <widget class="QGraphicsView" name="playgroundScene">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>600</width>
-        <height>400</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>600</width>
-        <height>400</height>
-       </size>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" rowspan="2">
-     <widget class="QGraphicsView" name="graphicsView">
-      <property name="mouseTracking">
-       <bool>false</bool>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAsNeeded</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAsNeeded</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustIgnored</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="dragMode">
-       <enum>QGraphicsView::NoDrag</enum>
-      </property>
-      <property name="resizeAnchor">
-       <enum>QGraphicsView::AnchorUnderMouse</enum>
-      </property>
-      <property name="viewportUpdateMode">
-       <enum>QGraphicsView::BoundingRectViewportUpdate</enum>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>

@@ -39,6 +39,7 @@ signals:
     void removeMe();
     void copied();
     void selected();
+    void MetaActionSelected(QString);
     void nameChanged(QString);
 
 protected:

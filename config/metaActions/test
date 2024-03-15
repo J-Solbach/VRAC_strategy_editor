@@ -1,0 +1,11 @@
+{
+    "actions": [
+        {
+            "file": "premierAction",
+            "tag": "premierAction",
+            "transitions": [
+            ]
+        }
+    ],
+    "name": "test"
+}

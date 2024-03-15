@@ -34,6 +34,8 @@ public:
     QAction *actionOrganize;
     QWidget *centralwidget;
     QGridLayout *gridLayout_2;
+    QGraphicsView *graphicsView;
+    QGraphicsView *playgroundScene;
     QGridLayout *gridLayout;
     QLabel *coordinates;
     QLabel *coordinates_3;
@@ -43,8 +45,6 @@ public:
     QWidget *Actions;
     QWidget *ActionsRobot;
     QWidget *MetaActions;
-    QGraphicsView *playgroundScene;
-    QGraphicsView *graphicsView;
     QMenuBar *menubar;
     QMenu *menuFiles;
     QMenu *menuexport;
@@ -66,6 +66,33 @@ public:
         centralwidget->setObjectName("centralwidget");
         gridLayout_2 = new QGridLayout(centralwidget);
         gridLayout_2->setObjectName("gridLayout_2");
+        graphicsView = new QGraphicsView(centralwidget);
+        graphicsView->setObjectName("graphicsView");
+        graphicsView->setMouseTracking(false);
+        graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        graphicsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
+        graphicsView->setAlignment(Qt::AlignCenter);
+        graphicsView->setDragMode(QGraphicsView::NoDrag);
+        graphicsView->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
+        graphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+
+        gridLayout_2->addWidget(graphicsView, 0, 1, 2, 1);
+
+        playgroundScene = new QGraphicsView(centralwidget);
+        playgroundScene->setObjectName("playgroundScene");
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(playgroundScene->sizePolicy().hasHeightForWidth());
+        playgroundScene->setSizePolicy(sizePolicy);
+        playgroundScene->setMinimumSize(QSize(600, 400));
+        playgroundScene->setMaximumSize(QSize(600, 400));
+        playgroundScene->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        playgroundScene->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+        gridLayout_2->addWidget(playgroundScene, 0, 0, 1, 1);
+
         gridLayout = new QGridLayout();
         gridLayout->setObjectName("gridLayout");
         coordinates = new QLabel(centralwidget);
@@ -114,33 +141,6 @@ public:
 
 
         gridLayout_2->addLayout(gridLayout, 1, 0, 1, 1);
-
-        playgroundScene = new QGraphicsView(centralwidget);
-        playgroundScene->setObjectName("playgroundScene");
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(playgroundScene->sizePolicy().hasHeightForWidth());
-        playgroundScene->setSizePolicy(sizePolicy);
-        playgroundScene->setMinimumSize(QSize(600, 400));
-        playgroundScene->setMaximumSize(QSize(600, 400));
-        playgroundScene->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        playgroundScene->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-        gridLayout_2->addWidget(playgroundScene, 0, 0, 1, 1);
-
-        graphicsView = new QGraphicsView(centralwidget);
-        graphicsView->setObjectName("graphicsView");
-        graphicsView->setMouseTracking(false);
-        graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        graphicsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
-        graphicsView->setAlignment(Qt::AlignCenter);
-        graphicsView->setDragMode(QGraphicsView::NoDrag);
-        graphicsView->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
-        graphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-
-        gridLayout_2->addWidget(graphicsView, 0, 1, 2, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);

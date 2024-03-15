@@ -17,7 +17,6 @@
 #include <QVariantList>
 #include <QStringList>
 #include "jsonhelperfunctions.h"
-#include "meta_action.h"
 #include "mainwindow.h"
 #include <QGraphicsView>
 
@@ -139,7 +138,6 @@ void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    QTabWidget tabWidget;
     QDialog dialog;
     dialog.setWindowTitle(toPlainText());
 
@@ -211,17 +209,17 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     }
     else
     {
-        meta_action meta(":/config/metaActions/"+action["file"].toString()+".json");
-        qDebug()<<"->metaAction";
-        QHBoxLayout *hLayout = new QHBoxLayout();
+        MainWindow main;
+
         QGraphicsView *graphicsview= new QGraphicsView;
-        hLayout->addWidget(graphicsview);
         ToolBoxScene *stratBuilder = new ToolBoxScene;
+
+        QString fileName=":/config/metaActions/"+action["file"].toString()+".json";
+
+        main.organize_MetaAction(fileName,stratBuilder);
         graphicsview->setScene(stratBuilder);
-        graphicsview->viewport()->setCursor(Qt::ArrowCursor);
-        stratBuilder->setItemIndexMethod(QGraphicsScene::NoIndex);
-        meta.setMetaActionScene(stratBuilder);
-        layout.addLayout(hLayout);
+
+        layout.addWidget(graphicsview);
     }
 
     dialog.setLayout(&layout);
@@ -289,11 +287,24 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     QMenu menu;
     QAction *removeAction = menu.addAction("Remove");
+    QAction *openAction;
+
+    if(!action["file"].isUndefined())
+    {
+        openAction = menu.addAction("Open");
+    }
+
     QAction *selectedAction = menu.exec(event->screenPos());
 
     if (selectedAction == removeAction)
     {
         emit removeMe();
+    }
+    else if(selectedAction == openAction)
+    {
+        QString fileName = ":/config/metaActions/"+action["file"].toString()+".json";
+
+        emit MetaActionSelected(fileName);
     }
     // ...
 }

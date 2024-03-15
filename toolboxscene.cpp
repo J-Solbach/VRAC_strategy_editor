@@ -142,6 +142,7 @@ void ToolBoxScene::addNode(Node *node)
     connect(node, &Node::removeMe, this,  &ToolBoxScene::removeNode);
     connect(node, &Node::copied, this, &ToolBoxScene::nodeIsCopied);
     connect(node, &Node::selected, this, &ToolBoxScene::nodeSelected);
+    connect(node, &Node::MetaActionSelected, this, &ToolBoxScene::MetaActionSelected);
     connect(node, &Node::nameChanged, this, &ToolBoxScene::checkNaming);
 }
 
@@ -237,6 +238,11 @@ void ToolBoxScene::nodeSelected()
     Node *selected = static_cast<Node*>(sender());
 
     emit displayStep(selected);
+}
+
+void ToolBoxScene::MetaActionSelected(QString fileName)
+{
+    emit Load_MetaAction(fileName);
 }
 
 void ToolBoxScene::checkNaming(QString name)

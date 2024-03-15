@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "qpushbutton.h"
 #include "ui_mainwindow.h"
 #include <QPainter>
 #include <QGraphicsRectItem>
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(playground, &Playground::displayNewPos, this, &MainWindow::updatePos);
     connect(&stratBuilder, &ToolBoxScene::displayStep, this, &MainWindow::displayStep);
+    connect(&stratBuilder, &ToolBoxScene::Load_MetaAction, this, &MainWindow::Load_MetaAction);
 }
 
 MainWindow::~MainWindow()
@@ -390,10 +392,36 @@ void MainWindow::on_actionsave_triggered()
 void MainWindow::on_actionLoad_MetaAction_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName();
+    Load_MetaAction(fileName);
+}
 
+void MainWindow::Load_MetaAction(QString fileName)
+{
+    QDialog dialog;
+    dialog.setWindowTitle("!");
+
+    QVBoxLayout layout;
+    QPushButton save;
+
+    save.setText("Save");
+
+    connect(&save,&QPushButton::clicked,this,[&]()
+            {
+                on_actionsave_triggered();
+                dialog.close();
+            });
+
+    layout.addWidget(&save);
+    dialog.setLayout(&layout);
+    dialog.exec();
+    organize_MetaAction(fileName,&stratBuilder);
+}
+
+void MainWindow::organize_MetaAction(QString fileName,ToolBoxScene *scene)
+{
     if (fileName.isEmpty()) return;
 
-    stratBuilder.clearScene();
+    scene->clearScene();
 
     QFile f(fileName);
 
@@ -410,8 +438,8 @@ void MainWindow::on_actionLoad_MetaAction_triggered()
     {
         auto action = actionRef.toObject();
         Node *testNode = new Node(action["tag"].toString(), action);
-        stratBuilder.addNode(testNode);
-        stratBuilder.update();
+        scene->addNode(testNode);
+        scene->update();
     }
 
     //setupLinks
@@ -419,7 +447,7 @@ void MainWindow::on_actionLoad_MetaAction_triggered()
     {
         auto action = actionRef.toObject();
 
-        Node *startNode = stratBuilder.getNode(action["tag"].toString());
+        Node *startNode = scene->getNode(action["tag"].toString());
 
         if (startNode== nullptr) continue;
 
@@ -428,7 +456,7 @@ void MainWindow::on_actionLoad_MetaAction_triggered()
         for (auto transitionRef : transitions)
         {
             auto transition = transitionRef.toObject();
-            Node *endNode = stratBuilder.getNode(transition["destination"].toString());
+            Node *endNode = scene->getNode(transition["destination"].toString());
 
             if (endNode != nullptr)
             {
@@ -439,17 +467,17 @@ void MainWindow::on_actionLoad_MetaAction_triggered()
                 newLink->addEndingNode(endNode);
                 newLink->getTransition().setText(transition["type"].toString());
 
-                stratBuilder.addLink(newLink);
+                scene->addLink(newLink);
             }
         }
     }
 
-    Node * currentNode = stratBuilder.getNodes().first();
-    QPointF currentPos(stratBuilder.sceneRect().center().x(), -40);
+    Node * currentNode = scene->getNodes().first();
+    QPointF currentPos(scene->sceneRect().center().x(), -40);
 
-   stratBuilder.organizeScene(currentNode, currentPos);
+    scene->organizeScene(currentNode, currentPos);
 
-   stratBuilder.update();
+    scene->update();
 }
 
 void MainWindow::on_thetaRobot_valueChanged(int arg1)
@@ -460,6 +488,24 @@ void MainWindow::on_thetaRobot_valueChanged(int arg1)
 
 void MainWindow::on_actionNew_MetaAction_triggered(bool checked)
 {
+    QDialog dialog;
+    dialog.setWindowTitle("!");
+
+    QVBoxLayout layout;
+    QPushButton save;
+
+    save.setText("Save");
+
+    connect(&save,&QPushButton::clicked,this,[&]()
+            {
+                on_actionsave_triggered();
+                dialog.close();
+            });
+
+    layout.addWidget(&save);
+    dialog.setLayout(&layout);
+    dialog.exec();
+
     stratBuilder.clearScene();
     setupMetaActions();
 }
