@@ -9,6 +9,8 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    gameElements/panneau.cpp \
+    gameElements/pot.cpp \
     jsonhelperfunctions.cpp \
     link.cpp \
     main.cpp \
@@ -20,6 +22,8 @@ SOURCES += \
 
 HEADERS += \
     ../LIBS/common/shared_types.hpp \
+    gameElements/panneau.h \
+    gameElements/pot.h \
     jsonhelperfunctions.h \
     link.h \
     mainwindow.h \
@@ -40,7 +44,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     ui.qrc
-
-DISTFILES += \
-    Images/vinyle_table_2023.png \
-    config/commonActions.json

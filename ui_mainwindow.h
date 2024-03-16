@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 6.5.0
+** Created by: Qt User Interface Compiler version 6.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -14,8 +14,8 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGraphicsView>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLayout>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -33,16 +33,18 @@ public:
     QAction *actionsave;
     QAction *actionOrganize;
     QWidget *centralwidget;
+    QGridLayout *gridLayout_2;
+    QGraphicsView *playgroundScene;
     QGraphicsView *graphicsView;
+    QGridLayout *gridLayout;
+    QLabel *coordinates;
+    QLabel *coordinates_3;
+    QSpinBox *thetaRobot;
+    QCheckBox *checkBox;
     QToolBox *toolBox;
     QWidget *Actions;
     QWidget *ActionsRobot;
     QWidget *MetaActions;
-    QGraphicsView *playgroundScene;
-    QLabel *coordinates;
-    QSpinBox *thetaRobot;
-    QLabel *coordinates_3;
-    QCheckBox *checkBox;
     QMenuBar *menubar;
     QMenu *menuFiles;
     QMenu *menuexport;
@@ -51,7 +53,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1508, 950);
+        MainWindow->resize(1000, 600);
         actionNew_MetaAction = new QAction(MainWindow);
         actionNew_MetaAction->setObjectName("actionNew_MetaAction");
         actionLoad_MetaAction = new QAction(MainWindow);
@@ -62,56 +64,88 @@ public:
         actionOrganize->setObjectName("actionOrganize");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
+        gridLayout_2 = new QGridLayout(centralwidget);
+        gridLayout_2->setObjectName("gridLayout_2");
+        playgroundScene = new QGraphicsView(centralwidget);
+        playgroundScene->setObjectName("playgroundScene");
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(playgroundScene->sizePolicy().hasHeightForWidth());
+        playgroundScene->setSizePolicy(sizePolicy);
+        playgroundScene->setMinimumSize(QSize(600, 400));
+        playgroundScene->setMaximumSize(QSize(600, 400));
+        playgroundScene->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        playgroundScene->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+        gridLayout_2->addWidget(playgroundScene, 0, 0, 1, 1);
+
         graphicsView = new QGraphicsView(centralwidget);
         graphicsView->setObjectName("graphicsView");
-        graphicsView->setGeometry(QRect(480, 10, 1000, 901));
+        graphicsView->setMouseTracking(false);
+        graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         graphicsView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
+        graphicsView->setAlignment(Qt::AlignCenter);
         graphicsView->setDragMode(QGraphicsView::NoDrag);
         graphicsView->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
         graphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-        toolBox = new QToolBox(centralwidget);
-        toolBox->setObjectName("toolBox");
-        toolBox->setGeometry(QRect(40, 650, 401, 261));
-        toolBox->setLineWidth(3);
-        Actions = new QWidget();
-        Actions->setObjectName("Actions");
-        Actions->setGeometry(QRect(0, 0, 401, 186));
-        toolBox->addItem(Actions, QString::fromUtf8("Common"));
-        ActionsRobot = new QWidget();
-        ActionsRobot->setObjectName("ActionsRobot");
-        ActionsRobot->setGeometry(QRect(0, 0, 401, 186));
-        toolBox->addItem(ActionsRobot, QString::fromUtf8("Robot Actions"));
-        MetaActions = new QWidget();
-        MetaActions->setObjectName("MetaActions");
-        MetaActions->setGeometry(QRect(0, 0, 401, 186));
-        toolBox->addItem(MetaActions, QString::fromUtf8("Meta Actions"));
-        playgroundScene = new QGraphicsView(centralwidget);
-        playgroundScene->setObjectName("playgroundScene");
-        playgroundScene->setGeometry(QRect(40, 10, 400, 600));
-        playgroundScene->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        playgroundScene->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+        gridLayout_2->addWidget(graphicsView, 0, 1, 2, 1);
+
+        gridLayout = new QGridLayout();
+        gridLayout->setObjectName("gridLayout");
         coordinates = new QLabel(centralwidget);
         coordinates->setObjectName("coordinates");
-        coordinates->setGeometry(QRect(40, 620, 291, 20));
         QFont font;
         font.setPointSize(14);
         coordinates->setFont(font);
-        thetaRobot = new QSpinBox(centralwidget);
-        thetaRobot->setObjectName("thetaRobot");
-        thetaRobot->setGeometry(QRect(220, 620, 111, 24));
-        thetaRobot->setMinimum(-3600);
-        thetaRobot->setMaximum(3600);
+
+        gridLayout->addWidget(coordinates, 0, 0, 1, 1);
+
         coordinates_3 = new QLabel(centralwidget);
         coordinates_3->setObjectName("coordinates_3");
-        coordinates_3->setGeometry(QRect(160, 620, 51, 20));
         coordinates_3->setFont(font);
+
+        gridLayout->addWidget(coordinates_3, 0, 1, 1, 1);
+
+        thetaRobot = new QSpinBox(centralwidget);
+        thetaRobot->setObjectName("thetaRobot");
+        thetaRobot->setMinimum(-3600);
+        thetaRobot->setMaximum(3600);
+
+        gridLayout->addWidget(thetaRobot, 0, 2, 1, 1);
+
         checkBox = new QCheckBox(centralwidget);
         checkBox->setObjectName("checkBox");
-        checkBox->setGeometry(QRect(350, 620, 86, 21));
+
+        gridLayout->addWidget(checkBox, 0, 3, 1, 1);
+
+        toolBox = new QToolBox(centralwidget);
+        toolBox->setObjectName("toolBox");
+        toolBox->setLineWidth(3);
+        Actions = new QWidget();
+        Actions->setObjectName("Actions");
+        Actions->setGeometry(QRect(0, 0, 598, 60));
+        toolBox->addItem(Actions, QString::fromUtf8("Common"));
+        ActionsRobot = new QWidget();
+        ActionsRobot->setObjectName("ActionsRobot");
+        ActionsRobot->setGeometry(QRect(0, 0, 598, 60));
+        toolBox->addItem(ActionsRobot, QString::fromUtf8("Robot Actions"));
+        MetaActions = new QWidget();
+        MetaActions->setObjectName("MetaActions");
+        MetaActions->setGeometry(QRect(0, 0, 598, 60));
+        toolBox->addItem(MetaActions, QString::fromUtf8("Meta Actions"));
+
+        gridLayout->addWidget(toolBox, 1, 0, 1, 4);
+
+
+        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 1);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1508, 21));
+        menubar->setGeometry(QRect(0, 0, 1000, 20));
         menuFiles = new QMenu(menubar);
         menuFiles->setObjectName("menuFiles");
         menuexport = new QMenu(menubar);
@@ -127,7 +161,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        toolBox->setCurrentIndex(1);
+        toolBox->setCurrentIndex(0);
         toolBox->layout()->setSpacing(1);
 
 
@@ -141,12 +175,12 @@ public:
         actionLoad_MetaAction->setText(QCoreApplication::translate("MainWindow", "Load File", nullptr));
         actionsave->setText(QCoreApplication::translate("MainWindow", "save", nullptr));
         actionOrganize->setText(QCoreApplication::translate("MainWindow", "Organize", nullptr));
-        toolBox->setItemText(toolBox->indexOf(Actions), QCoreApplication::translate("MainWindow", "Common", nullptr));
-        toolBox->setItemText(toolBox->indexOf(ActionsRobot), QCoreApplication::translate("MainWindow", "Robot Actions", nullptr));
-        toolBox->setItemText(toolBox->indexOf(MetaActions), QCoreApplication::translate("MainWindow", "Meta Actions", nullptr));
         coordinates->setText(QCoreApplication::translate("MainWindow", "X : 0  Y : 0", nullptr));
         coordinates_3->setText(QCoreApplication::translate("MainWindow", "Theta :", nullptr));
         checkBox->setText(QCoreApplication::translate("MainWindow", "PotiBot", nullptr));
+        toolBox->setItemText(toolBox->indexOf(Actions), QCoreApplication::translate("MainWindow", "Common", nullptr));
+        toolBox->setItemText(toolBox->indexOf(ActionsRobot), QCoreApplication::translate("MainWindow", "Robot Actions", nullptr));
+        toolBox->setItemText(toolBox->indexOf(MetaActions), QCoreApplication::translate("MainWindow", "Meta Actions", nullptr));
         menuFiles->setTitle(QCoreApplication::translate("MainWindow", "Files", nullptr));
         menuexport->setTitle(QCoreApplication::translate("MainWindow", "export", nullptr));
     } // retranslateUi

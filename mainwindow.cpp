@@ -11,6 +11,7 @@
 #include <QToolButton>
 #include <QFile>
 #include <QDir>
+#include <QDebug>
 #include "node.h"
 #include <QFileDialog>
 #include <playground.h>
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     playground = new Playground();
     ui->playgroundScene->setScene(playground);
+    ui->playgroundScene->scale(SCALING,SCALING);
 
     ui->graphicsView->setScene(&stratBuilder);
     ui->graphicsView->viewport()->setCursor(Qt::ArrowCursor);
@@ -57,7 +59,7 @@ void MainWindow::setupCommonActions()
 
     QFile File;
 
-    File.setFileName(QDir::homePath() + "/Documents/Workspace/VRAC/eurobotsoftware2023/Actions/commonActions.json");
+    File.setFileName(":/config/commonActions.json");
     File.open(QIODevice::ReadOnly | QIODevice::Text);
     commonActions = QJsonDocument::fromJson(QString(File.readAll()).toUtf8()).object();
 
@@ -73,7 +75,7 @@ void MainWindow::setupCommonActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::actionButtonClicked);
 
-        grid->addWidget(actionButton, counter/2, counter%2);
+        grid->addWidget(actionButton, counter/NB_COLONNES, counter%NB_COLONNES);
         counter++;
     }
 
@@ -88,7 +90,7 @@ void MainWindow::setupGrobotActions()
 
     QFile File;
 
-    File.setFileName(QDir::homePath() + "/Documents/Workspace/VRAC/eurobotsoftware2023/Actions/actions.json");
+    File.setFileName(":/config/groBotActions.json");
     File.open(QIODevice::ReadOnly | QIODevice::Text);
     groBotActions = QJsonDocument::fromJson(QString(File.readAll()).toUtf8()).object();
 
@@ -104,7 +106,7 @@ void MainWindow::setupGrobotActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::groBotActionButtonClicked);
 
-        grid->addWidget(actionButton, counter/2, counter%2);
+        grid->addWidget(actionButton, counter/NB_COLONNES, counter%NB_COLONNES);
         counter++;
     }
 
@@ -135,7 +137,7 @@ void MainWindow::setupGrobotActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::potiBotActionButtonClicked);
 
-        grid->addWidget(actionButton, counter/2, counter%2);
+        grid->addWidget(actionButton, counter/NB_COLONNES, counter%NB_COLONNES);
         counter++;
     }
 
@@ -160,7 +162,7 @@ void MainWindow::setupMetaActions()
     grid->setVerticalSpacing(10);
 
     QDir directory;
-    directory = QDir(QDir::homePath() + "/Documents/Workspace/VRAC/eurobotsoftware2023/Strats/MetaActions/");
+    directory = QDir(":/config/metaActions/");
 
     QStringList metaActions = directory.entryList(QStringList() << "*.json" << "*.JSON",QDir::Files);
 
@@ -178,7 +180,7 @@ void MainWindow::setupMetaActions()
 
         connect(actionButton, &QToolButton::clicked, this, &MainWindow::metaActionButtonClicked );
 
-        grid->addWidget(actionButton, counter/2, counter%2);
+        grid->addWidget(actionButton, counter/NB_COLONNES, counter%NB_COLONNES);
         counter++;
     }
 
@@ -193,13 +195,13 @@ void MainWindow::actionButtonClicked()
 
     for (auto &k : action["parameters"].toObject().keys())
     {
-        if (k == "x")
+        if (k == "y")
         {
-            modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.x() * 5);
+            modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.x() );
         }
-        else if (k == "y")
+        else if (k == "x")
         {
-            modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.y() * 5);
+            modifyJsonValue(action, "parameters."+ k, playground->getRobot().pos().coord.y() );
         }
         else if (k == "theta")
         {
@@ -254,13 +256,56 @@ void MainWindow::metaActionButtonClicked()
 void MainWindow::updatePos(position pos)
 {
     QString text;
-    text = "X : " + QString::number(pos.coord.x() * 5) + " Y : " + QString::number(pos.coord.y() * 5);
+    text = "X : " + QString::number(pos.coord.y() ) + " Y : " + QString::number(pos.coord.x() );
     ui->coordinates->setText(text);
     ui->thetaRobot->setValue(pos.theta);
 }
 
+int MainWindow::countLink(Node *selectedNode)
+{
+    int nb_link=0;
+    auto links = stratBuilder.getLinks();
+
+    std::for_each(links.begin(), links.end(),[&](Link *link)
+    {
+        if(link->getEndNode() == selectedNode)nb_link++;
+    });
+    return nb_link;
+}
+
+void MainWindow::simulateStep(Node *simulateNode)
+{
+    Node * nextNode = nullptr;
+    auto links = stratBuilder.getLinks();
+
+    std::for_each(links.begin(), links.end(),[&](Link *link)
+    {
+        link->changePen(QPen(Qt::black,3));
+
+        if(link->getStartNode() == simulateNode)
+        {
+            nextNode = link->getEndNode();
+            if(nextNode!=nullptr)
+            {
+                nextNode->setPreviousStartNode(simulateNode->toPlainText());
+                qDebug()<<nextNode->toPlainText()<<"<-"<<nextNode->getPreviousStartNode();
+            }
+            simulateStep(nextNode);
+        }
+    });
+}
+
 void MainWindow::displayStep(Node *selectedNode)
 {
+    playground->resetItems();
+
+    if(first)
+    {
+        qDebug()<<selectedNode->toPlainText();
+        simulateStep(selectedNode);
+        first=false;
+    }
+
     Node * previousNode = nullptr;
 
     auto links = stratBuilder.getLinks();
@@ -269,14 +314,24 @@ void MainWindow::displayStep(Node *selectedNode)
     {
         if( link != nullptr)
         {
-            return (link->getEndNode() == selectedNode);
+            if(link->getEndNode() == selectedNode)
+            {
+                if(selectedNode->getPreviousStartNode()==nullptr)
+                {
+                    selectedNode->setPreviousStartNode(link->getStartNode()->toPlainText());
+                    qDebug()<<selectedNode->toPlainText()<<"<-"<<selectedNode->getPreviousStartNode();
+                }
+                return(link->getStartNode()->toPlainText()==selectedNode->getPreviousStartNode());
+            }
         }
         return false;
     });
 
     if (itLink != links.end())
     {
+        (*itLink)->changePen(QPen(Qt::green,4));
         previousNode = (*itLink)->getStartNode();
+        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<countLink(previousNode);
     }
 
     if (previousNode != nullptr)
@@ -285,9 +340,9 @@ void MainWindow::displayStep(Node *selectedNode)
         displayStep(previousNode);
 
         if (previousNode->getAction()["action"].toString() != "Bezier"
-         && previousNode->getAction()["action"].toString() != "Rotate"
-         && previousNode->getAction()["action"].toString() != "Line"
-         && previousNode->getAction()["displayed"].toBool())
+            && previousNode->getAction()["action"].toString() != "Rotate"
+            && previousNode->getAction()["action"].toString() != "Line"
+            && previousNode->getAction()["displayed"].toBool())
         {
             playground->setCurrentDisplayedNode(previousNode);
             qDebug() << "Previous :" << previousNode->toPlainText();
@@ -298,6 +353,8 @@ void MainWindow::displayStep(Node *selectedNode)
     {
         playground->setCurrentDisplayedNode(selectedNode);
     }
+
+    first=true;
 }
 
 

@@ -1,6 +1,7 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include "toolboxscene.h"
 #include <QGraphicsItem>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -22,6 +23,9 @@ public:
 
     void addLink(Link* link);
     void removeLink(Link* link);
+
+    void setPreviousStartNode(QString previousStartNode);
+    QString getPreviousStartNode(){return m_previousStartNode;}
 
     void setupName();
 
@@ -52,7 +56,10 @@ private:
     QJsonValue action;
     QVector<Link*> links;
 
+    int m_NbEndLinks=0;
+
     QString m_tag;
+    QString m_previousStartNode=nullptr;
 
     QPointF startPos;
     QPointF edgeStartPos;

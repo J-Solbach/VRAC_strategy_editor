@@ -1,0 +1,209 @@
+{
+    "OuvrirStock": {
+        "tag": "OuvrirStock",
+        "action": "OuvrirStock",
+        "displayed": true,
+        "parameters": {
+            "forward": true
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "FermerStock": {
+        "tag": "FermerStock",
+        "action": "FermerStock",
+        "displayed": true,
+        "parameters": {
+            "forward": true
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "Pincer": {
+        "tag": "Pincer",
+        "action": "Pincer",
+        "displayed": true,
+        "parameters": {
+        "side":{
+            "type":"FRONT_RIGHT",
+            "values": [
+                "FRONT_RIGHT",
+                "FRONT_LEFT",
+                "BACK_RIGHT",
+                "BACK_LEFT"
+            ]
+        }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "Lacher": {
+        "tag": "Lacher",
+        "action": "Lacher",
+        "displayed": true,
+        "parameters": {
+            "side":{
+                "type":"FRONT_RIGHT",
+                "values": [
+                    "FRONT_RIGHT",
+                    "FRONT_LEFT",
+                    "BACK_RIGHT",
+                    "BACK_LEFT"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "Tourner": {
+        "tag": "Tourner",
+        "action": "Tourner",
+        "displayed": true,
+        "parameters": {
+            "side":{
+                "type":"FRONT_RIGHT",
+                "values": [
+                    "FRONT_RIGHT",
+                    "FRONT_LEFT",
+                    "BACK_RIGHT",
+                    "BACK_LEFT"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "SouleverPince": {
+        "tag": "SouleverPince",
+        "action": "SouleverPince",
+        "parameters": {
+            "height": 0,
+            "side":{
+                "type":"FRONT_RIGHT",
+                "values": [
+                    "FRONT_RIGHT",
+                    "FRONT_LEFT",
+                    "BACK_RIGHT",
+                    "BACK_LEFT"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "DescendrePince": {
+        "tag": "DescendrePince",
+        "action": "DescendrePince",
+        "parameters": {
+            "height": 0,
+            "side":{
+                "type":"FRONT_RIGHT",
+                "values": [
+                    "FRONT_RIGHT",
+                    "FRONT_LEFT",
+                    "BACK_RIGHT",
+                    "BACK_LEFT"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "Ventouser": {
+        "tag": "Ventouser",
+        "action": "Ventouser",
+        "displayed": true,
+        "parameters": {
+            "number": 0
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "Deventouser": {
+        "tag": "Deventouser",
+        "action": "Deventouser",
+        "displayed": true,
+        "parameters": {
+            "number": 0
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "TournerPanneauSolaire": {
+        "tag": "TournerPanneauSolaire",
+        "action": "TournerPanneauSolaire",
+        "displayed": true,
+        "parameters": {
+            "yoffset": 0,
+            "angle": 0,
+            "side":{
+                "type":"RIGHT",
+                "values": [
+                    "RIGHT",
+                    "LEFT"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    },
+    "DetecterCouleur": {
+        "tag": "DetecterCouleur",
+        "action": "DetecterCouleur",
+        "parameters": {
+            "side":{
+                "type":"FRONT",
+                "values": [
+                    "FRONT",
+                    "BACK"
+                ]
+            }
+        },
+        "transitions": [
+         {
+          "type": "NoEvent",
+          "destination": ""
+         }
+        ]
+    }
+}

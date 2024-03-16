@@ -7,6 +7,9 @@
 #include <QJsonDocument>
 #include "playground.h"
 
+#define SCALING 0.2
+#define NB_COLONNES 3
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -45,6 +48,9 @@ public slots:
 
     void displayStep(Node *displayedNode);
 
+    void simulateStep(Node *simulateNode);
+
+    int countLink(Node *selectedNode);
 
 private slots:
     void on_actionsave_triggered();
@@ -73,5 +79,7 @@ private:
     QJsonObject potiBotActions;
 
     QList<QToolButton*> metaButtons;
+
+    bool first = true;
 };
 #endif // MAINWINDOW_H
