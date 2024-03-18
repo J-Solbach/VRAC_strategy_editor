@@ -484,7 +484,6 @@ void MainWindow::Load_MetaAction(QString fileName)
             {
                 on_actionsave_triggered();
                 dialog.close();
-                stratBuilder.clearScene();
             });
 
     layout.addWidget(&save);
@@ -496,6 +495,8 @@ void MainWindow::Load_MetaAction(QString fileName)
 void MainWindow::organize_MetaAction(QString fileName,ToolBoxScene *scene)
 {
     if (fileName.isEmpty()) return;
+
+    stratBuilder.clearScene();
 
     QFile f(fileName);
 
@@ -575,12 +576,12 @@ void MainWindow::on_actionNew_MetaAction_triggered(bool checked)
             {
                 on_actionsave_triggered();
                 dialog.close();
-                stratBuilder.clearScene();
             });
 
     layout.addWidget(&save);
     dialog.setLayout(&layout);
     dialog.exec();
+    stratBuilder.clearScene();
 
     setupMetaActions();
 }

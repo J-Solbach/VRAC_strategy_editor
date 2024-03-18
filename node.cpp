@@ -234,7 +234,6 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
         connect(stratBuilder, &ToolBoxScene::displayStep, this,[&](Node *selectedNode)
         {
-            stratBuilder->clearScene();
             main.metaStep(selectedNode,stratBuilder);
         });
 
