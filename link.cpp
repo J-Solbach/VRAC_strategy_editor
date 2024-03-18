@@ -7,7 +7,6 @@
 #include <QDialog>
 #include <QLayout>
 #include <QComboBox>
-#include "jsonhelperfunctions.h"
 #include <QMenu>
 
 Link::Link() : QObject(), QGraphicsLineItem()

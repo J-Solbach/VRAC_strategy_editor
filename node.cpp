@@ -122,7 +122,7 @@ void Node::setupName()
                 name += "_" + action["parameters"].toObject()[k].toObject()["type"].toString();
             }
         }
-         nameChanged(name);
+        nameChanged(name);
     }
     else
     {

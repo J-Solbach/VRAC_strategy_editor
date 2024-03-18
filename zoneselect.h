@@ -1,7 +1,6 @@
 #ifndef ZONESELECT_H
 #define ZONESELECT_H
 
-#include "qpen.h"
 #include <QGraphicsRectItem>
 #include <QGraphicsSimpleTextItem>
 

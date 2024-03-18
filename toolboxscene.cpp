@@ -175,7 +175,6 @@ void ToolBoxScene::keyPressEvent(QKeyEvent *event)
             update();
         }
     }
-
     else
     {
         QGraphicsScene::keyPressEvent(event);

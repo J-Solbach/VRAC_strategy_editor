@@ -473,23 +473,38 @@ void MainWindow::on_actionLoad_MetaAction_triggered()
 void MainWindow::Load_MetaAction(QString fileName)
 {
     QDialog dialog;
-    dialog.setWindowTitle("!");
+    dialog.setWindowTitle("Save");
 
-    QVBoxLayout layout;
+    QHBoxLayout layout;
     QPushButton save;
+    QPushButton nsave;
+    QPushButton close;
 
     save.setText("Save");
+    nsave.setText("Don't save");
+    close.setText("Close");
 
     connect(&save,&QPushButton::clicked,this,[&]()
             {
                 on_actionsave_triggered();
                 dialog.close();
             });
+    connect(&nsave,&QPushButton::clicked,this,[&]()
+            {
+                dialog.close();
+                organize_MetaAction(fileName,&stratBuilder);
+            });
+    connect(&close,&QPushButton::clicked,this,[&]()
+            {
+                dialog.close();
+            });
 
     layout.addWidget(&save);
+    layout.addWidget(&nsave);
+    layout.addWidget(&close);
+
     dialog.setLayout(&layout);
     dialog.exec();
-    organize_MetaAction(fileName,&stratBuilder);
 }
 
 void MainWindow::organize_MetaAction(QString fileName,ToolBoxScene *scene)
@@ -567,21 +582,36 @@ void MainWindow::on_actionNew_MetaAction_triggered(bool checked)
     QDialog dialog;
     dialog.setWindowTitle("!");
 
-    QVBoxLayout layout;
+    QHBoxLayout layout;
     QPushButton save;
+    QPushButton nsave;
+    QPushButton close;
 
     save.setText("Save");
+    nsave.setText("Don't save");
+    close.setText("Close");
 
     connect(&save,&QPushButton::clicked,this,[&]()
             {
                 on_actionsave_triggered();
                 dialog.close();
             });
+    connect(&nsave,&QPushButton::clicked,this,[&]()
+            {
+                dialog.close();
+                stratBuilder.clearScene();
+            });
+    connect(&close,&QPushButton::clicked,this,[&]()
+            {
+                dialog.close();
+            });
 
     layout.addWidget(&save);
+    layout.addWidget(&nsave);
+    layout.addWidget(&close);
+
     dialog.setLayout(&layout);
     dialog.exec();
-    stratBuilder.clearScene();
 
     setupMetaActions();
 }
