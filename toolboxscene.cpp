@@ -1,4 +1,6 @@
 #include "toolboxscene.h"
+#include "qjsondocument.h"
+#include "zoneselect.h"
 #include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QMimeData>
@@ -8,6 +10,8 @@
 #include <node.h>
 #include <link.h>
 #include <algorithm>
+#include <QFileInfo>
+#include <QFileDialog>
 
 ToolBoxScene::ToolBoxScene(QObject *parent) : QGraphicsScene(parent)
 {
@@ -92,18 +96,84 @@ void ToolBoxScene::organizeScene(Node *currentNode, QPointF currentPos)
 
 void ToolBoxScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (event->button() == Qt::RightButton)
+    {
+        startPos = event->scenePos();
+        update();
+
+        qDebug() << "Creating zone to select: startPos"<<startPos;
+        zone = new ZoneSelect();
+        addItem(zone);
+        zone->addStartingPoint(startPos);
+
+        connect(zone, &ZoneSelect::released, this, &ToolBoxScene::endZone);
+    }
     QGraphicsScene::mousePressEvent(event);
+}
+
+void ToolBoxScene::endZone()
+{
+    ZoneSelect *zone = static_cast<ZoneSelect*>(sender());
+    qDebug() <<"zone create";
+    zone->addEndingPoint();
+
+    std::for_each(nodes.begin(), nodes.end(), [&](Node *node)
+    {
+        if(node->collidesWithItem(zone))
+        {
+            node->setSelected(true);
+        }
+    });
+    delete zone;
 }
 
 void ToolBoxScene::keyPressEvent(QKeyEvent *event)
 {
+    QString fileName = QDir::tempPath() +"/paste.json";
+    QFile f(fileName);
+
+    if (event->matches(QKeySequence::Copy))
+    {
+        f.open(QIODevice::WriteOnly);
+
+        QJsonDocument testDoc;
+        QJsonObject rootTest = testDoc.object();
+
+        rootTest.insert("name", QFileInfo(fileName).baseName());
+
+        QJsonArray arr;
+
+        for (auto it : nodes)
+        {
+            if(it->isSelected())arr.append(it->getAction());
+        }
+
+        rootTest.insert("actions", arr);
+
+        testDoc.setObject(rootTest);
+        f.write(testDoc.toJson());
+        f.close();
+    }
     if (event->matches(QKeySequence::Paste))
     {
-        if( copiedNode == nullptr) return;
+        f.open(QIODevice::ReadOnly);
 
-        Node *newNode = new Node(copiedNode->toPlainText(), copiedNode->getAction().toObject());
-        addNode(newNode);
-        newNode->setupName();
+        QJsonDocument doc = QJsonDocument::fromJson(QString(f.readAll()).toUtf8());
+        QJsonObject rootTest = doc.object();
+
+        QJsonArray actions = rootTest["actions"].toArray();
+
+        auto action = actions.first().toObject();
+
+        for (auto actionRef : actions)
+        {
+            auto action = actionRef.toObject();
+            Node *testNode = new Node(action["tag"].toString(), action);
+
+            addNode(testNode);
+            testNode->setupName();
+            update();
+        }
     }
 
     else
@@ -138,9 +208,9 @@ void ToolBoxScene::addNode(Node *node)
     node->setPos(newPos);
     nodes.push_back(node);
 
+    connect(node, &Node::moved, this, &ToolBoxScene::nodeIsMoving);
     connect(node, &Node::outPortClicked, this, &ToolBoxScene::startLink);
     connect(node, &Node::removeMe, this,  &ToolBoxScene::removeNode);
-    connect(node, &Node::copied, this, &ToolBoxScene::nodeIsCopied);
     connect(node, &Node::selected, this, &ToolBoxScene::nodeSelected);
     connect(node, &Node::MetaActionSelected, this, &ToolBoxScene::MetaActionSelected);
     connect(node, &Node::nameChanged, this, &ToolBoxScene::checkNaming);
@@ -198,23 +268,29 @@ void ToolBoxScene::endLink()
 
 void ToolBoxScene::removeNode()
 {
-    Node *node = static_cast<Node*>(sender());
+    Node *thisNode = static_cast<Node*>(sender());
 
-    // erase every link which is connected to the node
-    links.erase(std::remove_if(links.begin(), links.end(), [&](Link *link)
+    std::for_each(nodes.begin(), nodes.end(), [&](Node *node)
     {
-        if ((link->getStartNode() == node) || (link->getEndNode() == node))
+        if(node->isSelected()||node==thisNode)
         {
-            link->getStartNode()->removeLink(link);
-            delete link;
-            link = nullptr;
-            return true;
-        }
-        return false;
-    }), links.end());
+            links.erase(std::remove_if(links.begin(), links.end(), [&](Link *link)
+            {
+                if ((link->getStartNode() == node) || (link->getEndNode() == node))
+                {
+                    link->getStartNode()->removeLink(link);
+                    delete link;
+                    link = nullptr;
+                    return true;
+                }
+                return false;
+            }), links.end());
 
-    nodes.erase(std::find(nodes.cbegin(), nodes.cend(), node));
-    delete node;
+            nodes.erase(std::find(nodes.cbegin(), nodes.cend(), node));
+            qDebug()<<"remove "<<node->toPlainText();
+            delete node;
+        }
+    });
 }
 
 void ToolBoxScene::removeLink()
@@ -226,6 +302,18 @@ void ToolBoxScene::removeLink()
     delete link;
 }
 
+void ToolBoxScene::nodeIsMoving(QPointF delta)
+{
+    Node *movedNode = static_cast<Node*>(sender());
+
+    std::for_each(nodes.begin(), nodes.end(), [&](Node *node)
+    {
+        if(node->isSelected()&&node!=movedNode)
+        {
+            node->setPos(node->pos()+delta);
+        }
+    });
+}
 void ToolBoxScene::nodeIsCopied()
 {
     copiedNode = static_cast<Node*>(sender());
@@ -300,11 +388,8 @@ Node *ToolBoxScene::lastNode()
 
 int ToolBoxScene::countLink(Node *selectedNode)
 {
-    int nb_link=0;
-
-    std::for_each(links.begin(), links.end(),[&](Link *link)
+    return std::count_if(links.begin(), links.end(),[&](Link *link)
     {
-        if(link->getStartNode() == selectedNode)nb_link++;
+        return(link->getStartNode() == selectedNode);
     });
-    return nb_link;
 }

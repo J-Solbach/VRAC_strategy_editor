@@ -39,10 +39,10 @@ public:
     const QVector<Link *> &getLinks() const;
 
 signals:
+    void moved(QPointF);
     void outPortClicked();
     void inPortReleased();
     void removeMe();
-    void copied();
     void selected();
     void MetaActionSelected(QString);
     void nameChanged(QString);
@@ -56,15 +56,12 @@ protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
 
 private:
     QJsonValue action;
     QVector<Link*> links;
 
     ToolBoxScene *stratBuilder;
-
-    int m_NbEndLinks=0;
 
     QString m_tag;
     QString m_previousStartNode=nullptr;
@@ -75,6 +72,8 @@ private:
 
     QRectF outPort;
     QRectF inPort;
+
+    int m_NbEndLinks=0;
 
     bool isMoving;
     bool isCreatingEdge;

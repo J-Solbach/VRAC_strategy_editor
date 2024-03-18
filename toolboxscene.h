@@ -1,6 +1,7 @@
 #ifndef TOOLBOXSCENE_H
 #define TOOLBOXSCENE_H
 
+#include "zoneselect.h"
 #include <QGraphicsScene>
 #include <QDragMoveEvent>
 #include <QVector>
@@ -28,7 +29,6 @@ public:
     const QVector<Node *> &getNodes() const;
 
     Node * getNode(QString tag);
-
     Node *lastNode();
 
     int countLink(Node *selectedNode);
@@ -37,12 +37,15 @@ public:
 
 private slots:
 
+    void endZone();
+
     void startLink();
     void endLink();
 
     void removeNode();
     void removeLink();
 
+    void nodeIsMoving(QPointF delta);
     void nodeIsCopied();
     void nodeSelected();
 
@@ -57,8 +60,12 @@ private:
     QVector<Node*>nodes;
     QVector<Link*>links;
 
+    ZoneSelect *zone = nullptr;
+
     Node *copiedNode = nullptr;
     Node *m_lastNode = nullptr;
+
+    QPointF startPos;
 };
 
 #endif // TOOLBOXSCENE_H

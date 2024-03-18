@@ -234,6 +234,7 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
         connect(stratBuilder, &ToolBoxScene::displayStep, this,[&](Node *selectedNode)
         {
+            stratBuilder->clearScene();
             main.metaStep(selectedNode,stratBuilder);
         });
 
@@ -250,7 +251,6 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-
     if (startPos != event->pos())
     {
         QPointF delta = event->pos() - startPos;
@@ -258,6 +258,7 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         if (isMoving || delta.manhattanLength() >= QApplication::startDragDistance() )
         {
             setPos(pos() + delta);
+            emit moved(delta);
             isMoving = true;
         }
     }
@@ -325,16 +326,6 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         emit MetaActionSelected(getfileName());
     }
     // ...
-}
-
-void Node::keyPressEvent(QKeyEvent *event)
-{
-    if (event->matches(QKeySequence::Copy))
-    {
-        emit copied();
-    }
-
-    QGraphicsTextItem::keyPressEvent(event);
 }
 
 const QVector<Link *> &Node::getLinks() const
