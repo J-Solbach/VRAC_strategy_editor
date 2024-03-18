@@ -488,11 +488,12 @@ void MainWindow::Load_MetaAction(QString fileName)
             {
                 on_actionsave_triggered();
                 dialog.close();
+                stratBuilder.organize_MetaAction(fileName);
             });
     connect(&nsave,&QPushButton::clicked,this,[&]()
             {
                 dialog.close();
-                organize_MetaAction(fileName,&stratBuilder);
+                stratBuilder.organize_MetaAction(fileName);
             });
     connect(&close,&QPushButton::clicked,this,[&]()
             {
@@ -507,69 +508,7 @@ void MainWindow::Load_MetaAction(QString fileName)
     dialog.exec();
 }
 
-void MainWindow::organize_MetaAction(QString fileName,ToolBoxScene *scene)
-{
-    if (fileName.isEmpty()) return;
 
-    stratBuilder.clearScene();
-
-    QFile f(fileName);
-
-    f.open(QIODevice::ReadOnly);
-
-    QJsonDocument doc = QJsonDocument::fromJson(QString(f.readAll()).toUtf8());
-    QJsonObject rootTest = doc.object();
-
-    QJsonArray actions = rootTest["actions"].toArray();
-
-    auto action = actions.first().toObject();
-
-    for (auto actionRef : actions)
-    {
-        auto action = actionRef.toObject();
-        Node *testNode = new Node(action["tag"].toString(), action);
-
-        scene->addNode(testNode);
-        scene->update();
-    }
-
-    //setupLinks
-    for (auto actionRef : actions)
-    {
-        auto action = actionRef.toObject();
-
-        Node *startNode = scene->getNode(action["tag"].toString());
-
-        if (startNode== nullptr) continue;
-
-        QJsonArray transitions = action["transitions"].toArray();
-
-        for (auto transitionRef : transitions)
-        {
-            auto transition = transitionRef.toObject();
-            Node *endNode = scene->getNode(transition["destination"].toString());
-
-            if (endNode != nullptr)
-            {
-                Link *newLink = new Link();
-
-                newLink->addStartingNode(startNode);
-                startNode->addLink(newLink);
-                newLink->addEndingNode(endNode);
-                newLink->getTransition().setText(transition["type"].toString());
-
-                scene->addLink(newLink);
-            }
-        }
-    }
-
-    Node * currentNode = scene->getNodes().first();
-    QPointF currentPos(scene->sceneRect().center().x(), -40);
-
-    scene->organizeScene(currentNode, currentPos);
-
-    scene->update();
-}
 
 void MainWindow::on_thetaRobot_valueChanged(int arg1)
 {
@@ -595,6 +534,7 @@ void MainWindow::on_actionNew_MetaAction_triggered(bool checked)
             {
                 on_actionsave_triggered();
                 dialog.close();
+                stratBuilder.clearScene();
             });
     connect(&nsave,&QPushButton::clicked,this,[&]()
             {

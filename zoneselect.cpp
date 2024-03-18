@@ -1,5 +1,4 @@
 #include "zoneselect.h"
-#include "node.h"
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 #include <QEvent>
@@ -7,7 +6,6 @@
 #include <QDialog>
 #include <QLayout>
 #include <QComboBox>
-#include "jsonhelperfunctions.h"
 #include <QMenu>
 
 ZoneSelect::ZoneSelect(): QObject(), QGraphicsRectItem()

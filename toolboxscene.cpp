@@ -94,6 +94,70 @@ void ToolBoxScene::organizeScene(Node *currentNode, QPointF currentPos)
     }
 }
 
+void ToolBoxScene::organize_MetaAction(QString fileName)
+{
+    if (fileName.isEmpty()) return;
+
+    clearScene();
+
+    QFile f(fileName);
+
+    f.open(QIODevice::ReadOnly);
+
+    QJsonDocument doc = QJsonDocument::fromJson(QString(f.readAll()).toUtf8());
+    QJsonObject rootTest = doc.object();
+
+    QJsonArray actions = rootTest["actions"].toArray();
+
+    auto action = actions.first().toObject();
+
+    for (auto actionRef : actions)
+    {
+        auto action = actionRef.toObject();
+        Node *testNode = new Node(action["tag"].toString(), action);
+
+        addNode(testNode);
+        update();
+    }
+
+    //setupLinks
+    for (auto actionRef : actions)
+    {
+        auto action = actionRef.toObject();
+
+        Node *startNode = getNode(action["tag"].toString());
+
+        if (startNode== nullptr) continue;
+
+        QJsonArray transitions = action["transitions"].toArray();
+
+        for (auto transitionRef : transitions)
+        {
+            auto transition = transitionRef.toObject();
+            Node *endNode = getNode(transition["destination"].toString());
+
+            if (endNode != nullptr)
+            {
+                Link *newLink = new Link();
+
+                newLink->addStartingNode(startNode);
+                startNode->addLink(newLink);
+                newLink->addEndingNode(endNode);
+                newLink->getTransition().setText(transition["type"].toString());
+
+                addLink(newLink);
+            }
+        }
+    }
+
+    Node * currentNode = getNodes().first();
+    QPointF currentPos(sceneRect().center().x(), -40);
+
+    organizeScene(currentNode, currentPos);
+
+    update();
+}
+
 void ToolBoxScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
@@ -154,7 +218,30 @@ void ToolBoxScene::keyPressEvent(QKeyEvent *event)
         f.write(testDoc.toJson());
         f.close();
     }
-    if (event->matches(QKeySequence::Paste))
+    else if (event->matches(QKeySequence::Cut))
+    {
+        f.open(QIODevice::WriteOnly);
+
+        QJsonDocument testDoc;
+        QJsonObject rootTest = testDoc.object();
+
+        rootTest.insert("name", QFileInfo(fileName).baseName());
+
+        QJsonArray arr;
+
+        for (auto it : nodes)
+        {
+            if(it->isSelected())arr.append(it->getAction());
+        }
+
+        rootTest.insert("actions", arr);
+
+        testDoc.setObject(rootTest);
+        f.write(testDoc.toJson());
+        f.close();
+        removeNode();
+    }
+    else if (event->matches(QKeySequence::Paste))
     {
         f.open(QIODevice::ReadOnly);
 

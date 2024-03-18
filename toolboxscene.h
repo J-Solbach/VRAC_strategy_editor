@@ -19,6 +19,7 @@ public:
     void clearScene();
 
     void organizeScene(Node *currentNode, QPointF currentPos);
+    void organize_MetaAction(QString fileName);
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;

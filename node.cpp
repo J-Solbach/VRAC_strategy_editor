@@ -36,11 +36,10 @@ Node::Node(QString tag, QJsonObject json, QGraphicsItem *parent) : QGraphicsText
 
     if(isMetaAction())
     {
-        MainWindow main;
-
         stratBuilder=new ToolBoxScene;
 
-        main.organize_MetaAction(getfileName(),stratBuilder);
+        qDebug()<<"set"<<toPlainText();
+        stratBuilder->organize_MetaAction(getfileName());
     }
 }
 
