@@ -28,8 +28,9 @@ public:
     QString getPreviousStartNode(){return m_previousStartNode;}
 
     bool isMetaAction();
+    
     QString getfileName(){return "D:/travail/CRAC/Coupe2024/metaActions/"+action["file"].toString()+".json";}
-
+    
     void setupName();
 
     QJsonValue getAction();

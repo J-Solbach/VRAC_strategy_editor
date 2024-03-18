@@ -36,6 +36,7 @@ public:
     QGridLayout *gridLayout_2;
     QGraphicsView *graphicsView;
     QGraphicsView *playgroundScene;
+    QGraphicsView *graphicsView1;
     QGridLayout *gridLayout;
     QLabel *coordinates;
     QLabel *coordinates_3;
@@ -92,6 +93,19 @@ public:
         playgroundScene->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         gridLayout_2->addWidget(playgroundScene, 0, 0, 1, 1);
+
+        graphicsView1 = new QGraphicsView(centralwidget);
+        graphicsView1->setObjectName("graphicsView1");
+        graphicsView1->setMouseTracking(false);
+        graphicsView1->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        graphicsView1->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        graphicsView1->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
+        graphicsView1->setAlignment(Qt::AlignCenter);
+        graphicsView1->setDragMode(QGraphicsView::NoDrag);
+        graphicsView1->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
+        graphicsView1->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+
+        gridLayout_2->addWidget(graphicsView1, 0, 1, 2, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName("gridLayout");
