@@ -1,0 +1,57 @@
+{
+    "actions": [
+        {
+            "action": "OuvrirStock",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "OuvrirStock",
+            "transitions": [
+                {
+                    "destination": "Line_NORMAL",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "FermerStock",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "FermerStock",
+            "transitions": [
+            ]
+        },
+        {
+            "action": "Line",
+            "displayed": true,
+            "parameters": {
+                "distance": 500,
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Line_NORMAL",
+            "transitions": [
+                {
+                    "destination": "FermerStock",
+                    "type": "NoEvent"
+                }
+            ]
+        }
+    ],
+    "name": "prendrePots"
+}

@@ -1,0 +1,255 @@
+{
+    "actions": [
+        {
+            "action": "SetOdometry",
+            "displayed": true,
+            "parameters": {
+                "theta": -90,
+                "x": 225,
+                "y": 225
+            },
+            "tag": "SetOdometry",
+            "transitions": [
+                {
+                    "destination": "Line_NORMAL",
+                    "type": "NoEvent"
+                },
+                {
+                    "destination": "XYT_NORMAL",
+                    "type": "Timeout"
+                },
+                {
+                    "destination": "Line_NORMAL_3",
+                    "type": "Resume"
+                }
+            ]
+        },
+        {
+            "action": "Line",
+            "displayed": true,
+            "parameters": {
+                "distance": 775,
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Line_NORMAL",
+            "transitions": [
+                {
+                    "destination": "Rotate_NORMAL",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Line",
+            "displayed": true,
+            "parameters": {
+                "distance": 500,
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Line_NORMAL_1",
+            "transitions": [
+                {
+                    "destination": "FermerStock",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "OuvrirStock",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "OuvrirStock",
+            "transitions": [
+                {
+                    "destination": "Line_NORMAL_1",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "FermerStock",
+            "displayed": true,
+            "parameters": {
+                "forward": true
+            },
+            "tag": "FermerStock",
+            "transitions": [
+            ]
+        },
+        {
+            "action": "Rotate",
+            "displayed": true,
+            "parameters": {
+                "relative": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": -90
+            },
+            "tag": "Rotate_NORMAL",
+            "transitions": [
+                {
+                    "destination": "OuvrirStock",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "XYT",
+            "displayed": true,
+            "parameters": {
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": -90,
+                "x": 1000,
+                "y": 1000
+            },
+            "tag": "XYT_NORMAL",
+            "transitions": [
+                {
+                    "destination": "Rotate_NORMAL_1",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Rotate",
+            "displayed": true,
+            "parameters": {
+                "relative": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                },
+                "theta": -90
+            },
+            "tag": "Rotate_NORMAL_1",
+            "transitions": [
+                {
+                    "destination": "Line_NORMAL_2",
+                    "type": "Timeout"
+                },
+                {
+                    "destination": "OuvrirStock",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Line",
+            "displayed": true,
+            "parameters": {
+                "distance": 300,
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Line_NORMAL_2",
+            "transitions": [
+                {
+                    "destination": "Line_NORMAL_1",
+                    "type": "NoEvent"
+                }
+            ]
+        },
+        {
+            "action": "Line",
+            "displayed": true,
+            "parameters": {
+                "distance": 1775,
+                "forward": true,
+                "speed": {
+                    "type": "NORMAL",
+                    "values": [
+                        "FUCKING_SLOW",
+                        "VERY_SLOW",
+                        "SLOW",
+                        "NORMAL",
+                        "FAST",
+                        "VERY_FAST",
+                        "FASTER_THAN_RCVA",
+                        "I_AM_SPEED"
+                    ]
+                }
+            },
+            "tag": "Line_NORMAL_3",
+            "transitions": [
+                {
+                    "destination": "Rotate_NORMAL",
+                    "type": "NoEvent"
+                }
+            ]
+        }
+    ],
+    "name": "premierAction"
+}

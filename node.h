@@ -28,8 +28,9 @@ public:
     QString getPreviousStartNode(){return m_previousStartNode;}
 
     bool isMetaAction();
+    
     QString getfileName(){return "D:/travail/CRAC/Coupe2024/metaActions/"+action["file"].toString()+".json";}
-
+    
     void setupName();
 
     QJsonValue getAction();
@@ -63,7 +64,7 @@ private:
     QVector<Link*> links;
 
     ToolBoxScene *stratBuilder;
-
+    
     int m_NbEndLinks=0;
 
     QString m_tag;
