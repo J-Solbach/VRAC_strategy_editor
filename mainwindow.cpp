@@ -321,7 +321,7 @@ void MainWindow::displayStep(Node *selectedNode)
     {
         (*itLink)->changePen(QPen(Qt::green,4));
         previousNode = (*itLink)->getStartNode();
-        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<stratBuilder.countLink(previousNode);
+        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<stratBuilder.countEndLink(previousNode);
     }
 
     if (previousNode != nullptr)
@@ -408,7 +408,7 @@ void MainWindow::metaStep(Node *selectedNode,ToolBoxScene *scene)
     {
         (*itLink)->changePen(QPen(Qt::green,4));
         previousNode = (*itLink)->getStartNode();
-        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<scene->countLink(previousNode);
+        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<scene->countEndLink(previousNode);
     }
 
     if (previousNode != nullptr)

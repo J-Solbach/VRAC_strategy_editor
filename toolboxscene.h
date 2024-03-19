@@ -31,8 +31,10 @@ public:
 
     Node * getNode(QString tag);
     Node *lastNode();
+    Node *firstNode();
 
-    int countLink(Node *selectedNode);
+    int countEndLink(Node *selectedNode);
+    int countStartLink(Node *selectedNode);
 
     const QVector<Link *> &getLinks() const;
 

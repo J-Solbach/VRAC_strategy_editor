@@ -150,7 +150,7 @@ void ToolBoxScene::organize_MetaAction(QString fileName)
         }
     }
 
-    Node * currentNode = getNodes().first();
+    Node * currentNode = firstNode();
     QPointF currentPos(sceneRect().center().x(), -40);
 
     organizeScene(currentNode, currentPos);
@@ -463,7 +463,7 @@ Node *ToolBoxScene::lastNode()
 {
     auto itNode = std::find_if(nodes.begin(), nodes.end(), [&](Node *node)
     {
-        return (countLink(node)==0);
+        return (countEndLink(node)==0);
     });
 
     if (itNode != nodes.end())
@@ -472,10 +472,31 @@ Node *ToolBoxScene::lastNode()
     }
 }
 
-int ToolBoxScene::countLink(Node *selectedNode)
+Node *ToolBoxScene::firstNode()
+{
+    auto itNode = std::find_if(nodes.begin(), nodes.end(), [&](Node *node)
+    {
+        return (countStartLink(node)==0);
+    });
+
+    if (itNode != nodes.end())
+    {
+        return (*itNode);
+    }
+}
+
+int ToolBoxScene::countEndLink(Node *selectedNode)
 {
     return std::count_if(links.begin(), links.end(),[&](Link *link)
     {
         return(link->getStartNode() == selectedNode);
+    });
+}
+
+int ToolBoxScene::countStartLink(Node *selectedNode)
+{
+    return std::count_if(links.begin(), links.end(),[&](Link *link)
+    {
+        return(link->getEndNode() == selectedNode);
     });
 }
