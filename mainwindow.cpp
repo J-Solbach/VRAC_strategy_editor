@@ -578,7 +578,7 @@ void MainWindow::on_actionOrganize_triggered()
     auto nodes = stratBuilder.getNodes();
     if (nodes.isEmpty()) return;
 
-    Node * currentNode = nodes.first();
+    Node * currentNode = stratBuilder.firstNode();
 
     QPointF currentPos(stratBuilder.sceneRect().center().x(), 0);
 

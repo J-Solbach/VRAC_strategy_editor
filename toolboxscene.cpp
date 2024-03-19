@@ -15,7 +15,7 @@
 
 ToolBoxScene::ToolBoxScene(QObject *parent) : QGraphicsScene(parent)
 {
-    setSceneRect(QRectF(0, 0, 900, 900));
+    setSceneRect(QRectF(0, 0, 900, 3000));
 
     setBackgroundBrush(QColor("#666"));
 }
@@ -468,6 +468,7 @@ Node *ToolBoxScene::lastNode()
 
     if (itNode != nodes.end())
     {
+        qDebug()<<"last node:"<<(*itNode)->toPlainText();
         return (*itNode);
     }
 }
@@ -481,6 +482,7 @@ Node *ToolBoxScene::firstNode()
 
     if (itNode != nodes.end())
     {
+        qDebug()<<"first node:"<<(*itNode)->toPlainText();
         return (*itNode);
     }
 }
