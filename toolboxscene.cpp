@@ -15,7 +15,7 @@
 
 ToolBoxScene::ToolBoxScene(QObject *parent) : QGraphicsScene(parent)
 {
-    setSceneRect(QRectF(0, 0, 900, 3000));
+    setSceneRect(QRectF(0, 0, 900, 900));
 
     setBackgroundBrush(QColor("#666"));
 }
@@ -186,6 +186,7 @@ void ToolBoxScene::endZone()
         if(node->collidesWithItem(zone))
         {
             node->setSelected(true);
+            qDebug()<<"Select "<<node->toPlainText();
         }
     });
     delete zone;
@@ -336,11 +337,26 @@ void ToolBoxScene::endLink()
 
     if (itNode != nodes.end())
     {
-        qDebug() << "Valid Link";
-        newLink->addEndingNode(*itNode);
-        newLink->getStartNode()->addLink(newLink);
+        auto itLink=std::find_if(links.begin(), links.end(),[&](Link *link)
+        {
+            return(link->getStartNode() == newLink->getStartNode()&&link->getEndNode()==*itNode);
+        });
+        if(itLink != links.end())
+        {
+            qDebug() <<"Not a valid Link";
+            removeItem(newLink);
+            links.erase(std::find(links.begin(), links.end(), newLink));
 
-        connect(newLink, &Link::removeMe, this, &ToolBoxScene::removeLink);
+            if (newLink != nullptr) delete newLink;
+        }
+        else
+        {
+            qDebug() << "Valid Link";
+            newLink->addEndingNode(*itNode);
+            newLink->getStartNode()->addLink(newLink);
+
+            connect(newLink, &Link::removeMe, this, &ToolBoxScene::removeLink);
+        }
     }
     else
     {
@@ -356,8 +372,9 @@ void ToolBoxScene::removeNode()
 {
     Node *thisNode = static_cast<Node*>(sender());
 
-    std::for_each(nodes.begin(), nodes.end(), [&](Node *node)
+    nodes.erase(std::remove_if(nodes.begin(), nodes.end(), [&](Node *node)
     {
+        qDebug()<<node->toPlainText()<<"isSelected:"<<node->isSelected();
         if(node->isSelected()||node==thisNode)
         {
             links.erase(std::remove_if(links.begin(), links.end(), [&](Link *link)
@@ -372,11 +389,12 @@ void ToolBoxScene::removeNode()
                 return false;
             }), links.end());
 
-            nodes.erase(std::find(nodes.cbegin(), nodes.cend(), node));
             qDebug()<<"remove "<<node->toPlainText();
             delete node;
+            return true;
         }
-    });
+        return false;
+    }),nodes.end());
 }
 
 void ToolBoxScene::removeLink()

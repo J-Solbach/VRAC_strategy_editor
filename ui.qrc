@@ -11,5 +11,6 @@
         <file>Images/panneau_solaire.png</file>
         <file>Images/ouvert_derriere.png</file>
         <file>Images/ouvert_devant.png</file>
+        <file>Images/Robot.png</file>
     </qresource>
 </RCC>

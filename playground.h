@@ -16,7 +16,7 @@
 #define N_PLANTES 36
 #define N_STOCK 6
 #define N_POTS_PAR_STOCK 6
-#define STOCKAGE_ROBOT 12
+#define STOCKAGE_ROBOT 24
 #define N_STOCK_ROBOT 4
 #define N_PANNEAUX 9
 #define N_JARDINIERE 6
@@ -47,6 +47,8 @@ public:
     void addPanneau();
 
     void setJardiniere();
+
+    QPointF PointRotate(QPointF pos,int theta);
 
     int PlantesPrises(int side);
 
