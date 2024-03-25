@@ -9,9 +9,8 @@
         <file>Images/robot_ouvert.png</file>
         <file>Images/robot_ferme.png</file>
         <file>Images/panneau_solaire.png</file>
-        <file>config/metaActions/premierAction.json</file>
         <file>Images/ouvert_derriere.png</file>
         <file>Images/ouvert_devant.png</file>
-        <file>config/metaActions/prendrePots.json</file>
+        <file>Images/Robot.png</file>
     </qresource>
 </RCC>

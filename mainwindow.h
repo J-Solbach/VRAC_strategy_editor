@@ -34,6 +34,10 @@ public:
 
     void setupMetaActions();
 
+    int countLink(Node *selectedNode);
+
+    void organize_MetaAction(QString fileName,ToolBoxScene *scene);
+
 public slots:
 
     void actionButtonClicked();
@@ -50,7 +54,11 @@ public slots:
 
     void simulateStep(Node *simulateNode);
 
-    int countLink(Node *selectedNode);
+    void metaStep(Node *selectedNode, ToolBoxScene *scene);
+
+    void metaSimulateStep(Node *selectedNode, ToolBoxScene *scene);
+
+    void Load_MetaAction(QString fileName);
 
 private slots:
     void on_actionsave_triggered();

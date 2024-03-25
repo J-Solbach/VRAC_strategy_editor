@@ -27,18 +27,27 @@ public:
     void setPreviousStartNode(QString previousStartNode);
     QString getPreviousStartNode(){return m_previousStartNode;}
 
+    bool isMetaAction();
+    
+    QString getfileName(){return "D:/travail/CRAC/Coupe2024/metaActions/"+action["file"].toString()+".json";}
+    
     void setupName();
 
     QJsonValue getAction();
 
+    ToolBoxScene *getMetaScene(){return stratBuilder;}
+
     const QVector<Link *> &getLinks() const;
 
 signals:
+    void moved(QPointF);
     void outPortClicked();
     void inPortReleased();
+    void copyMe();
+    void paste();
     void removeMe();
-    void copied();
     void selected();
+    void MetaActionSelected(QString);
     void nameChanged(QString);
 
 protected:
@@ -50,13 +59,12 @@ protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
 
 private:
     QJsonValue action;
     QVector<Link*> links;
 
-    int m_NbEndLinks=0;
+    ToolBoxScene *stratBuilder;
 
     QString m_tag;
     QString m_previousStartNode=nullptr;
@@ -67,6 +75,8 @@ private:
 
     QRectF outPort;
     QRectF inPort;
+
+    int m_NbEndLinks=0;
 
     bool isMoving;
     bool isCreatingEdge;

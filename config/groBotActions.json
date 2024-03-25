@@ -27,40 +27,16 @@
          }
         ]
     },
-    "Pincer": {
-        "tag": "Pincer",
-        "action": "Pincer",
-        "displayed": true,
-        "parameters": {
-        "side":{
-            "type":"FRONT_RIGHT",
-            "values": [
-                "FRONT_RIGHT",
-                "FRONT_LEFT",
-                "BACK_RIGHT",
-                "BACK_LEFT"
-            ]
-        }
-        },
-        "transitions": [
-         {
-          "type": "NoEvent",
-          "destination": ""
-         }
-        ]
-    },
-    "Lacher": {
-        "tag": "Lacher",
-        "action": "Lacher",
+    "Deposer": {
+        "tag": "Deposer",
+        "action": "Deposer",
         "displayed": true,
         "parameters": {
             "side":{
-                "type":"FRONT_RIGHT",
+                "type":"FRONT",
                 "values": [
-                    "FRONT_RIGHT",
-                    "FRONT_LEFT",
-                    "BACK_RIGHT",
-                    "BACK_LEFT"
+                    "FRONT",
+                    "BACK"
                 ]
             }
         },
@@ -71,18 +47,16 @@
          }
         ]
     },
-    "Tourner": {
-        "tag": "Tourner",
-        "action": "Tourner",
+    "Monter": {
+        "tag": "Monter",
+        "action": "Monter",
         "displayed": true,
         "parameters": {
             "side":{
-                "type":"FRONT_RIGHT",
+                "type":"FRONT",
                 "values": [
-                    "FRONT_RIGHT",
-                    "FRONT_LEFT",
-                    "BACK_RIGHT",
-                    "BACK_LEFT"
+                    "FRONT",
+                    "BACK"
                 ]
             }
         },
@@ -93,70 +67,18 @@
          }
         ]
     },
-    "SouleverPince": {
-        "tag": "SouleverPince",
-        "action": "SouleverPince",
-        "parameters": {
-            "height": 0,
-            "side":{
-                "type":"FRONT_RIGHT",
-                "values": [
-                    "FRONT_RIGHT",
-                    "FRONT_LEFT",
-                    "BACK_RIGHT",
-                    "BACK_LEFT"
-                ]
-            }
-        },
-        "transitions": [
-         {
-          "type": "NoEvent",
-          "destination": ""
-         }
-        ]
-    },
-    "DescendrePince": {
-        "tag": "DescendrePince",
-        "action": "DescendrePince",
-        "parameters": {
-            "height": 0,
-            "side":{
-                "type":"FRONT_RIGHT",
-                "values": [
-                    "FRONT_RIGHT",
-                    "FRONT_LEFT",
-                    "BACK_RIGHT",
-                    "BACK_LEFT"
-                ]
-            }
-        },
-        "transitions": [
-         {
-          "type": "NoEvent",
-          "destination": ""
-         }
-        ]
-    },
-    "Ventouser": {
-        "tag": "Ventouser",
-        "action": "Ventouser",
+    "Descendre": {
+        "tag": "Descendre",
+        "action": "Descendre",
         "displayed": true,
         "parameters": {
-            "number": 0
-        },
-        "transitions": [
-         {
-          "type": "NoEvent",
-          "destination": ""
-         }
-        ]
-    },
-    "Deventouser": {
-        "tag": "Deventouser",
-        "action": "Deventouser",
-        "displayed": true,
-        "parameters": {
-            "number": 0
+            "side":{
+                "type":"FRONT",
+                "values": [
+                    "FRONT",
+                    "BACK"
+                ]
+            }
         },
         "transitions": [
          {
@@ -170,7 +92,7 @@
         "action": "TournerPanneauSolaire",
         "displayed": true,
         "parameters": {
-            "yoffset": 0,
+            "xoffset": 0,
             "angle": 0,
             "side":{
                 "type":"RIGHT",

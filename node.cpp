@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include <QApplication>
 #include <QDialog>
+#include <QTabWidget>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QMenu>
@@ -16,6 +17,8 @@
 #include <QVariantList>
 #include <QStringList>
 #include "jsonhelperfunctions.h"
+#include "mainwindow.h"
+#include <QGraphicsView>
 
 Node::Node(QString tag, QJsonObject json, QGraphicsItem *parent) : QGraphicsTextItem(tag, parent) , action(json), m_tag(tag)
 {
@@ -30,6 +33,14 @@ Node::Node(QString tag, QJsonObject json, QGraphicsItem *parent) : QGraphicsText
     QFont font;
     font.setPixelSize(18);
     setFont(font);
+
+    if(isMetaAction())
+    {
+        stratBuilder=new ToolBoxScene;
+
+        qDebug()<<"set"<<toPlainText();
+        stratBuilder->organize_MetaAction(getfileName());
+    }
 }
 
 
@@ -93,6 +104,11 @@ void Node::setPreviousStartNode(QString previousStartNode)
     m_previousStartNode=previousStartNode;
 }
 
+bool Node::isMetaAction()
+{
+    return(!action["file"].isUndefined());
+}
+
 void Node::setupName()
 {
     if (action["file"].isUndefined())
@@ -105,7 +121,7 @@ void Node::setupName()
                 name += "_" + action["parameters"].toObject()[k].toObject()["type"].toString();
             }
         }
-         nameChanged(name);
+        nameChanged(name);
     }
     else
     {
@@ -140,67 +156,87 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
     QVBoxLayout layout;
 
-    if (action["parameters"].toObject().keys().isEmpty()) return;
-
-
-    for (auto &k : action["parameters"].toObject().keys())
+    if(!isMetaAction())
     {
-        QHBoxLayout *hLayout = new QHBoxLayout();
-        if (action["parameters"].toObject()[k].isBool())
+        if (action["parameters"].toObject().keys().isEmpty()) return;
+
+        for (auto &k : action["parameters"].toObject().keys())
         {
-            QCheckBox *box = new QCheckBox(k);
-            box->setLayoutDirection(Qt::LayoutDirection::LayoutDirectionAuto);
-            box->setChecked(action["parameters"].toObject()[k].toBool());
-            hLayout->addWidget(box);
-
-            connect(box, &QCheckBox::clicked, this, [&](bool checked)
+            QHBoxLayout *hLayout = new QHBoxLayout();
+            if (action["parameters"].toObject()[k].isBool())
             {
-                QCheckBox *box = static_cast<QCheckBox*>(sender());
-                modifyJsonValue(action, "parameters."+ box->text(), checked);
-                emit selected();
-            });
-        }
-        else if (action["parameters"].toObject()[k].isDouble())
-        {
-            QSpinBox *spinBox = new QSpinBox();
-            spinBox->setObjectName(k);
-            spinBox->setMinimum(-100000);
-            spinBox->setMaximum(100000);
-            spinBox->setValue(action["parameters"].toObject()[k].toDouble());
+                QCheckBox *box = new QCheckBox(k);
+                box->setLayoutDirection(Qt::LayoutDirection::LayoutDirectionAuto);
+                box->setChecked(action["parameters"].toObject()[k].toBool());
+                hLayout->addWidget(box);
 
-            hLayout->addWidget(spinBox);
-            hLayout->addWidget(new QLabel(k));
-
-            connect(spinBox, &QSpinBox::valueChanged, this, [&](int newValue)
-            {
-                QSpinBox *spinBoxSdr = static_cast<QSpinBox*>(sender());
-                modifyJsonValue(action, "parameters."+spinBoxSdr->objectName(), newValue);
-                emit selected();
-            });
-        }
-        else if (action["parameters"].toObject()[k].isObject())
-        {
-            QComboBox *comboBox = new QComboBox();
-            comboBox->setObjectName(k);
-            QStringList list;
-
-            for (const auto &str : action["parameters"].toObject()[k].toObject()["values"].toArray())
-            {
-                list.append(str.toString());
+                connect(box, &QCheckBox::clicked, this, [&](bool checked)
+                        {
+                            QCheckBox *box = static_cast<QCheckBox*>(sender());
+                            modifyJsonValue(action, "parameters."+ box->text(), checked);
+                            emit selected();
+                        });
             }
-            comboBox->addItems(list);
-            comboBox->setCurrentIndex(comboBox->findText(action["parameters"].toObject()[comboBox->objectName()].toObject()["type"].toString()));
-
-            hLayout->addWidget(comboBox);
-
-            connect(comboBox, &QComboBox::currentTextChanged, this, [&](QString newText)
+            else if (action["parameters"].toObject()[k].isDouble())
             {
-                QComboBox *comboBox = static_cast<QComboBox*>(sender());
-                modifyJsonValue(action, "parameters."+comboBox->objectName()+".type", newText);
-                emit selected();
-            });
+                QSpinBox *spinBox = new QSpinBox();
+                spinBox->setObjectName(k);
+                spinBox->setMinimum(-100000);
+                spinBox->setMaximum(100000);
+                spinBox->setValue(action["parameters"].toObject()[k].toDouble());
+
+                hLayout->addWidget(spinBox);
+                hLayout->addWidget(new QLabel(k));
+
+                connect(spinBox, &QSpinBox::valueChanged, this, [&](int newValue)
+                        {
+                            QSpinBox *spinBoxSdr = static_cast<QSpinBox*>(sender());
+                            modifyJsonValue(action, "parameters."+spinBoxSdr->objectName(), newValue);
+                            emit selected();
+                        });
+            }
+            else if (action["parameters"].toObject()[k].isObject())
+            {
+                QComboBox *comboBox = new QComboBox();
+                comboBox->setObjectName(k);
+                QStringList list;
+
+                for (const auto &str : action["parameters"].toObject()[k].toObject()["values"].toArray())
+                {
+                    list.append(str.toString());
+                }
+                comboBox->addItems(list);
+                comboBox->setCurrentIndex(comboBox->findText(action["parameters"].toObject()[comboBox->objectName()].toObject()["type"].toString()));
+
+                hLayout->addWidget(comboBox);
+
+                connect(comboBox, &QComboBox::currentTextChanged, this, [&](QString newText)
+                        {
+                            QComboBox *comboBox = static_cast<QComboBox*>(sender());
+                            modifyJsonValue(action, "parameters."+comboBox->objectName()+".type", newText);
+                            emit selected();
+                        });
+            }
+            layout.addLayout(hLayout);
         }
-        layout.addLayout(hLayout);
+    }
+    else
+    {
+        MainWindow main;
+        QGraphicsView *graphicsview= new QGraphicsView;
+        graphicsview->setScene(stratBuilder);
+
+        Node * currentNode = stratBuilder->getNodes().first();
+        QPointF currentPos(stratBuilder->sceneRect().center().x(), -40);
+
+        stratBuilder->organizeScene(currentNode, currentPos);
+
+        connect(stratBuilder, &ToolBoxScene::displayStep, this,[&](Node *selectedNode)
+        {
+            main.metaStep(selectedNode,stratBuilder);
+        });
+
+        layout.addWidget(graphicsview);
     }
 
     dialog.setLayout(&layout);
@@ -213,7 +249,6 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-
     if (startPos != event->pos())
     {
         QPointF delta = event->pos() - startPos;
@@ -221,6 +256,7 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         if (isMoving || delta.manhattanLength() >= QApplication::startDragDistance() )
         {
             setPos(pos() + delta);
+            emit moved(delta);
             isMoving = true;
         }
     }
@@ -267,24 +303,45 @@ void Node::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     QMenu menu;
+
+    QAction *editAction;
+
+    if(isMetaAction())
+    {
+
+        editAction = menu.addAction("Edit");
+    }
+
+    QAction *cutAction = menu.addAction("Cut");
+    QAction *copyAction = menu.addAction("Copy");
+    QAction *pasteAction = menu.addAction("Paste");
     QAction *removeAction = menu.addAction("Remove");
+
     QAction *selectedAction = menu.exec(event->screenPos());
 
-    if (selectedAction == removeAction)
+    if (selectedAction == copyAction)
+    {
+        emit copyMe();
+    }
+    else if (selectedAction == cutAction)
+    {
+        emit copyMe();
+        emit removeMe();
+    }
+    else if (selectedAction == pasteAction)
+    {
+        emit paste();
+        emit removeMe();
+    }
+    else if (selectedAction == removeAction)
     {
         emit removeMe();
     }
-    // ...
-}
-
-void Node::keyPressEvent(QKeyEvent *event)
-{
-    if (event->matches(QKeySequence::Copy))
+    else if(selectedAction == editAction)
     {
-        emit copied();
+        emit MetaActionSelected(getfileName());
     }
-
-    QGraphicsTextItem::keyPressEvent(event);
+    // ...
 }
 
 const QVector<Link *> &Node::getLinks() const

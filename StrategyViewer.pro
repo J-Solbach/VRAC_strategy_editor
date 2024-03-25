@@ -18,7 +18,8 @@ SOURCES += \
     node.cpp \
     playground.cpp \
     robot.cpp \
-    toolboxscene.cpp
+    toolboxscene.cpp \
+    zoneselect.cpp
 
 HEADERS += \
     ../LIBS/common/shared_types.hpp \
@@ -30,7 +31,8 @@ HEADERS += \
     node.h \
     playground.h \
     robot.h \
-    toolboxscene.h
+    toolboxscene.h \
+    zoneselect.h
 
 INCLUDEPATH += ../LIBS/common/
 

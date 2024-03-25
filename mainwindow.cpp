@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "qpushbutton.h"
 #include "ui_mainwindow.h"
 #include <QPainter>
 #include <QGraphicsRectItem>
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(playground, &Playground::displayNewPos, this, &MainWindow::updatePos);
     connect(&stratBuilder, &ToolBoxScene::displayStep, this, &MainWindow::displayStep);
+    connect(&stratBuilder, &ToolBoxScene::Load_MetaAction, this, &MainWindow::Load_MetaAction);
 }
 
 MainWindow::~MainWindow()
@@ -162,7 +164,7 @@ void MainWindow::setupMetaActions()
     grid->setVerticalSpacing(10);
 
     QDir directory;
-    directory = QDir(":/config/metaActions/");
+    directory = QDir("D:/travail/CRAC/Coupe2024/metaActions/");
 
     QStringList metaActions = directory.entryList(QStringList() << "*.json" << "*.JSON",QDir::Files);
 
@@ -261,18 +263,6 @@ void MainWindow::updatePos(position pos)
     ui->thetaRobot->setValue(pos.theta);
 }
 
-int MainWindow::countLink(Node *selectedNode)
-{
-    int nb_link=0;
-    auto links = stratBuilder.getLinks();
-
-    std::for_each(links.begin(), links.end(),[&](Link *link)
-    {
-        if(link->getEndNode() == selectedNode)nb_link++;
-    });
-    return nb_link;
-}
-
 void MainWindow::simulateStep(Node *simulateNode)
 {
     Node * nextNode = nullptr;
@@ -331,7 +321,7 @@ void MainWindow::displayStep(Node *selectedNode)
     {
         (*itLink)->changePen(QPen(Qt::green,4));
         previousNode = (*itLink)->getStartNode();
-        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<countLink(previousNode);
+        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<stratBuilder.countEndLink(previousNode);
     }
 
     if (previousNode != nullptr)
@@ -352,6 +342,98 @@ void MainWindow::displayStep(Node *selectedNode)
     if (selectedNode->getAction()["displayed"].toBool())
     {
         playground->setCurrentDisplayedNode(selectedNode);
+    }
+    if (selectedNode->isMetaAction())
+    {
+        ToolBoxScene *scene=selectedNode->getMetaScene();
+        metaStep(scene->lastNode(),scene);
+    }
+
+    first=true;
+}
+
+void MainWindow::metaSimulateStep(Node *simulateNode,ToolBoxScene *scene)
+{
+    Node * nextNode = nullptr;
+    auto links = scene->getLinks();
+
+    std::for_each(links.begin(), links.end(),[&](Link *link)
+    {
+        link->changePen(QPen(Qt::black,3));
+
+        if(link->getStartNode() == simulateNode)
+        {
+            nextNode = link->getEndNode();
+            if(nextNode!=nullptr)
+            {
+                nextNode->setPreviousStartNode(simulateNode->toPlainText());
+                qDebug()<<nextNode->toPlainText()<<"<-"<<nextNode->getPreviousStartNode();
+            }
+            metaSimulateStep(nextNode,scene);
+        }
+    });
+}
+
+void MainWindow::metaStep(Node *selectedNode,ToolBoxScene *scene)
+{
+    if(first)
+    {
+        qDebug()<<"exec meta:"<<selectedNode->toPlainText();
+        metaSimulateStep(selectedNode,scene);
+        first=false;
+    }
+
+    Node * previousNode = nullptr;
+
+    auto links = scene->getLinks();
+
+    auto itLink = std::find_if(links.begin(), links.end(), [&](Link *link)
+    {
+        if( link != nullptr)
+        {
+            if(link->getEndNode() == selectedNode)
+            {
+                if(selectedNode->getPreviousStartNode()==nullptr)
+                {
+                    selectedNode->setPreviousStartNode(link->getStartNode()->toPlainText());
+                    qDebug()<<selectedNode->toPlainText()<<"<-"<<selectedNode->getPreviousStartNode();
+                }
+                return(link->getStartNode()->toPlainText()==selectedNode->getPreviousStartNode());
+            }
+        }
+        return false;
+    });
+
+    if (itLink != links.end())
+    {
+        (*itLink)->changePen(QPen(Qt::green,4));
+        previousNode = (*itLink)->getStartNode();
+        qDebug()<< " Previous :" << previousNode->toPlainText()<<" connect: "<<scene->countEndLink(previousNode);
+    }
+
+    if (previousNode != nullptr)
+    {
+        // rewind and display all previous nodes
+        metaStep(previousNode,scene);
+
+        if (previousNode->getAction()["action"].toString() != "Bezier"
+            && previousNode->getAction()["action"].toString() != "Rotate"
+            && previousNode->getAction()["action"].toString() != "Line"
+            && previousNode->getAction()["displayed"].toBool())
+        {
+            playground->setCurrentDisplayedNode(previousNode);
+            qDebug() << "Previous :" << previousNode->toPlainText();
+        }
+    }
+
+    if (selectedNode->getAction()["displayed"].toBool())
+    {
+        playground->setCurrentDisplayedNode(selectedNode);
+    }
+    if (selectedNode->isMetaAction())
+    {
+        ToolBoxScene *scene=selectedNode->getMetaScene();
+        metaStep(scene->lastNode(),scene);
     }
 
     first=true;
@@ -390,67 +472,47 @@ void MainWindow::on_actionsave_triggered()
 void MainWindow::on_actionLoad_MetaAction_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName();
-
-    if (fileName.isEmpty()) return;
-
-    stratBuilder.clearScene();
-
-    QFile f(fileName);
-
-    f.open(QIODevice::ReadOnly);
-
-    QJsonDocument doc = QJsonDocument::fromJson(QString(f.readAll()).toUtf8());
-    QJsonObject rootTest = doc.object();
-
-    QJsonArray actions = rootTest["actions"].toArray();
-
-    auto action = actions.first().toObject();
-
-    for (auto actionRef : actions)
-    {
-        auto action = actionRef.toObject();
-        Node *testNode = new Node(action["tag"].toString(), action);
-        stratBuilder.addNode(testNode);
-        stratBuilder.update();
-    }
-
-    //setupLinks
-    for (auto actionRef : actions)
-    {
-        auto action = actionRef.toObject();
-
-        Node *startNode = stratBuilder.getNode(action["tag"].toString());
-
-        if (startNode== nullptr) continue;
-
-        QJsonArray transitions = action["transitions"].toArray();
-
-        for (auto transitionRef : transitions)
-        {
-            auto transition = transitionRef.toObject();
-            Node *endNode = stratBuilder.getNode(transition["destination"].toString());
-
-            if (endNode != nullptr)
-            {
-                Link *newLink = new Link();
-
-                newLink->addStartingNode(startNode);
-                startNode->addLink(newLink);
-                newLink->addEndingNode(endNode);
-                newLink->getTransition().setText(transition["type"].toString());
-
-                stratBuilder.addLink(newLink);
-            }
-        }
-    }
-
-    Node * currentNode = stratBuilder.getNodes().first();
-    QPointF currentPos(stratBuilder.sceneRect().center().x(), -40);
-
-   stratBuilder.organizeScene(currentNode, currentPos);
-
-   stratBuilder.update();
+    Load_MetaAction(fileName);
 }
+
+void MainWindow::Load_MetaAction(QString fileName)
+{
+    QDialog dialog;
+    dialog.setWindowTitle("Save");
+
+    QHBoxLayout layout;
+    QPushButton save;
+    QPushButton nsave;
+    QPushButton close;
+
+    save.setText("Save");
+    nsave.setText("Don't save");
+    close.setText("Close");
+
+    connect(&save,&QPushButton::clicked,this,[&]()
+            {
+                on_actionsave_triggered();
+                dialog.close();
+                stratBuilder.organize_MetaAction(fileName);
+            });
+    connect(&nsave,&QPushButton::clicked,this,[&]()
+            {
+                dialog.close();
+                stratBuilder.organize_MetaAction(fileName);
+            });
+    connect(&close,&QPushButton::clicked,this,[&]()
+            {
+                dialog.close();
+            });
+
+    layout.addWidget(&save);
+    layout.addWidget(&nsave);
+    layout.addWidget(&close);
+
+    dialog.setLayout(&layout);
+    dialog.exec();
+}
+
 
 
 void MainWindow::on_thetaRobot_valueChanged(int arg1)
@@ -461,7 +523,41 @@ void MainWindow::on_thetaRobot_valueChanged(int arg1)
 
 void MainWindow::on_actionNew_MetaAction_triggered(bool checked)
 {
-    stratBuilder.clearScene();
+    QDialog dialog;
+    dialog.setWindowTitle("!");
+
+    QHBoxLayout layout;
+    QPushButton save;
+    QPushButton nsave;
+    QPushButton close;
+
+    save.setText("Save");
+    nsave.setText("Don't save");
+    close.setText("Close");
+
+    connect(&save,&QPushButton::clicked,this,[&]()
+            {
+                on_actionsave_triggered();
+                dialog.close();
+                stratBuilder.clearScene();
+            });
+    connect(&nsave,&QPushButton::clicked,this,[&]()
+            {
+                dialog.close();
+                stratBuilder.clearScene();
+            });
+    connect(&close,&QPushButton::clicked,this,[&]()
+            {
+                dialog.close();
+            });
+
+    layout.addWidget(&save);
+    layout.addWidget(&nsave);
+    layout.addWidget(&close);
+
+    dialog.setLayout(&layout);
+    dialog.exec();
+
     setupMetaActions();
 }
 
@@ -487,7 +583,7 @@ void MainWindow::on_actionOrganize_triggered()
     auto nodes = stratBuilder.getNodes();
     if (nodes.isEmpty()) return;
 
-    Node * currentNode = nodes.first();
+    Node * currentNode = stratBuilder.firstNode();
 
     QPointF currentPos(stratBuilder.sceneRect().center().x(), 0);
 
