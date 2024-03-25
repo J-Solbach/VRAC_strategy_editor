@@ -438,11 +438,19 @@ void ToolBoxScene::removeNode()
 
 void ToolBoxScene::removeLink()
 {
-    Link *link = static_cast<Link*>(sender());
+    Link *thisLink = static_cast<Link*>(sender());
 
-    link->getStartNode()->removeLink(link);
-
-    delete link;
+    links.erase(std::remove_if(links.begin(), links.end(), [&](Link *link)
+    {
+        if (link==thisLink)
+        {
+            link->getStartNode()->removeLink(link);
+            delete link;
+            link = nullptr;
+            return true;
+        }
+        return false;
+    }), links.end());
 }
 
 void ToolBoxScene::nodeIsMoving(QPointF delta)

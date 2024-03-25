@@ -42,6 +42,7 @@ void Playground::resetItems()
     clearItems();
 
     m_robot.setEtat(Close,Close,1);
+    m_robot.setGrip(Up,Up,1);
     m_previous=m_robot.pos();
     emit displayNewPos(m_previous);
 
@@ -323,72 +324,47 @@ void Playground::setCurrentDisplayedNode(Node *currentNode)
     {
         auto side=parameters["side"].toObject();
         qDebug()<<"Monter"<<side["type"].toString();
-        if(side["type"].toString()=="FRONT")
+
+        mode frontStock=m_robot.frontStock();
+        mode backStock=m_robot.backStock();
+
+        mode frontGrip=m_robot.frontGrip();
+        mode backGrip=m_robot.backGrip();
+
+        if(side["type"].toString()=="FRONT"&&frontStock==Close)
         {
-            if(PlantesPrises(2)==0)
-            {
-                for(int i=0;i<6;i++)
-                {
-                    if(m_plantes_prises[i].indice!=-1)
-                    {
-                        m_plantes_prises[i+12].indice=m_plantes_prises[i].indice;
-                        m_plantes[m_plantes_prises[i].indice]->setZValue(5);
-                        m_plantes_prises[i].indice=-1;
-                    }
-                }
-            }
+            frontGrip=Up;
         }
-        else if(side["type"].toString()=="BACK")
+        else if(side["type"].toString()=="BACK"&&backStock==Close)
         {
-            if(PlantesPrises(3)==0)
-            {
-                for(int i=6;i<12;i++)
-                {
-                    if(m_plantes_prises[i].indice!=-1)
-                    {
-                        m_plantes_prises[i+12].indice=m_plantes_prises[i].indice;
-                        m_plantes[m_plantes_prises[i].indice]->setZValue(5);
-                        m_plantes_prises[i].indice=-1;
-                    }
-                }
-            }
+            backGrip=Up;
         }
+        m_robot.setGrip(frontGrip,backGrip);
         newPos(m_robot.pos().coord,m_robot.pos().theta);
     }
     else if (currentNode->getAction()["action"].toString() =="Descendre")
     {
         auto side=parameters["side"].toObject();
         qDebug()<<"Descendre"<<side["type"].toString();
+
+        mode frontGrip=m_robot.frontGrip();
+        mode backGrip=m_robot.backGrip();
+
         if(side["type"].toString()=="FRONT")
         {
             if(PlantesPrises(0)==0)
             {
-                for(int i=0;i<6;i++)
-                {
-                    if(m_plantes_prises[i+12].indice!=-1)
-                    {
-                        m_plantes_prises[i].indice=m_plantes_prises[i+12].indice;
-                        m_plantes[m_plantes_prises[i+12].indice]->setZValue(4);
-                        m_plantes_prises[i].indice=-1;
-                    }
-                }
+                frontGrip=Down;
             }
         }
         else if(side["type"].toString()=="BACK")
         {
             if(PlantesPrises(1)==0)
             {
-                for(int i=6;i<12;i++)
-                {
-                    if(m_plantes_prises[i+12].indice!=-1)
-                    {
-                        m_plantes_prises[i].indice=m_plantes_prises[i+12].indice;
-                        m_plantes[m_plantes_prises[i+12].indice]->setZValue(4);
-                        m_plantes_prises[i+12].indice=-1;
-                    }
-                }
+                backGrip=Down;
             }
         }
+        m_robot.setGrip(frontGrip,backGrip);
         newPos(m_robot.pos().coord,m_robot.pos().theta);
     }
     else if(currentNode->getAction()["action"].toString() =="Deposer")
@@ -522,6 +498,7 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta)
 
     qDebug()<<"rtheta = "<<rtheta<<", theta = "<<theta<<", delta = "<<(abs(rtheta-theta))%360;
     qDebug()<<"frontStock:"<<m_robot.frontStock()<<"backStock:"<<m_robot.backStock();
+    qDebug()<<"frontGrip:"<<m_robot.frontGrip()<<"backGrip:"<<m_robot.backGrip();
 
     int d_Plante[N_PLANTES],indice_dDecroissant[N_PLANTES];
 
@@ -550,21 +527,20 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta)
 
     if(front)
     {
-        PlantesPrises(0);
-
         for (int _i = 0; _i < N_PLANTES; _i++)
         {
             if(m_robot.frontStock()==Open)
             {
+                int offset=(m_robot.frontGrip()==Down)?12:0;
                 addItem(Zone);
                 addItem(Trajectory);
-
                 int i=indice_dDecroissant[_i];
                 if (m_plantes[i]->collidesWithItem(Zone)||m_plantes[i]->collidesWithItem(Trajectory))
                 {
-                    if(PlantesPrises(0)<6&&m_plantes[i]->zValue()==2)
+                    int side=(m_robot.frontGrip()==Down)?2:0;
+                    if(PlantesPrises(side)<6&&m_plantes[i]->zValue()==2)
                     {
-                        m_plantes_prises[PlantesPrises(0)].indice=i;
+                        m_plantes_prises[PlantesPrises(side)+offset].indice=i;
                         m_plantes[i]->setZValue(4);
                     }
                 }
@@ -572,32 +548,33 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta)
         }
         if(m_robot.backStock()==Open)
         {
+            int offset=(m_robot.backGrip()==Down)?12:0;
             for(int i=6;i<12;i++)
             {
-                if(m_plantes_prises[i].indice!=-1)
+                if(m_plantes_prises[i+offset].indice!=-1)
                 {
-                    m_plantes[m_plantes_prises[i].indice]->setZValue(2);
-                    m_plantes_prises[i].indice=-1;
+                    m_plantes[m_plantes_prises[i+offset].indice]->setZValue(2);
+                    m_plantes_prises[i+offset].indice=-1;
                 }
             }
         }
     }
     if(back)
     {
-        PlantesPrises(1);
-
         for (int _i = 0; _i < N_PLANTES; _i++)
         {
             if(m_robot.backStock()==Open)
             {
+                int offset=(m_robot.backGrip()==Down)?18:6;
                 addItem(Zone);
                 addItem(Trajectory);
                 int i=indice_dDecroissant[_i];
                 if (m_plantes[i]->collidesWithItem(Zone)||m_plantes[i]->collidesWithItem(Trajectory))
                 {
-                    if(PlantesPrises(1)<6&&m_plantes[i]->zValue()==2)
+                    int side=(m_robot.backGrip()==Down)?3:1;
+                    if(PlantesPrises(side)<6&&m_plantes[i]->zValue()==2)
                     {
-                        m_plantes_prises[6+PlantesPrises(1)].indice=i;
+                        m_plantes_prises[PlantesPrises(side)+offset].indice=i;
                         m_plantes[i]->setZValue(4);
                     }
                 }
@@ -605,23 +582,25 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta)
         }
         if(m_robot.frontStock()==Open)
         {
+            int offset=(m_robot.frontGrip()==Down)?12:0;
             for(int i=0;i<6;i++)
             {
-                if(m_plantes_prises[i].indice!=-1)
+                if(m_plantes_prises[i+offset].indice!=-1)
                 {
-                    m_plantes[m_plantes_prises[i].indice]->setZValue(2);
-                    m_plantes_prises[i].indice=-1;
+                    m_plantes[m_plantes_prises[i+offset].indice]->setZValue(2);
+                    m_plantes_prises[i+offset].indice=-1;
                 }
             }
         }
     }
 
-    int posx[STOCKAGE_ROBOT]={-125,-75,-25,25,75,125,-125,-75,-25,25,75,125,-125,-75,-25,25,75,125,-125,-75,-25,25,75,125};
+    int posx[STOCKAGE_ROBOT]={-125,-75,-25,25,75,125};
     int posy[STOCKAGE_ROBOT]={-82,-82,-82,-82,-82,-82,82,82,82,82,82,82,-58,-58,-58,-58,-58,-58,58,58,58,58,58,58};
 
     for(int i=0;i<STOCKAGE_ROBOT;i++)
     {
-        QPointF pos=PointRotate(QPointF(posx[i],posy[i]),rtheta);
+        int offset=((i>=12&&m_robot.frontGrip()==Down&&i<18)||(i>=18&&m_robot.backGrip()==Down))?12:0;
+        QPointF pos=PointRotate(QPointF(posx[i%6],posy[i-offset]),rtheta);
         qDebug()<<m_plantes_prises[i].indice;
         if(m_plantes_prises[i].indice!=-1)
             m_plantes[m_plantes_prises[i].indice]->setPosition(QPointF(rposx+pos.x(),rposy+pos.y()));

@@ -74,15 +74,54 @@ void Robot::setEtat(enum mode frontStock,enum mode backStock,bool reset)
         }
     }
 }
-
-mode Robot::frontStock()
+void Robot::setGrip(enum mode frontGrip,enum mode backGrip,bool reset)
 {
-    return m_frontStock;
-}
+    enum type_etat{debut,up,frontDown,backDown,down};
+    static enum type_etat etat=debut;
+    m_frontGrip = frontGrip;
+    m_backGrip = backGrip;
 
-mode Robot::backStock()
-{
-    return m_backStock;
+    for(int i=0;i<2;i++)
+    {
+        switch (etat) {
+        case debut:
+            m_pixmap = ":/Images/Robot.png";
+            if(m_frontGrip==Open)etat=frontDown;
+            if(m_backGrip==Open)etat=backDown;
+            break;
+
+        case up:
+            m_pixmap = ":/Images/Robot.png";
+            if(m_frontGrip==Open)etat=frontDown;
+            if(m_backGrip==Open)etat=backDown;
+            if(reset)etat=debut;
+            break;
+
+        case frontDown:
+            m_pixmap = ":/Images/Robot.png";
+            if(m_frontGrip==Close)etat=up;
+            if(m_backGrip==Open)etat=down;
+            break;
+
+        case backDown:
+            m_pixmap = ":/Images/Robot.png";
+            if(m_frontGrip==Open)etat=down;
+            if(m_backGrip==Close)etat=up;
+            if(reset)etat=debut;
+            break;
+
+        case down:
+            m_pixmap = ":/Images/Robot.png";
+            if(m_frontGrip==Close)etat=backDown;
+            if(m_backGrip==Close)etat=frontDown;
+            if(reset)etat=debut;
+            break;
+
+        default:
+            m_pixmap = ":/Images/Robot.png";
+            break;
+        }
+    }
 }
 
 void Robot::setPosition(position pos)
