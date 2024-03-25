@@ -22,11 +22,12 @@ void ZoneSelect::addStartingPoint(QPointF pos)
     isMoving=true;
 }
 
-void ZoneSelect::addEndingPoint()
+QPointF ZoneSelect::addEndingPoint()
 {
     grabMouse();
     endPos = mousePos;
     isMoving=false;
+    return endPos;
 }
 
 QRectF ZoneSelect::boundingRect() const

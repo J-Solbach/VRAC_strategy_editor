@@ -1,5 +1,6 @@
 #include "toolboxscene.h"
 #include "qjsondocument.h"
+#include "qmenu.h"
 #include "zoneselect.h"
 #include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsSceneMouseEvent>
@@ -10,8 +11,6 @@
 #include <node.h>
 #include <link.h>
 #include <algorithm>
-#include <QFileInfo>
-#include <QFileDialog>
 
 ToolBoxScene::ToolBoxScene(QObject *parent) : QGraphicsScene(parent)
 {
@@ -162,6 +161,7 @@ void ToolBoxScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
     {
+        screenPos= event->screenPos();
         startPos = event->scenePos();
         update();
 
@@ -179,89 +179,77 @@ void ToolBoxScene::endZone()
 {
     ZoneSelect *zone = static_cast<ZoneSelect*>(sender());
     qDebug() <<"zone create";
-    zone->addEndingPoint();
+
+    QPointF endPos = zone->addEndingPoint();
+
+    bool collideNode=false;
+    bool collideLink=false;
 
     std::for_each(nodes.begin(), nodes.end(), [&](Node *node)
     {
-        if(node->collidesWithItem(zone))
+        if(node->collidesWithItem(zone)||node->contains(zone->mapToItem(node,endPos)))
         {
             node->setSelected(true);
             qDebug()<<"Select "<<node->toPlainText();
+            collideNode=true;
+        }
+    });
+    std::for_each(links.begin(),links.end(), [&](Link *link)
+    {
+        if(link->contains(zone->mapToItem(link,endPos)))
+        {
+            collideLink=true;
         }
     });
     delete zone;
+
+    if(collideNode==false&&collideLink==false)
+    {
+        QMenu menu;
+
+        QAction *cutAction = menu.addAction("Cut");
+        QAction *copyAction = menu.addAction("Copy");
+        QAction *pasteAction = menu.addAction("Paste");
+        QAction *removeAction = menu.addAction("Remove");
+
+        QAction *selectedAction = menu.exec(screenPos+endPos.toPoint());
+
+        if (selectedAction == copyAction)
+        {
+            copyNode();
+        }
+        else if (selectedAction == cutAction)
+        {
+            copyNode();
+            removeNode();
+        }
+        else if (selectedAction == pasteAction)
+        {
+            removeNode();
+            pasteNode();
+        }
+        else if (selectedAction == removeAction)
+        {
+            removeNode();
+        }
+    }
 }
 
 void ToolBoxScene::keyPressEvent(QKeyEvent *event)
 {
-    QString fileName = QDir::tempPath() +"/paste.json";
-    QFile f(fileName);
-
     if (event->matches(QKeySequence::Copy))
     {
-        f.open(QIODevice::WriteOnly);
-
-        QJsonDocument testDoc;
-        QJsonObject rootTest = testDoc.object();
-
-        rootTest.insert("name", QFileInfo(fileName).baseName());
-
-        QJsonArray arr;
-
-        for (auto it : nodes)
-        {
-            if(it->isSelected())arr.append(it->getAction());
-        }
-
-        rootTest.insert("actions", arr);
-
-        testDoc.setObject(rootTest);
-        f.write(testDoc.toJson());
-        f.close();
+        copyNode();
     }
     else if (event->matches(QKeySequence::Cut))
     {
-        f.open(QIODevice::WriteOnly);
-
-        QJsonDocument testDoc;
-        QJsonObject rootTest = testDoc.object();
-
-        rootTest.insert("name", QFileInfo(fileName).baseName());
-
-        QJsonArray arr;
-
-        for (auto it : nodes)
-        {
-            if(it->isSelected())arr.append(it->getAction());
-        }
-
-        rootTest.insert("actions", arr);
-
-        testDoc.setObject(rootTest);
-        f.write(testDoc.toJson());
-        f.close();
+        copyNode();
         removeNode();
     }
     else if (event->matches(QKeySequence::Paste))
     {
-        f.open(QIODevice::ReadOnly);
-
-        QJsonDocument doc = QJsonDocument::fromJson(QString(f.readAll()).toUtf8());
-        QJsonObject rootTest = doc.object();
-
-        QJsonArray actions = rootTest["actions"].toArray();
-
-        auto action = actions.first().toObject();
-
-        for (auto actionRef : actions)
-        {
-            auto action = actionRef.toObject();
-            Node *testNode = new Node(action["tag"].toString(), action);
-
-            addNode(testNode);
-            testNode->setupName();
-            update();
-        }
+        removeNode();
+        pasteNode();
     }
     else
     {
@@ -285,7 +273,6 @@ void ToolBoxScene::addNode(Node *node)
     else
     {
         previousPos = nodes.last()->pos();
-
     }
 
     QPointF newPos = sceneRect().center();
@@ -297,6 +284,8 @@ void ToolBoxScene::addNode(Node *node)
 
     connect(node, &Node::moved, this, &ToolBoxScene::nodeIsMoving);
     connect(node, &Node::outPortClicked, this, &ToolBoxScene::startLink);
+    connect(node, &Node::copyMe, this,  &ToolBoxScene::copyNode);
+    connect(node, &Node::paste, this,  &ToolBoxScene::pasteNode);
     connect(node, &Node::removeMe, this,  &ToolBoxScene::removeNode);
     connect(node, &Node::selected, this, &ToolBoxScene::nodeSelected);
     connect(node, &Node::MetaActionSelected, this, &ToolBoxScene::MetaActionSelected);
@@ -368,14 +357,64 @@ void ToolBoxScene::endLink()
     }
 }
 
+void ToolBoxScene::copyNode()
+{
+    QFile f(pasteFile);
+
+    f.open(QIODevice::WriteOnly);
+
+    QJsonDocument testDoc;
+    QJsonObject rootTest = testDoc.object();
+
+    rootTest.insert("name", QFileInfo(pasteFile).baseName());
+
+    QJsonArray arr;
+
+    for (auto it : nodes)
+    {
+        if(it->isSelected())
+        {
+            qDebug()<<"Copy Node:"<<it->toPlainText();
+            arr.append(it->getAction());
+        }
+    }
+
+    rootTest.insert("actions", arr);
+
+    testDoc.setObject(rootTest);
+    f.write(testDoc.toJson());
+    f.close();
+}
+
+void ToolBoxScene::pasteNode()
+{
+    QFile f(pasteFile);
+
+    f.open(QIODevice::ReadOnly);
+
+    QJsonDocument doc = QJsonDocument::fromJson(QString(f.readAll()).toUtf8());
+    QJsonObject rootTest = doc.object();
+
+    QJsonArray actions = rootTest["actions"].toArray();
+
+    auto action = actions.first().toObject();
+
+    for (auto actionRef : actions)
+    {
+        auto action = actionRef.toObject();
+        Node *testNode = new Node(action["tag"].toString(), action);
+
+        addNode(testNode);
+        testNode->setupName();
+        update();
+    }
+}
 void ToolBoxScene::removeNode()
 {
-    Node *thisNode = static_cast<Node*>(sender());
-
     nodes.erase(std::remove_if(nodes.begin(), nodes.end(), [&](Node *node)
     {
         qDebug()<<node->toPlainText()<<"isSelected:"<<node->isSelected();
-        if(node->isSelected()||node==thisNode)
+        if(node->isSelected())
         {
             links.erase(std::remove_if(links.begin(), links.end(), [&](Link *link)
             {

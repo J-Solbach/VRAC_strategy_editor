@@ -15,7 +15,7 @@ public:
     virtual ~ZoneSelect(){};
 
     void addStartingPoint(QPointF pos);
-    void addEndingPoint();
+    QPointF addEndingPoint();
 
     QRectF boundingRect() const override;
 

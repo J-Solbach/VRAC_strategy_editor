@@ -43,6 +43,8 @@ signals:
     void moved(QPointF);
     void outPortClicked();
     void inPortReleased();
+    void copyMe();
+    void paste();
     void removeMe();
     void selected();
     void MetaActionSelected(QString);

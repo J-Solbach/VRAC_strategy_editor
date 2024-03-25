@@ -550,15 +550,15 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta)
 
     if(front)
     {
-        addItem(Zone);
-        addItem(Trajectory);
-
         PlantesPrises(0);
 
         for (int _i = 0; _i < N_PLANTES; _i++)
         {
             if(m_robot.frontStock()==Open)
             {
+                addItem(Zone);
+                addItem(Trajectory);
+
                 int i=indice_dDecroissant[_i];
                 if (m_plantes[i]->collidesWithItem(Zone)||m_plantes[i]->collidesWithItem(Trajectory))
                 {
@@ -584,15 +584,14 @@ void Playground::collisionPlante(int rposx,int rposy,int rtheta)
     }
     if(back)
     {
-        addItem(Zone);
-        addItem(Trajectory);
-
         PlantesPrises(1);
 
         for (int _i = 0; _i < N_PLANTES; _i++)
         {
             if(m_robot.backStock()==Open)
             {
+                addItem(Zone);
+                addItem(Trajectory);
                 int i=indice_dDecroissant[_i];
                 if (m_plantes[i]->collidesWithItem(Zone)||m_plantes[i]->collidesWithItem(Trajectory))
                 {

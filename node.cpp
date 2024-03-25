@@ -308,14 +308,32 @@ void Node::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
     if(isMetaAction())
     {
+
         editAction = menu.addAction("Edit");
     }
 
+    QAction *cutAction = menu.addAction("Cut");
+    QAction *copyAction = menu.addAction("Copy");
+    QAction *pasteAction = menu.addAction("Paste");
     QAction *removeAction = menu.addAction("Remove");
 
     QAction *selectedAction = menu.exec(event->screenPos());
 
-    if (selectedAction == removeAction)
+    if (selectedAction == copyAction)
+    {
+        emit copyMe();
+    }
+    else if (selectedAction == cutAction)
+    {
+        emit copyMe();
+        emit removeMe();
+    }
+    else if (selectedAction == pasteAction)
+    {
+        emit paste();
+        emit removeMe();
+    }
+    else if (selectedAction == removeAction)
     {
         emit removeMe();
     }

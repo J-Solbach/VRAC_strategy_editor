@@ -430,6 +430,11 @@ void MainWindow::metaStep(Node *selectedNode,ToolBoxScene *scene)
     {
         playground->setCurrentDisplayedNode(selectedNode);
     }
+    if (selectedNode->isMetaAction())
+    {
+        ToolBoxScene *scene=selectedNode->getMetaScene();
+        metaStep(scene->lastNode(),scene);
+    }
 
     first=true;
 }

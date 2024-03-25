@@ -5,6 +5,8 @@
 #include <QGraphicsScene>
 #include <QDragMoveEvent>
 #include <QVector>
+#include <QFileInfo>
+#include <QFileDialog>
 
 class Node;
 class Link;
@@ -45,6 +47,8 @@ private slots:
     void startLink();
     void endLink();
 
+    void copyNode();
+    void pasteNode();
     void removeNode();
     void removeLink();
 
@@ -68,7 +72,9 @@ private:
     Node *copiedNode = nullptr;
     Node *m_lastNode = nullptr;
 
+    QPoint screenPos;
     QPointF startPos;
+    QString pasteFile = QDir::tempPath() +"/paste.json";
 };
 
 #endif // TOOLBOXSCENE_H
